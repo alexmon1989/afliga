@@ -1,0 +1,119 @@
+.header {
+    background: #fff url("../img/header.jpg") no-repeat;
+    background-size: cover;
+    border-right: solid #fff 15px;
+
+}
+
+.footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+.navbar {
+    background-color: #282828;
+    border-bottom: solid #ffdd00 6px;
+    padding: 0;
+}
+
+.navbar ul li.nav-item.active {
+    background-color: #ffdd00;
+}
+
+.navbar ul li.nav-item a.nav-link {
+    color: #fff;
+    text-transform: uppercase;
+    padding: .8rem 1rem;
+}
+
+.navbar ul li.nav-item a.nav-link:hover {
+    color: #e5e5e5;
+}
+
+.navbar ul li.nav-item.active a.nav-link {
+    color: #000;
+}
+
+.navbar form .form-control {
+    border-radius: 0;
+    background-color: #282828;
+    border: 1px solid #a8a8a8;
+    color: #fff;
+    border-right: none;
+}
+
+.navbar form .form-control::placeholder {
+    color: #a8a8a8;
+}
+
+.navbar form .btn {
+    background-color: #282828;
+    border: 1px solid #a8a8a8;
+    border-left: none;
+    color: #a8a8a8;
+    border-radius: 0;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .navbar-nav .nav-item {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+    }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .masthead,
+    .marketing,
+    .footer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+.carousel-item {
+    background-color: black;
+}
+
+.carousel-item img {
+    opacity: .7;
+}
+
+.carousel-item a {
+    font-size: 1.75rem;
+    color: #fff;
+}
+
+a.title {
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: black;
+}
+
+h2 {
+    font-size: 1.65rem;
+}
+
+.under-h2 {
+    border-top: 1px solid #000000;
+    margin-top: 0;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1540px;
+  }
+}
