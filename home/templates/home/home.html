@@ -10,14 +10,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css' %}">
 </head>
 <body>
 <div class="container">
 
+    <!-- HEADER -->
     <div class="masthead">
-        <div class="row header">
+        <div class="row">
             <div class="col">
-                <a href="/" title="На главную страницу"><img src="{% static 'assets/img/logo.jpg' %}" alt="Логотип"></a>
+                <a href="/" title="На главную страницу"><img class="img-fluid"
+                                                             src="{% static 'assets/img/header.jpg' %}" alt=""></a>
             </div>
         </div>
 
@@ -59,7 +63,9 @@
             </div>
         </nav>
     </div>
+    <!-- END OF HEADER -->
 
+    <!-- CAROUSEL -->
     <div id="carouselExampleIndicators" class="carousel slide mb-3" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -73,7 +79,7 @@
                      alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                     <a href="#" class="text-uppercase">Интервью с Давидом Дидаровым</a>
-                    <p>7 января 2017</p>
+                    <p class="text-uppercase">7 января 2017</p>
                 </div>
             </div>
             <div class="carousel-item">
@@ -104,10 +110,11 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <!-- END OF CAROUSEL -->
 
-    <!-- Example row of columns -->
+    <!-- NEWS AND TABLE -->
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <h2 class="text-uppercase">Последние новости</h2>
             <hr class="under-h2">
 
@@ -131,75 +138,558 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-lg-4"><a href="https://placeholder.com"><img
                                 src="http://via.placeholder.com/350x225"
                                 class="img-fluid"></a></div>
                         <div class="col-lg-8">
-                            <a href="#" class="title">Дорогие друзья, консультация с профессионалами из ИТ</a>
+                            <a href="#" class="title">Дорогие друзья, консультация с профессионалами</a>
 
-                            <div class="mt-2">
+                            <div class="mt-1">
                                 <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
+
                             <div class="mt-1">
                                 <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты,
-                                    которые всегда обеспечивают абсолютный...</p>
+                                    которые всегда обеспечивают абсолютный, полный контроль над текстом, их...</p>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+
+                    <div class="row mb-3">
                         <div class="col-lg-4"><a href="https://placeholder.com"><img
                                 src="http://via.placeholder.com/350x225"
                                 class="img-fluid"></a></div>
                         <div class="col-lg-8">
-                            <a href="#" class="title">Дорогие друзья, консультация с профессионалами из ИТ</a>
+                            <a href="#" class="title">Дорогие друзья, консультация с профессионалами</a>
 
-                            <div class="mt-2">
+                            <div class="mt-1">
                                 <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="mt-1">
+
+                            <div class="mb-1">
                                 <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты,
-                                    которые всегда обеспечивают абсолютный...</p>
+                                    которые всегда обеспечивают абсолютный, полный контроль над текстом, их...</p>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+
+                    <div class="row mt-3">
                         <div class="col-lg-4"><a href="https://placeholder.com"><img
                                 src="http://via.placeholder.com/350x225"
                                 class="img-fluid"></a></div>
                         <div class="col-lg-8">
-                            <a href="#" class="title">Дорогие друзья, консультация с профессионалами из ИТ</a>
+                            <a href="#" class="title">Дорогие друзья, консультация с профессионалами</a>
 
-                            <div class="mt-2">
+                            <div class="mt-1">
                                 <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
+
                             <div class="mt-1">
                                 <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты,
-                                    которые всегда обеспечивают абсолютный...</p>
+                                    которые всегда обеспечивают абсолютный, полный контроль над текстом, их...</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <h2>Таблица АФЛ</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa.</p>
-            <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+        <div class="col-lg-3">
+            <h2 class="text-uppercase">Таблица АФЛ</h2>
+            <hr class="under-h2">
+
+            <table class="table table-sm table-afl">
+                <tbody>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Команда</a></td>
+                    <td>10</td>
+                    <td>9</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>31-14</td>
+                    <td>28</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    <!-- END OF NEWS AND TABLE -->
+
+    <!-- BANNERS -->
+    <div class="row">
+        <div class="col-lg-9 mt-3">
+            <a href="#"><img src="{% static 'assets/img/banners/1.jpg' %}" class="img-fluid" alt=""></a>
+        </div>
+        <div class="col-lg-3 mt-3">
+            <a href="#"><img src="{% static 'assets/img/banners/2.jpg' %}" class="img-fluid" alt=""></a>
+        </div>
+    </div>
+    <!-- END OF BANNERS -->
+
+    <!-- TABLES, BOMBARDIERS, PENALTIES -->
+    <div class="row">
+        <div class="col-lg-9 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="text-uppercase">Зимний чемпионат</h2>
+                    <hr class="under-h2">
+                </div>
+
+                <div class="col-lg-6">
+                    <h5 class="text-uppercase">Результаты прошедших матчей</h5>
+                    <div class="matches">
+                        <table class="table table-sm table-afl">
+                            <tbody>
+                            <tr>
+                                <th colspan="4">4 марта 2017, суббота. 17 Тур</th>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-uppercase">Расписание будущих матчей</h5>
+                    <div class="matches">
+                        <table class="table table-sm table-afl">
+                            <tbody>
+                            <tr>
+                                <th colspan="4">4 марта 2017, суббота. 17 Тур</th>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">-:-</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <h2 class="text-uppercase">Кубок Алании</h2>
+                    <hr class="under-h2">
+                </div>
+
+                <div class="col-lg-6">
+                    <h5 class="text-uppercase">Результаты прошедших матчей</h5>
+
+                    <div class="matches">
+                        <table class="table table-sm table-afl">
+                            <tbody>
+                            <tr>
+                                <th colspan="4">4 марта 2017, суббота. 17 Тур</th>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-uppercase">Расписание будущих матчей</h5>
+
+                    <div class="matches">
+                        <table class="table table-sm table-afl">
+                            <tbody>
+                            <tr>
+                                <th colspan="4">4 марта 2017, суббота. 17 Тур</th>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            <tr>
+                                <td>19:00</td>
+                                <td><a href="#">Скиф</a></td>
+                                <td><a href="#">6:0</a></td>
+                                <td><a href="#">Фурия</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-4">
+            <h2 class="text-uppercase">Лучшие бомбардиры</h2>
+            <hr class="under-h2">
+            <table class="table table-sm table-afl">
+                <tbody>
+                <tr>
+                    <td><a href="#" class="lead">Мозговой Антон</a></td>
+                    <td>55</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="lead">Антоха</a></td>
+                    <td>44</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="lead">Другой Антоха</a></td>
+                    <td>33</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h2 class="text-uppercase mt-5">Штрафники</h2>
+            <hr class="under-h2">
+            <table class="table table-sm table-afl">
+                <tbody>
+                <tr>
+                    <td><a href="#" class="lead">Мозговой Антон</a></td>
+                    <td>55</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="lead">Антоха</a></td>
+                    <td>44</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="lead">Другой Антоха</a></td>
+                    <td>33</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END OF TABLES, BOMBARDIERS, PENALTIES -->
+
+    <!-- VIDEOS, PERSON -->
+    <div class="row">
+        <div class="col-lg-9 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="text-uppercase">Видеогалерея</h2>
+                    <hr class="under-h2">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="text-uppercase">Персона</h2>
+                    <hr class="under-h2">
+
+                    <img src="{% static 'assets/img/persons/1.jpg' %}" class="img-fluid mt-3" alt="">
+
+                    <p class="mt-2"><a href="#" class="text-dark text-uppercase person-link">Мозговой Антоха</a></p>
+
+                    <p>Лучший игрок в мире. Капитан лучшей команды. Такого вы больше нигде не найдёте. Антон, дай зарплату.</p>
+                </div>
+                <div class="col-lg-12">
+                    <img src="{% static 'assets/img/banners/3.jpg' %}" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF VIDEOS, PERSON -->
 
     <!-- Site footer -->
     <footer class="footer">
-        <p>&copy; Company 2017</p>
+        <div class="row">
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-4">
+
+            </div>
+        </div>
     </footer>
 
 </div> <!-- /container -->
@@ -216,5 +706,11 @@
         integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/46b8a882f1.js"></script>
+<script src="{% static 'assets/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script>
+    $(function () {
+        $(".matches").mCustomScrollbar({'theme': 'rounded-dark'});
+    });
+</script>
 </body>
 </html>

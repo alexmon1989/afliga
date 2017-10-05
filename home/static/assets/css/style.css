@@ -1,9 +1,15 @@
-.header {
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1540px;
+  }
+}
+
+/*.header {
     background: #fff url("../img/header.jpg") no-repeat;
     background-size: cover;
     border-right: solid #fff 15px;
 
-}
+}*/
 
 .footer {
     padding-top: 40px;
@@ -91,8 +97,8 @@
     opacity: .7;
 }
 
-.carousel-item a {
-    font-size: 1.75rem;
+.carousel-item .carousel-caption a {
+    font-size: 2rem;
     color: #fff;
 }
 
@@ -112,8 +118,29 @@ h2 {
     margin-top: 0;
 }
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1540px;
-  }
+.table-afl tr:first-child td, .table-afl tr:first-child th {
+    border-top: none;
+    padding-top: 0;
+}
+
+.table-afl tr td, .table-afl th {
+    border-top: 1px solid #000000;
+    color: #868e96;
+}
+
+.table-afl td a{
+    color: #3e454c;
+}
+
+.table-afl td a.lead{
+    font-weight: 500;
+}
+
+.matches {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.person-link {
+    font-size: 1.45rem;
 }
