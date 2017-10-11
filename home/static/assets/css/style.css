@@ -144,3 +144,69 @@ h2 {
 .person-link {
     font-size: 1.45rem;
 }
+
+.video-gallery img[src$="/maxresdefault.jpg"] {
+    cursor: pointer;
+}
+
+.video-gallery img[src$="/maxresdefault.jpg"] + iframe {
+    position: fixed;
+    z-index: 11;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: solid rgba(0, 0, 0, .3);
+    border-width: 5vh 5vw;
+}
+
+.video-gallery .video-caption-main {
+    text-align: center;
+    color: #fff;
+    background-color: #000;
+}
+
+.video-gallery .video-caption-main .title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.video-gallery .video-caption-second {
+    text-align: center;
+    color: #fff;
+    background-color: #000;
+}
+
+.video-gallery .video-caption-second .title {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.27rem;
+}
+
+.video-gallery .btn-outline-warning {
+    color: #ff3000;
+    border-color: #ff3000;
+}
+
+.video-gallery .btn-outline-warning:hover {
+    color: #fff;
+    background-color: #ff3000;
+}
+
+footer {
+    color: #fff;
+    background-color: #282828;
+}
+
+footer a, footer a:hover {
+    color: #fff;
+}
+
+@media (min-width: 768px) {
+    .pr-6 {
+        padding-right: 75px;
+    }
+}

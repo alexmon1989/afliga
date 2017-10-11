@@ -647,12 +647,45 @@
     <!-- END OF TABLES, BOMBARDIERS, PENALTIES -->
 
     <!-- VIDEOS, PERSON -->
-    <div class="row">
+    <div class="row video-gallery">
         <div class="col-lg-9 mt-4">
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="text-uppercase">Видеогалерея</h2>
                     <hr class="under-h2">
+
+                    <div class="row">
+                        <div class="col-lg-8 mb-4">
+                            <img title="Интервью с Давидом Дидаровым" alt="Интервью с Давидом Дидаровым"
+                                 src="http://img.youtube.com/vi/JMJXvsCLu6s/maxresdefault.jpg" width="100%"
+                                 class="tr-caption-container"/>
+                            <div class="video-caption-main pt-2 pb-1">
+                                <p class="text-uppercase title">Интервью с Давидом Дидаровым</p>
+                                <p class="text-uppercase data">7 января 2017</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <img title="Название" alt="Название"
+                                 src="http://img.youtube.com/vi/JMJXvsCLu6s/maxresdefault.jpg" width="100%"
+                                 class="tr-caption-container"/>
+                            <div class="video-caption-second pt-2 pb-2">
+                                <p class="text-uppercase title">Название</p>
+                            </div>
+                            <img title="Название" alt="Название"
+                                 src="http://img.youtube.com/vi/JMJXvsCLu6s/maxresdefault.jpg" width="100%"
+                                 class="tr-caption-container mt-4"/>
+                            <div class="video-caption-second pt-2 pb-2">
+                                <p class="text-uppercase title">Название</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-lg-12 text-center">
+                            <a href="#" class="btn btn-outline-warning btn-lg">Все видеозаписи</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -667,7 +700,8 @@
 
                     <p class="mt-2"><a href="#" class="text-dark text-uppercase person-link">Мозговой Антоха</a></p>
 
-                    <p>Лучший игрок в мире. Капитан лучшей команды. Такого вы больше нигде не найдёте. Антон, дай зарплату.</p>
+                    <p>Лучший игрок в мире. Капитан лучшей команды. Такого вы больше нигде не найдёте. Антон, дай
+                        зарплату.</p>
                 </div>
                 <div class="col-lg-12">
                     <img src="{% static 'assets/img/banners/3.jpg' %}" class="img-fluid" alt="">
@@ -677,22 +711,75 @@
     </div>
     <!-- END OF VIDEOS, PERSON -->
 
-    <!-- Site footer -->
-    <footer class="footer">
-        <div class="row">
-            <div class="col-lg-4">
-
-            </div>
-            <div class="col-lg-4">
-
-            </div>
-            <div class="col-lg-4">
-
-            </div>
-        </div>
-    </footer>
 
 </div> <!-- /container -->
+
+<!-- Site footer -->
+<footer class="mt-5">
+    <div class="container-fluid py-3">
+        <div class="container">
+
+            <div class="row py-2">
+                <div class="col-lg-4 mt-3">
+                    <h4 class="text-uppercase">Навигация</h4>
+
+                    <ul class="list-unstyled">
+                        <li><a href="#">Меню</a></li>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Турниры</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mt-3">
+                    <h4 class="text-uppercase">Информация</h4>
+
+                    <ul class="list-unstyled">
+                        <li><a href="#">Меню</a></li>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Турниры</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mt-3">
+                    <h4 class="text-uppercase">Контактная информация</h4>
+
+                    <ul class="list-unstyled">
+                        <p>
+                            Телефон: 8(3467)36-00-37<br>
+                            Адрес: г. Владикавказ, ул. Комсомольская, 31<br>
+                            E-Mail: <a href="mailto:000000000000000@or.ru">000000000000000@or.ru</a><br>
+                            8-800-10-10-086 Горячии линии<br>
+                        </p>
+                    </ul>
+                </div>
+                <div class="col-lg-4 pr-6 mt-3">
+                    <div class="row">
+                        <div class="col-3">
+                            <a href="#"><img src="{% static 'assets/img/social/fb.jpg' %}" class="img-fluid" alt=""></a>
+                        </div>
+                        <div class="col-3">
+                            <a href="#"><img src="{% static 'assets/img/social/vk.jpg' %}" class="img-fluid" alt=""></a>
+                        </div>
+                        <div class="col-3">
+                            <a href="#"><img src="{% static 'assets/img/social/twitter.jpg' %}" class="img-fluid"
+                                             alt=""></a>
+                        </div>
+                        <div class="col-3">
+                            <a href="#"><img src="{% static 'assets/img/social/google.jpg' %}" class="img-fluid" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 pr-6 mt-3">
+                    <a href="#"><img src="{% static 'assets/img/banners/4.jpg' %}" class="img-fluid" alt=""></a>
+                </div>
+                <div class="col-lg-4 text-muted mt-3">
+                    <p>&copy; Портал "Открытый регион-Югра"<br>Свидетельство о регистрации СМИ Эл №ФС77-69468 <br>выдано
+                        Роскомнадзхором 14.04.2017, 12+</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -707,6 +794,7 @@
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/46b8a882f1.js"></script>
 <script src="{% static 'assets/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'assets/plugins/youtube/youtube.js' %}"></script>
 <script>
     $(function () {
         $(".matches").mCustomScrollbar({'theme': 'rounded-dark'});
