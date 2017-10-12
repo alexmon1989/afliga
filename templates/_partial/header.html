@@ -1,0 +1,47 @@
+{% load staticfiles %}
+<div class="masthead">
+    <div class="row">
+        <div class="col">
+            <a href="/" title="На главную страницу"><img class="img-fluid"
+                                                         src="{% static 'assets/img/header.jpg' %}" alt=""></a>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-md navbar-light rounded mt-2 mb-3">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav text-md-center nav-justified w-100">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Новости</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Медиа</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Руководство</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Турниры</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Контакты</a>
+                </li>
+            </ul>
+            <form class="form-inline mr-lg-4 ml-lg-5 mr-2 ml-2 my-1">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Поиск по сайту..."
+                           aria-label="Поиск по сайту...">
+                    <span class="input-group-btn">
+                        <button class="btn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                      </span>
+                </div>
+            </form>
+        </div>
+    </nav>
+</div>
