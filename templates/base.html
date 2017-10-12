@@ -34,36 +34,42 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="row">
+            <div class="row widgets">
                 <!-- TOURNAMENT TABLE -->
-                <div class="col-lg-12">
+                <div class="col-lg-12" id="tournament_table">
                     {% include '_partial/widgets/table.html' %}
                 </div>
                 <!-- END TOURNAMENT TABLE -->
 
                 <!-- BANNER -->
-                <div class="col-lg-12 mt-3">
+                <div class="col-lg-12 mt-3" id="banner_2">
                     <a href="#"><img src="{% static 'assets/img/banners/2.jpg' %}" class="img-fluid" alt=""></a>
                 </div>
                 <!-- END BANNER -->
 
                 <!-- BOMBARDIERS -->
-                <div class="col-lg-12 mt-5">
+                <div class="col-lg-12 mt-5" id="bombardiers">
                     {% include '_partial/widgets/bombardiers.html' %}
                 </div>
                 <!-- END BOMBARDIERS -->
 
                 <!-- PENALTIES -->
-                <div class="col-lg-12 mt-3">
+                <div class="col-lg-12 mt-3" id="penalties">
                     {% include '_partial/widgets/penalties.html' %}
                 </div>
                 <!-- END PENALTIES -->
 
                 <!-- PERSON -->
-                <div class="col-lg-12 mt-3">
+                <div class="col-lg-12 mt-3" id="person">
                     {% include '_partial/widgets/person.html' %}
                 </div>
                 <!-- END PERSON -->
+
+                <!-- BANNER -->
+                <div class="col-lg-12 mt-3" id="banner_3">
+                    <a href="#"><img src="{% static 'assets/img/banners/3.jpg' %}" class="img-fluid" alt=""></a>
+                </div>
+                <!-- END BANNER -->
             </div>
         </div>
     </div>
