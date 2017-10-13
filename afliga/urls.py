@@ -17,10 +17,12 @@ from django.conf.urls import include, url
 from django.conf import settings
 from django.contrib import admin
 from home import views as home_views
+from news import urls as news_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_views.home_page, name='home'),
+    url(r'^news/', include(news_urls)),
 ]
 
 if settings.DEBUG:
