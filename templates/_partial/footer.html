@@ -1,66 +1,138 @@
 {% load staticfiles %}
-<footer class="mt-5">
-    <div class="container-fluid py-3">
-        <div class="container">
 
-            <div class="row py-2">
-                <div class="col-lg-4 mt-3">
-                    <h4 class="text-uppercase">Навигация</h4>
-
-                    <ul class="list-unstyled">
-                        <li><a href="#">Меню</a></li>
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Новости</a></li>
-                        <li><a href="#">Турниры</a></li>
-                    </ul>
+<div id="contacts-section" class="g-color-white-opacity-0_8 g-pt-30">
+    <div class="container">
+        <div class="row">
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40">
+                <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                    <h2 class="u-heading-v2__title h5 text-uppercase mb-0">Навигация</h2>
                 </div>
-                <div class="col-lg-4 mt-3">
-                    <h4 class="text-uppercase">Информация</h4>
 
-                    <ul class="list-unstyled">
-                        <li><a href="#">Меню</a></li>
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Новости</a></li>
-                        <li><a href="#">Турниры</a></li>
+                <nav class="text-uppercase1">
+                    <ul class="list-unstyled g-mt-minus-10 mb-0">
+                        <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
+                            <h4 class="h6 g-pr-20 mb-0">
+                                <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Главная</a>
+                                <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
+                            </h4>
+                        </li>
+                        <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
+                            <h4 class="h6 g-pr-20 mb-0">
+                                <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Новости</a>
+                                <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
+                            </h4>
+                        </li>
+                        <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
+                            <h4 class="h6 g-pr-20 mb-0">
+                                <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Турниры</a>
+                                <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
+                            </h4>
+                        </li>
                     </ul>
-                </div>
-                <div class="col-lg-4 mt-3">
-                    <h4 class="text-uppercase">Контактная информация</h4>
+                </nav>
+            </div>
+            <!-- End Footer Content -->
 
-                    <ul class="list-unstyled">
-                        <p>
-                            Телефон: 8(3467)36-00-37<br>
-                            Адрес: г. Владикавказ, ул. Комсомольская, 31<br>
-                            E-Mail: <a href="mailto:000000000000000@or.ru">000000000000000@or.ru</a><br>
-                            8-800-10-10-086 Горячии линии<br>
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40">
+                <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                    <h2 class="u-heading-v2__title h5 text-uppercase mb-0">Информация</h2>
+                </div>
+
+                <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt
+                    sodales.</p>
+            </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40">
+                <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                    <h2 class="u-heading-v2__title h5 text-uppercase mb-0">Контактная информация</h2>
+                </div>
+
+                <address class="g-bg-no-repeat g-font-size-12 mb-0"
+                         style="background-image: url({% static 'assets/img/maps/map2.png' %});">
+
+                    <!-- Phone -->
+                    <div class="d-flex g-mb-20">
+                        <div class="g-mr-10">
+                          <span class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-color-white-opacity-0_6">
+                            <i class="fa fa-phone"></i>
+                          </span>
+                        </div>
+                        <p class="mb-0">(+123) 456 7890 <br> (+123) 456 7891 Горячии линии</p>
+                    </div>
+                    <!-- End Phone -->
+
+                    <!-- Location -->
+                    <div class="d-flex g-mb-20">
+                        <div class="g-mr-10">
+                          <span class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-color-white-opacity-0_6">
+                            <i class="fa fa-map-marker"></i>
+                          </span>
+                        </div>
+                        <p class="mb-0">г. Владикавказ, <br> ул. Комсомольская, 31</p>
+                    </div>
+                    <!-- End Location -->
+
+                    <!-- Email and Website -->
+                    <div class="d-flex g-mb-20">
+                        <div class="g-mr-10">
+                          <span class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-color-white-opacity-0_6">
+                            <i class="fa fa-globe"></i>
+                          </span>
+                        </div>
+                        <p class="mb-0">
+                            <a class="g-color-white-opacity-0_8 g-color-white--hover"
+                               href="mailto:info@htmlstream.com">info@afliga.ru</a>
+                            <br>
+                            <a class="g-color-white-opacity-0_8 g-color-white--hover"
+                               href="#">afliga.ru</a>
                         </p>
-                    </ul>
-                </div>
-                <div class="col-lg-4 pr-6 mt-3">
-                    <div class="row">
-                        <div class="col-3">
-                            <a id="fb_link" href="#"><img src="{% static 'assets/img/social/fb.jpg' %}" class="img-fluid" alt=""></a>
-                        </div>
-                        <div class="col-3">
-                            <a id="vk_link" href="#"><img src="{% static 'assets/img/social/vk.jpg' %}" class="img-fluid" alt=""></a>
-                        </div>
-                        <div class="col-3">
-                            <a id="twitter_link" href="#"><img src="{% static 'assets/img/social/twitter.jpg' %}" class="img-fluid"
-                                             alt=""></a>
-                        </div>
-                        <div class="col-3">
-                            <a id="google_link" href="#"><img src="{% static 'assets/img/social/google.jpg' %}" class="img-fluid" alt=""></a>
-                        </div>
+                    </div>
+                    <!-- End Email and Website -->
+                </address>
+            </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-pr-50">
+                <div class="row">
+                    <div class="col-3">
+                        <a id="fb_link" href="#"><img src="{% static 'assets/img/social/fb.jpg' %}" class="img-fluid"
+                                                      alt=""></a>
+                    </div>
+                    <div class="col-3">
+                        <a id="vk_link" href="#"><img src="{% static 'assets/img/social/vk.jpg' %}" class="img-fluid"
+                                                      alt=""></a>
+                    </div>
+                    <div class="col-3">
+                        <a id="twitter_link" href="#"><img src="{% static 'assets/img/social/twitter.jpg' %}"
+                                                           class="img-fluid"
+                                                           alt=""></a>
+                    </div>
+                    <div class="col-3">
+                        <a id="google_link" href="#"><img src="{% static 'assets/img/social/google.jpg' %}"
+                                                          class="img-fluid" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-4 pr-6 mt-3">
-                    <a href="#"><img src="{% static 'assets/img/banners/4.jpg' %}" class="img-fluid" alt="" id="banner_4"></a>
-                </div>
-                <div class="col-lg-4 text-muted mt-3" id="copyrights">
-                    <p>&copy; Портал "Открытый регион-Югра"<br>Свидетельство о регистрации СМИ Эл №ФС77-69468 <br>выдано
-                        Роскомнадзхором 14.04.2017, 12+</p>
-                </div>
             </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-pr-50">
+                <a href="#"><img src="{% static 'assets/img/banners/4.jpg' %}" class="img-fluid" alt="" id="banner_4"></a>
+            </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 text-muted g-font-size-13">
+                <p>&copy; Портал "Открытый регион-Югра"<br>Свидетельство о регистрации СМИ Эл №ФС77-69468 <br>выдано
+                        Роскомнадзхором 14.04.2017, 12+</p>
+            </div>
+            <!-- End Footer Content -->
         </div>
     </div>
-</footer>
+</div>
+<!-- End Footer -->

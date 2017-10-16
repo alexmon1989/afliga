@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+    <!-- News -->
+    <div class="col-lg-12" id="latest_news">
+        {% include 'home/_partial/news.html' %}
+    </div>
+    <!-- End News -->
+
+    <!-- Banner -->
+    <div class="col-lg-12 g-mt-15" id="banner_1">
+        <a href="#"><img src="{% static 'assets/img/banners/1.jpg' %}" class="img-fluid" alt=""></a>
+    </div>
+    <!-- End Banner -->
+
+    <!-- Matches 1 -->
+    <div class="col-lg-12 g-mt-40" id="matches_latest_tournament">
+        {% include 'home/_partial/matches_last_tournament.html' %}
+    </div>
+    <!-- End Matches 1 -->
+
+    <!-- Matches 2 -->
+    <div class="col-lg-12 g-mt-15" id="matches_prelatest_tournament">
+        {% include 'home/_partial/matches_prelast_tournament.html' %}
+    </div>
+    <!-- End Matches 2 -->
+
+    <!-- Video gallery -->
+    <div class="col-lg-12 g-mt-15 video-gallery" id="video_gallery">
+        {% include 'home/_partial/video_gallery.html' %}
+    </div>
+    <!-- End Video gallery -->
+{% endblock %}

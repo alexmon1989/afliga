@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.conf import settings
 from django.contrib import admin
-from home import views as home_views
-from news import urls as news_urls
+from apps.home import views as home_views
+from apps.news import urls as news_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,6 +27,5 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
+

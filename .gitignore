@@ -98,3 +98,4 @@ ENV/
 /afliga/settings.py
 /.idea/
 /node_modules/
+/static/assets/css/
