@@ -1,4 +1,7 @@
 Django==1.11.5
-pytz==2017.2
 django-debug-toolbar==1.8
-selenium==3.6
+olefile==0.44
+Pillow==4.3.0
+pytz==2017.2
+selenium==3.6.0
+sqlparse==0.2.4

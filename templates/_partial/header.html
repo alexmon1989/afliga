@@ -31,13 +31,19 @@
                 <!-- Navigation -->
                 <div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
                     <ul class="navbar-nav text-uppercase mr-auto g-font-size-16">
-                        <li class="nav-item active">
-                            <a href="#" class="nav-link px-4 py-3">Главная
-                                <span class="sr-only">(current)</span>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <a href="/" class="nav-link px-4 py-3">Главная
+                                {% if request.resolver_match.url_name == 'home' %}
+                                    <span class="sr-only">(current)</span>
+                                {% endif %}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-4 py-3">Новости</a>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'news_list' or request.resolver_match.url_name == 'news_detail' %}active{% endif %}">
+                            <a href="{% url 'news_list' %}" class="nav-link px-4 py-3">Новости
+                                {% if request.resolver_match.url_name == 'news_list' or request.resolver_match.url_name == 'news_detail' %}
+                                    <span class="sr-only">(current)</span>
+                                {% endif %}
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link px-4 py-3">Медиа</a>

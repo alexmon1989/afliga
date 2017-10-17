@@ -1,21 +1,108 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+    <div class="container">
+        <section class="g-bg-gray-light-v5 g-py-20 g-px-30 g-mb-30">
+            <div class="d-sm-flex text-center">
+                <div class="align-self-center">
+                    <h1 class="h2 g-font-weight-300 w-100 g-mb-10 g-mb-0--md">Новости</h1>
+                </div>
+
+                <div class="align-self-center ml-auto">
+                    <ul class="u-list-inline">
+                        <li class="list-inline-item g-mr-5">
+                            <a class="u-link-v5 g-color-main" href="/">Главная</a>
+                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                        </li>
+                        <li class="list-inline-item g-color-primary">
+                            <span>Список новостей</span>
+                            {% if request.GET.page %}
+                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                            {% endif %}
+                        </li>
+                        {% if request.GET.page %}
+                        <li class="list-inline-item g-color-primary">
+                            <span>Страница {{ request.GET.page }}</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="col-lg-12">
-        <div class="row news_list">
-            <div class="col-lg-12">
-                <h1>Новости</h1>
-            </div>
+        <div class="justify-content-center g-py-10">
+            {% for news_item in news_list %}
+                <!-- Blog Minimal Blocks -->
+                <article class="g-mb-60">
+                    <div class="g-mb-30">
+                        <span class="d-block g-color-gray-dark-v4 g-font-weight-700 g-font-size-12 text-uppercase mb-2">{{ news_item.created_at|date }}</span>
 
-            {% for news in news_list %}
-                <div class="col-lg-12">
-                    <h2 class="title"><a href="{{ news.pk }}">{{ news.title }}</a></h2>
-                    <div class="text">
-                        {{ news.text|safe }}
+                        {% if news_item.image %}
+                            <img class="img-fluid w-100 g-mb-25" src="{{ news_item.image.url }}"
+                                 alt="{{ news_item.title }}">
+                        {% endif %}
+                        <h2 class="h4 g-color-black g-font-weight-600 mb-3">
+                            <a class="u-link-v5 g-color-black g-color-primary--hover" href="{% url 'news_detail' pk=news_item.pk %}">{{ news_item.title }}</a>
+                        </h2>
+                        <p class="g-line-height-1_8">{{ news_item.text|striptags|truncatewords:40 }}</p>
+                        <a class="g-font-size-13" href="{% url 'news_detail' pk=news_item.pk %}">Читать далее...</a>
                     </div>
-                    <hr>
-                </div>
+
+                    <ul class="d-flex justify-content-end list-inline g-brd-y g-brd-gray-light-v3 g-font-size-13 g-py-13 mb-0">
+                        <li class="list-inline-item mr-4">
+                            <i class="align-middle g-color-primary g-font-size-default mr-1 icon-finance-206 u-line-icon-pro"></i>
+                            <a class="d-inline-block g-color-gray-dark-v4 g-text-underline--none--hover" href="{% url 'news_detail' pk=news_item.pk %}#comments">0
+                                Комментариев</a>
+                        </li>
+                    </ul>
+                </article>
+                <!-- End Blog Minimal Blocks -->
             {% endfor %}
+
+            {% if is_paginated %}
+                <!-- Pagination -->
+                <nav class="text-center" aria-label="Page Navigation">
+                    <ul class="list-inline">
+                        {% if page_obj.has_previous %}
+                            <li class="list-inline-item float-left g-hidden-xs-down">
+                                <a class="u-pagination-v1__item u-pagination-v1-4 g-brd-gray-light-v3 g-brd-primary--hover g-rounded-50 g-pa-7-16"
+                                   href="?page={{ page_obj.previous_page_number }}" aria-label="Предыдущая">
+                                <span aria-hidden="true">
+                                    <i class="fa fa-angle-left g-mr-5"></i> Предыдущая
+                                </span>
+                                    <span class="sr-only">Предыдущая</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for i in paginator.page_range %}
+                            <li class="list-inline-item">
+                                <a class="u-pagination-v1__item u-pagination-v1-4 g-rounded-50 {% if page_obj.number == i %}u-pagination-v1-4--active{% endif %} g-pa-7-14"
+                                   href="?page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="list-inline-item float-right g-hidden-xs-down">
+                                <a class="u-pagination-v1__item u-pagination-v1-4 g-brd-gray-light-v3 g-brd-primary--hover g-rounded-50 g-pa-7-16"
+                                   href="?page={{ page_obj.next_page_number }}" aria-label="Следующая">
+                                <span aria-hidden="true">
+                                  Следующая <i class="fa fa-angle-right g-ml-5"></i>
+                                </span>
+                                    <span class="sr-only">Следующая</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                <!-- End Pagination -->
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/animate.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/icon-awesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/icon-hs/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/icon-line-pro/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/icon-line/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/icon-etlinefont/style.css' %}">
+
     <link rel="stylesheet" href="{% static 'assets/vendor/hamburgers/hamburgers.min.css' %}">
     <link rel="stylesheet"
           href="{% static 'assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css' %}">
@@ -40,11 +44,16 @@
     {% include '_partial/header.html' %}
     <!-- End Header -->
 
-    <!-- Carousel -->
-    {% include '_partial/carousel.html' %}
-    <!-- End Carousel -->
+    {% if request.resolver_match.url_name == 'home' %}
+        <!-- Carousel -->
+        {% include '_partial/carousel.html' %}
+        <!-- End Carousel -->
+    {% endif %}
 
-    <div class="container">
+    {% block breadcrumbs %}
+    {% endblock %}
+
+    <div class="container mt-3">
         <div class="row">
             <div class="col-lg-9">
                 <div class="row">

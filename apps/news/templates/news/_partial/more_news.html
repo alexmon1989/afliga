@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<div class="text-center g-my-30">
+    <h4>Ещё новости</h4>
+</div>
+
+<div class="shortcode-html">
+    <div class="row">
+        {% for news in more_news %}
+            <div class="col-lg-4">
+            <!-- Article -->
+            <article class="g-bg-secondary">
+                {% if news.image %}
+                    <a href="{% url 'news_detail' pk=news.pk %}"><img class="img-fluid w-100" src="{{ news.image.url }}" alt="{{ news.title }}"></a>
+                {% endif %}
+
+                <div class="g-px-25 g-pt-25">
+                    <h3 class="h4 g-font-weight-300 g-mb-15">
+                        <a class="u-link-v5 g-color-gray-dark-v2 g-color-primary--hover" href="{% url 'news_detail' pk=news.pk %}">{{ news.title }}</a>
+                    </h3>
+                    <p>{{ news.text|striptags|truncatewords:20 }}</p>
+                </div>
+
+                <ul class="u-list-inline g-font-size-12 g-brd-top g-brd-gray-light-v4 g-pa-15-20">
+                    <li class="list-inline-item">
+                        <i class="icon-calendar align-middle g-color-gray-dark-v4 mr-2"></i>
+                        {{ news.created_at|date }}
+                    </li>
+                    <li class="list-inline-item g-color-gray-dark-v4">|</li>
+                    <li class="list-inline-item">
+                        <i class="icon-bubbles align-middle g-color-gray-dark-v4 g-mr-2"></i>
+                        0
+                    </li>
+                </ul>
+            </article>
+            <!-- End Article -->
+        </div>
+        {% endfor %}
+    </div>
+</div>
