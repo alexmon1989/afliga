@@ -2,78 +2,48 @@
 <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
 <div class="row g-mt-15">
-    <div class="col-lg-4">
-        <a href="https://placeholder.com"><img src="http://via.placeholder.com/350x225"
-                                               class="img-fluid"></a>
-        <div class="g-mt-10">
-            <a href="#" class="text-uppercase g-font-size-15">Дорогие друзья, консультация с профессионалами из ИТ</a>
-        </div>
+    {% if last_news.count > 0 %}
+        <div class="col-lg-4">
+            {% if last_news.0.image %}
+                <a href="{% url 'news_detail' pk=last_news.0.pk %}"><img src="{{ last_news.0.image.url }}"
+                                                                         class="img-fluid"></a>
+            {% endif %}
+            <div class="g-mt-10">
+                <a href="{% url 'news_detail' pk=last_news.0.pk %}"
+                   class="text-uppercase g-font-size-15">{{ last_news.0.title }}</a>
+            </div>
 
-        <div class="g-mt-5">
-            <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
-        </div>
+            <div class="g-mt-5">
+                <small class="text-muted">Дата: {{ last_news.0.created_at|date }} / Комментариев: 0</small>
+            </div>
 
-        <div class="g-mt-5">
-            <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты, которые
-                всегда
-                обеспечивают абсолютный, полный контроль над текстом. их помощью вы любым элементам
-                тени.</p>
-        </div>
-    </div>
-
-    <div class="col-lg-8">
-        <div class="row g-mb-15">
-            <div class="col-lg-4"><a href="https://placeholder.com"><img
-                    src="http://via.placeholder.com/350x225"
-                    class="img-fluid"></a></div>
-            <div class="col-lg-8">
-                <a href="#" class="text-uppercase g-font-size-15">Дорогие друзья, консультация с профессионалами из ИТ</a>
-
-                <div class="g-mt-5">
-                    <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
-                </div>
-
-                <div class="g-mt-5">
-                    <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты,
-                        которые всегда обеспечивают абсолютный, полный контроль над текстом, их...</p>
-                </div>
+            <div class="g-mt-5">
+                <p>{{ last_news.0.text|striptags|truncatewords:15 }}</p>
             </div>
         </div>
 
-        <div class="row g-mb-15">
-            <div class="col-lg-4"><a href="https://placeholder.com"><img
-                    src="http://via.placeholder.com/350x225"
-                    class="img-fluid"></a></div>
-            <div class="col-lg-8">
-                <a href="#" class="text-uppercase g-font-size-15">Дорогие друзья, консультация с профессионалами из ИТ</a>
+        <div class="col-lg-8">
+            {% for news in last_news|slice:"1:" %}
+                <div class="row g-mb-15">
+                    {% if news.image %}
+                        <div class="col-lg-4"><a href="{% url 'news_detail' pk=news.pk %}"><img
+                                src="{{ news.image.url }}"
+                                class="img-fluid"></a></div>
+                    {% endif %}
+                    <div class="col-lg-8">
+                        <a href="{% url 'news_detail' pk=news.pk %}"
+                           class="text-uppercase g-font-size-15">{{ news.title }}</a>
 
-                <div class="g-mt-5">
-                    <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
-                </div>
+                        <div class="g-mt-5">
+                            <small class="text-muted">Дата: {{ news.created_at|date }} / Комментариев: 0</small>
+                        </div>
 
-                <div class="g-mt-5">
-                    <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты,
-                        которые всегда обеспечивают абсолютный, полный контроль над текстом, их...</p>
+                        <div class="g-mt-5">
+                            <p>{{ news.text|striptags|truncatewords:15 }}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-
-        <div class="row g-mb-15">
-            <div class="col-lg-4"><a href="https://placeholder.com"><img
-                    src="http://via.placeholder.com/350x225"
-                    class="img-fluid"></a></div>
-            <div class="col-lg-8">
-                <a href="#" class="text-uppercase g-font-size-15">Дорогие друзья, консультация с профессионалами из ИТ</a>
-
-                <div class="g-mt-5">
-                    <small class="text-muted">Дата: 30.10.17 / Комментариев: 0</small>
-                </div>
-
-                <div class="g-mt-5">
-                    <p>Уловите свое руки мощные вдохновениев кладывает в ваши творческие инструменты,
-                        которые всегда обеспечивают абсолютный, полный контроль над текстом, их...</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endif %}
 </div>
