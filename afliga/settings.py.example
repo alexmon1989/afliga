@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'goodforms',
     'apps.home',
     'apps.news',
+    'apps.contacts',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,7 @@ MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../media'))
 MEDIA_URL = '/media/'
 
 INTERNAL_IPS = '127.0.0.1'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SERVER_EMAIL = 'root@localhost'
+MANAGERS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]

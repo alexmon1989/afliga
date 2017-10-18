@@ -19,11 +19,13 @@ from django.conf import settings
 from django.contrib import admin
 from apps.home import views as home_views
 from apps.news import urls as news_urls
+from apps.contacts import urls as contacts_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_views.home_page, name='home'),
     url(r'^news/', include(news_urls)),
+    url(r'^contacts/', include(contacts_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

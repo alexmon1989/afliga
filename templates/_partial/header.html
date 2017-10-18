@@ -38,6 +38,7 @@
                                 {% endif %}
                             </a>
                         </li>
+
                         <li class="nav-item {% if request.resolver_match.url_name == 'news_list' or request.resolver_match.url_name == 'news_detail' %}active{% endif %}">
                             <a href="{% url 'news_list' %}" class="nav-link px-4 py-3">Новости
                                 {% if request.resolver_match.url_name == 'news_list' or request.resolver_match.url_name == 'news_detail' %}
@@ -45,17 +46,25 @@
                                 {% endif %}
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link px-4 py-3">Медиа</a>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link px-4 py-3">Руководство</a>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link px-4 py-3">Турниры</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-4 py-3">Контакты</a>
+
+                        <li class="nav-item {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">
+                            <a href="{% url 'contacts' %}" class="nav-link px-4 py-3">Контакты
+                                {% if request.resolver_match.url_name == 'contacts'%}
+                                    <span class="sr-only">(current)</span>
+                                {% endif %}
+                            </a>
                         </li>
                     </ul>
 
