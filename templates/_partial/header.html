@@ -51,8 +51,8 @@
                             <a href="#" class="nav-link px-4 py-3">Медиа</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-4 py-3">Руководство</a>
+                        <li class="nav-item {% if request.resolver_match.url_name == 'team_list' %}active{% endif %}">
+                            <a href="{% url 'team_list' %}" class="nav-link px-4 py-3">Руководство</a>
                         </li>
 
                         <li class="nav-item">

@@ -1,0 +1,137 @@
+[
+  {
+    "model": "team.teammember",
+    "pk": 1,
+    "fields": {
+      "name": "\u0418\u043a\u0430\u0435\u0432 \u0410\u043b\u0430\u043d \u041a\u0430\u0437\u0431\u0435\u043a\u043e\u0432\u0438\u0447",
+      "position": "\u0414\u0438\u0440\u0435\u043a\u0442\u043e\u0440 \u041f\u0430\u0440\u0442\u043d\u0435\u0440\u0441\u0442\u0432\u0430 \u0410\u0424\u041b",
+      "photo": "team/gude2YQM_fQ-e1480631015865.jpg",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:45:39.937Z",
+      "updated_at": "2017-10-19T10:52:28.758Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 2,
+    "fields": {
+      "name": "\u0421\u0430\u0441\u0438\u0435\u0432 \u0422\u0430\u043c\u0435\u0440\u043b\u0430\u043d",
+      "position": "\u041f\u0440\u0435\u0434\u0441\u0435\u0434\u0430\u0442\u0435\u043b\u044c \u0414\u0438\u0441\u0446\u0438\u043f\u043b\u0438\u043d\u0430\u0440\u043d\u043e\u0433\u043e \u041a\u043e\u043c\u0438\u0442\u0435\u0442\u0430",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:49:18.497Z",
+      "updated_at": "2017-10-19T10:49:18.497Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 3,
+    "fields": {
+      "name": "\u041b\u0435\u0433\u043e\u0435\u0432 \u0420\u0443\u0441\u0442\u0435\u043c",
+      "position": "\u041e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439 \u0437\u0430 \u0444\u0438\u043d\u0430\u043d\u0441\u043e\u0432\u043e\u0435 \u0445\u043e\u0437\u044f\u0439\u0441\u0442\u0432\u043e \u0410\u0424\u041b",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:49:50.710Z",
+      "updated_at": "2017-10-19T10:49:50.710Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 4,
+    "fields": {
+      "name": "\u041c\u043e\u0437\u0433\u043e\u0432\u043e\u0439 \u0410\u043d\u0442\u043e\u043d",
+      "position": "\u041e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439 \u0437\u0430 \u0444\u0438\u043d\u0430\u043d\u0441\u043e\u0432\u043e\u0435 \u0445\u043e\u0437\u044f\u0439\u0441\u0442\u0432\u043e \u0410\u0424\u041b",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:50:01.520Z",
+      "updated_at": "2017-10-19T10:50:01.520Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 5,
+    "fields": {
+      "name": "\u0413\u0430\u0431\u0443\u043b\u043e\u0432 \u0422\u0438\u043c\u0443\u0440",
+      "position": "\u041f\u0440\u0435\u0434\u0441\u0435\u0434\u0430\u0442\u0435\u043b\u044c \u0441\u0443\u0434\u0435\u0439\u0441\u043a\u043e\u0433\u043e \u043a\u043e\u043c\u0438\u0442\u0435\u0442\u0430",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:50:18.950Z",
+      "updated_at": "2017-10-19T10:50:18.950Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 6,
+    "fields": {
+      "name": "\u041a\u043e\u0440\u0430\u0435\u0432 \u041e\u043b\u0435\u0433",
+      "position": "PR \u0414\u0438\u0440\u0435\u043a\u0442\u043e\u0440",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:50:31.612Z",
+      "updated_at": "2017-10-19T10:50:31.612Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 7,
+    "fields": {
+      "name": "\u0411\u0430\u043b\u0438\u043a\u043e\u0435\u0432 \u0410\u043b\u0430\u043d",
+      "position": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0439 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:50:56.532Z",
+      "updated_at": "2017-10-19T10:50:56.532Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 8,
+    "fields": {
+      "name": "\u0424\u0435\u043b\u0438\u043a\u0441 \u041c\u0430\u043a\u0438\u0435\u0432",
+      "position": "\u041f\u0440\u0435\u0441\u0441-\u0446\u0435\u043d\u0442\u0440 \u0410\u0424\u041b",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:51:14.953Z",
+      "updated_at": "2017-10-19T10:51:14.953Z"
+    }
+  },
+  {
+    "model": "team.teammember",
+    "pk": 9,
+    "fields": {
+      "name": "\u0411\u0430\u043b\u0438\u043a\u043e\u0435\u0432 \u0410\u043b\u0430\u043d",
+      "position": "\u041f\u0440\u0435\u0441\u0441-\u0446\u0435\u043d\u0442\u0440 \u0410\u0424\u041b",
+      "photo": "",
+      "text": null,
+      "email": null,
+      "phone": null,
+      "is_visible": true,
+      "created_at": "2017-10-19T10:51:30.673Z",
+      "updated_at": "2017-10-19T10:51:30.673Z"
+    }
+  }
+]
