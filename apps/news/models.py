@@ -7,8 +7,8 @@ class News(models.Model):
     text = models.TextField('Текст', blank=False)
     is_visible = models.BooleanField('Включено', default=True)
     image = models.ImageField('Изображение', upload_to='news', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     def __str__(self):
         return self.title
