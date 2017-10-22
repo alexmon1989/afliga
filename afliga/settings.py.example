@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.news',
     'apps.contacts',
     'apps.team',
+    'apps.settings',
 ]
 
 MIDDLEWARE = [
