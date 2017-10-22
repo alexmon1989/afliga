@@ -3,24 +3,27 @@
 
 <div class="row g-mt-15">
     {% if last_news.count > 0 %}
-        <div class="col-lg-4">
-            {% if last_news.0.image %}
-                <a href="{% url 'news_detail' pk=last_news.0.pk %}"><img src="{{ last_news.0.image.url }}"
-                                                                         class="img-fluid"></a>
-            {% endif %}
-            <div class="g-mt-10">
-                <a href="{% url 'news_detail' pk=last_news.0.pk %}"
-                   class="text-uppercase g-font-size-15">{{ last_news.0.title }}</a>
-            </div>
+        {% with last_news.0 as first_news_item %}
+             <div class="col-lg-4">
+                {% if first_news_item.image %}
+                    <a href="{% url 'news_detail' pk=first_news_item.pk %}"><img src="{{ first_news_item.image.url }}"
+                                                                             class="img-fluid"></a>
+                {% endif %}
+                <div class="g-mt-10">
+                    <a href="{% url 'news_detail' pk=first_news_item.pk %}"
+                       class="text-uppercase g-font-size-15">{{ first_news_item.title }}</a>
+                </div>
 
-            <div class="g-mt-5">
-                <small class="text-muted">Дата: {{ last_news.0.created_at|date }} / Комментариев: 0</small>
-            </div>
+                <div class="g-mt-5">
+                    <small class="text-muted">Дата: {{ first_news_item.created_at|date }} / Комментариев: 0</small>
+                </div>
 
-            <div class="g-mt-5">
-                <p>{{ last_news.0.text|striptags|truncatewords:15 }}</p>
+                <div class="g-mt-5">
+                    <p>{{ first_news_item.text|striptags|truncatewords:15 }}</p>
+                </div>
             </div>
-        </div>
+        {% endwith %}
+
 
         <div class="col-lg-8">
             {% for news in last_news|slice:"1:" %}
