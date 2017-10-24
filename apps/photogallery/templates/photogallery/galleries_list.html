@@ -23,7 +23,16 @@
                                  src="http://via.placeholder.com/400x270?text=No+image"
                                  alt="{{ gallery }}">
                         {% endif %}
-                        <strong class="h5 d-block w-100 u-bg-overlay__inner g-absolute-centered g-px-20 g-font-weight-400 g-color-white g-mt-10">{{ gallery }}</strong>
+
+
+
+                        <span class="u-bg-overlay__inner g-color-white g-pos-abs g-left-20 g-bottom-40">
+                            {{ gallery }}
+                        </span>
+
+                        <span class="u-bg-overlay__inner g-font-size-11 g-color-gray-light-v3 g-pos-abs g-left-20 g-bottom-20">
+                            {{ gallery.created_at|date }}
+                        </span>
                     </a>
                 </div>
             {% endfor %}
