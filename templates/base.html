@@ -27,8 +27,10 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/icon-etlinefont/style.css' %}">
 
     <link rel="stylesheet" href="{% static 'assets/vendor/hamburgers/hamburgers.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/hs-megamenu/src/hs.megamenu.css' %}">
     <link rel="stylesheet"
           href="{% static 'assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fancybox/jquery.fancybox.min.css' %}">
 
     <!-- CSS Unify -->
     <link rel="stylesheet" href="{% static 'assets/css/unify-core.css' %}">
@@ -128,8 +130,11 @@
 <script src="{% static 'assets/js/hs.core.js' %}"></script>
 <script src="{% static 'assets/js/components/hs.header.js' %}"></script>
 <script src="{% static 'assets/js/helpers/hs.hamburgers.js' %}"></script>
+<script src="{% static 'assets/js/components/hs.popup.js' %}"></script>
 <script src="{% static 'assets/js/components/hs.go-to.js' %}"></script>
 <script src="{% static 'assets/js/components/hs.scrollbar.js' %}"></script>
+<script src="{% static 'assets/vendor/hs-megamenu/src/hs.megamenu.js' %}"></script>
+<script src="{% static 'assets/vendor/fancybox/jquery.fancybox.min.js' %}"></script>
 
 <!-- JS Custom -->
 <script src="{% static 'assets/js/custom.js' %}"></script>
@@ -141,12 +146,20 @@
         $.HSCore.components.HSGoTo.init('.js-go-to');
         // initialization of HSScrollBar component
         $.HSCore.components.HSScrollBar.init($('.matches'), {'theme': 'rounded-dark'});
+        $.HSCore.components.HSPopup.init('.js-fancybox');
     });
 
     $(window).on('load', function () {
         // initialization of header
         $.HSCore.components.HSHeader.init($('#js-header'));
         $.HSCore.helpers.HSHamburgers.init('.hamburger');
+
+        // initialization of HSMegaMenu component
+        $('.js-mega-menu').HSMegaMenu({
+            event: 'hover',
+            pageContainer: $('.container'),
+            breakpoint: 991
+        });
     });
 </script>
 </body>

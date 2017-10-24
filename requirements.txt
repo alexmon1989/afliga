@@ -1,6 +1,7 @@
 Django==1.11.5
 django-debug-toolbar==1.8
 django-goodforms==0.2.1
+easy-thumbnails==2.4.2
 htmlutils==0.1.2
 olefile==0.44
 Pillow==4.3.0

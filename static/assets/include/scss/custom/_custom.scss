@@ -9,6 +9,23 @@ header {
           color: $g-color-gray-dark-v2 !important;
         }
       }
+
+      .hs-sub-menu {
+        .dropdown-item {
+          a {
+            color: rgba(255, 255, 255, 0.8) !important;
+          }
+          a:hover {
+            color: rgba(255, 255, 255, 1) !important;
+          }
+        }
+
+        .dropdown-item.active {
+          a {
+            color: $g-color-white !important;
+          }
+        }
+      }
     }
     form {
       .form-control {

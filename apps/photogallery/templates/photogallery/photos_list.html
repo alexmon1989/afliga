@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+    {% include 'photogallery/_partial/breadcrumbs_photos.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <div class="row text-center">
+            {% for photo in photo_list %}
+                <div class="col-md-4 g-mb-30">
+                    <a class="js-fancybox d-block u-block-hover" data-fancybox-gallery="lightbox-gallery--03" href="{{ photo.image.url }}" title="Lightbox Gallery">
+                      <img class="img-fluid u-block-hover__main--mover-right" src="{{ photo.image.gallery_item_small.url }}" alt="Image Description">
+                    </a>
+                  </div>
+            {% endfor %}
+
+            {% if is_paginated %}
+                <div class="col-lg-12 g-mt-10">
+                    {% include 'photogallery/_partial/pagination.html' %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

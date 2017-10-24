@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'goodforms',
+    'easy_thumbnails',
     'apps.home',
     'apps.news',
     'apps.contacts',
     'apps.team',
     'apps.settings',
+    'apps.photogallery',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,9 @@ INTERNAL_IPS = '127.0.0.1'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SERVER_EMAIL = 'root@localhost'
 MANAGERS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'gallery_item_small': {'size': (400, 270), 'crop': True},
+    },
+}

@@ -21,6 +21,7 @@ from apps.home import views as home_views
 from apps.news import urls as news_urls
 from apps.contacts import urls as contacts_urls
 from apps.team import urls as team_urls
+from apps.photogallery import urls as photogallery_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^news/', include(news_urls)),
     url(r'^contacts/', include(contacts_urls)),
     url(r'^team/', include(team_urls)),
+    url(r'^photo-gallery/', include(photogallery_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
