@@ -2,33 +2,46 @@
 <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
 <div class="row g-mt-20">
-    <div class="col-lg-8 mb-4">
-        <img title="Интервью с Давидом Дидаровым" alt="Интервью с Давидом Дидаровым"
-             src="http://img.youtube.com/vi/JMJXvsCLu6s/maxresdefault.jpg" width="100%"
-             class="tr-caption-container"/>
-        <div class="g-py-16 g-bg-gray-dark-v1">
-            <p class="text-uppercase text-center text-white g-font-size-17">Интервью с Давидом Дидаровым</p>
-            <p class="text-uppercase text-center text-muted">7 января 2017</p>
+    {% if last_videos.count > 0 %}
+        {% with last_videos.0 as first_video %}
+            <div class="col-md-8">
+                <a class="js-fancybox d-block u-bg-overlay g-bg-black-opacity-0_5--after g-mb-30 g-mb-0--md"
+                   data-fancybox-gallery="lightbox-gallery--05" href="http://www.youtube.com/embed/{{ first_video.youtube_id }}?autoplay=1"
+                   title="Смотреть">
+                    <img class="img-fluid"
+                         src="//img.youtube.com/vi/{{ first_video.youtube_id }}/maxresdefault.jpg"
+                         alt="{{ first_video.title }}">
+
+                    <span class="u-bg-overlay__inner g-font-size-18 g-color-white g-pos-abs g-left-20 g-bottom-40">
+                        {{ first_video.title }}
+                    </span>
+
+                    <span class="u-bg-overlay__inner g-font-size-12 g-color-gray-light-v3 g-pos-abs g-left-20 g-bottom-20">
+                        {{ first_video.created_at|date }}
+                    </span>
+                </a>
+            </div>
+        {% endwith %}
+
+        <div class="col-md-4">
+            {% for video in last_videos|slice:"1:" %}
+                <a class="js-fancybox d-block u-bg-overlay g-bg-black-opacity-0_5--after g-mb-20"
+                   data-fancybox-gallery="lightbox-gallery--05" href="http://www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1"
+                   title="Смотреть">
+                    <img class="img-fluid" src="//img.youtube.com/vi/{{ video.youtube_id }}/mqdefault.jpg"
+                             alt="{{ video.title }}">
+
+                    <span class="u-bg-overlay__inner g-color-white g-pos-abs g-left-20 g-bottom-20">
+                        {{ video.title }}
+                    </span>
+                </a>
+            {% endfor %}
         </div>
-    </div>
-    <div class="col-lg-4 mb-4">
-        <img title="Название" alt="Название"
-             src="http://img.youtube.com/vi/JMJXvsCLu6s/maxresdefault.jpg" width="100%"
-             class="tr-caption-container"/>
-        <div class="g-pt-15 g-pb-1 g-bg-gray-dark-v1">
-            <p class="text-uppercase text-center text-white">Название</p>
-        </div>
-        <img title="Название" alt="Название"
-             src="http://img.youtube.com/vi/JMJXvsCLu6s/maxresdefault.jpg" width="100%"
-             class="tr-caption-container mt-4"/>
-        <div class="g-pt-15 g-pb-2 g-bg-gray-dark-v1">
-            <p class="text-uppercase text-center text-white">Название</p>
-        </div>
-    </div>
+    {% endif %}
 </div>
 
 <div class="row g-my-20">
     <div class="col-lg-12 text-center">
-        <a href="#" class="btn btn-lg u-btn-outline-deeporange">Все видеозаписи</a>
+        <a href="{% url 'videos_list' %}" class="btn btn-lg u-btn-outline-deeporange">Все видеозаписи</a>
     </div>
 </div>
