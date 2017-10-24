@@ -2,38 +2,30 @@
 <div class="container">
     <div id="slider" class="carousel slide mt-3" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#slider" data-slide-to="0" class="active"></li>
-            <li data-target="#slider" data-slide-to="1"></li>
-            <li data-target="#slider" data-slide-to="2"></li>
+            {% for slide in slides %}
+                <li data-target="#slider" data-slide-to="0" {% if forloop.first %}class="active"{% endif %}></li>
+            {% endfor %}
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <a href="#"><img class="d-block w-100"
-                                 src="{% static 'assets/img/slider/1.jpg' %}"
-                                 alt="First slide"></a>
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="#" class="text-uppercase">Интервью с Давидом Дидаровым</a>
-                    <p class="text-uppercase">7 января 2017</p>
+            {% for slide in slides %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    {% if slide.link %}
+                        <a href="{{ slide.link }}"><img class="d-block w-100"
+                                         src="{{ slide.image.url }}"
+                                         alt="{{ slide.title }}"></a>
+                    {% else %}
+                        <img class="d-block w-100" src="{{ slide.image.url }}" alt="{{ slide.title }}">
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        {% if slide.link %}
+                            <a href="#" class="text-uppercase">{{ slide.title }}</a>
+                        {% else %}
+                            <span class="text-uppercase g-font-size-28">{{ slide.title }}</span>
+                        {% endif %}
+                        <p class="text-uppercase">{{ slide.under_title }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <a href="#"><img class="d-block w-100"
-                     src="{% static 'assets/img/slider/2.jpg' %}"
-                     alt="Second slide"></a>
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="#" class="text-uppercase">Интервью с Давидом Дидаровым</a>
-                    <p>7 января 2017</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <a href="#"><img class="d-block w-100"
-                     src="{% static 'assets/img/slider/3.jpg' %}"
-                     alt="Third slide"></a>
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="#" class="text-uppercase">Интервью с Давидом Дидаровым</a>
-                    <p>7 января 2017</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <a class="carousel-control-prev" href="#slider" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

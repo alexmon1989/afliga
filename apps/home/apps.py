@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class AfligaConfig(AppConfig):
-    name = 'afliga'
+class HomeConfig(AppConfig):
+    name = 'apps.home'
+    verbose_name = 'Главная страница'
