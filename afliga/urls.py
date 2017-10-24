@@ -22,6 +22,7 @@ from apps.news import urls as news_urls
 from apps.contacts import urls as contacts_urls
 from apps.team import urls as team_urls
 from apps.photogallery import urls as photogallery_urls
+from apps.videogallery import urls as videogallery_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,9 +31,9 @@ urlpatterns = [
     url(r'^contacts/', include(contacts_urls)),
     url(r'^team/', include(team_urls)),
     url(r'^photo-gallery/', include(photogallery_urls)),
+    url(r'^video/', include(videogallery_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
-
