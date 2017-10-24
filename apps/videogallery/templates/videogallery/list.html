@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+    {% include 'videogallery/_partial/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <div class="row text-center">
+            {% for video in video_list %}
+                <div class="col-md-4 g-mb-30">
+                    <a class="js-fancybox d-block u-bg-overlay g-bg-black-opacity-0_5--after g-mb-30"
+                       data-fancybox-gallery="lightbox-gallery--05"
+                       href="http://www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1"
+                       title="Смотреть">
+                        <img class="img-fluid" src="//img.youtube.com/vi/{{ video.youtube_id }}/mqdefault.jpg"
+                             alt="{{ video.title }}">
+
+                        <span class="u-bg-overlay__inner g-color-white g-pos-abs g-left-20 g-bottom-20">
+                        {{ video.title }}
+                      </span>
+                    </a>
+                </div>
+            {% endfor %}
+
+            {% if is_paginated %}
+                <div class="col-lg-12 g-mt-10">
+                    {% include 'videogallery/_partial/pagination.html' %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
