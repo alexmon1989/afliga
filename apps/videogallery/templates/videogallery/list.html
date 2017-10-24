@@ -18,9 +18,13 @@
                         <img class="img-fluid" src="//img.youtube.com/vi/{{ video.youtube_id }}/mqdefault.jpg"
                              alt="{{ video.title }}">
 
-                        <span class="u-bg-overlay__inner g-color-white g-pos-abs g-left-20 g-bottom-20">
-                        {{ video.title }}
-                      </span>
+                        <span class="u-bg-overlay__inner g-color-white g-pos-abs g-left-20 g-bottom-40">
+                            {{ video.title }}
+                        </span>
+
+                        <span class="u-bg-overlay__inner g-font-size-11 g-color-gray-light-v3 g-pos-abs g-left-20 g-bottom-20">
+                            {{ video.created_at|date }}
+                        </span>
                     </a>
                 </div>
             {% endfor %}
