@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load home_extras %}
 
 <div id="contacts-section" class="g-color-white-opacity-0_8 g-pt-30">
     <div class="container">
@@ -58,21 +59,25 @@
             <div class="col-lg-4 col-md-6 g-mb-40 g-pr-50">
                 <div class="row">
                     <div class="col-3">
-                        <a id="fb_link" href="{{ footer_data.facebook_link }}"><img src="{% static 'assets/img/social/fb.jpg' %}" class="img-fluid"
-                                                      alt=""></a>
+                        <a id="fb_link" href="{{ footer_data.facebook_link }}"><img
+                                src="{% static 'assets/img/social/fb.jpg' %}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="col-3">
-                        <a id="vk_link" href="{{ footer_data.vk_link }}"><img src="{% static 'assets/img/social/vk.jpg' %}" class="img-fluid"
-                                                      alt=""></a>
+                        <a id="vk_link" href="{{ footer_data.vk_link }}"><img
+                                src="{% static 'assets/img/social/vk.jpg' %}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="col-3">
-                        <a id="twitter_link" href="{{ footer_data.twitter_link }}"><img src="{% static 'assets/img/social/twitter.jpg' %}"
-                                                           class="img-fluid"
-                                                           alt=""></a>
+                        <a id="twitter_link" href="{{ footer_data.twitter_link }}"><img
+                                src="{% static 'assets/img/social/twitter.jpg' %}"
+                                class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="col-3">
-                        <a id="google_link" href="{{ footer_data.google_link }}"><img src="{% static 'assets/img/social/google.jpg' %}"
-                                                          class="img-fluid" alt=""></a>
+                        <a id="google_link" href="{{ footer_data.google_link }}"><img
+                                src="{% static 'assets/img/social/google.jpg' %}"
+                                class="img-fluid" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -80,7 +85,17 @@
 
             <!-- Footer Content -->
             <div class="col-lg-4 col-md-6 g-mb-40 g-pr-50">
-                <a href="#"><img src="{% static 'assets/img/banners/4.jpg' %}" class="img-fluid" alt="" id="banner_4"></a>
+                {% banner pk=4 as banner_4 %}
+                {% if banner_4 %}
+                    <!-- Banner -->
+                    {% if banner_4.link %}
+                        <a href="{{ banner_4.link }}" target="_blank"><img src="{{ banner_4.image.url }}"
+                                                                           class="img-fluid" alt="" id="banner_4"></a>
+                    {% else %}
+                        <img src="{{ banner_4.image.url }}" class="img-fluid" alt="" id="banner_4">
+                    {% endif %}
+                    <!-- End Banner -->
+                {% endif %}
             </div>
             <!-- End Footer Content -->
 

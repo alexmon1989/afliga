@@ -73,11 +73,18 @@
                     </div>
                     <!-- End Tournament table -->
 
-                    <!-- Banner -->
-                    <div class="col-lg-12 g-mt-30" id="banner_2">
-                        <a href="#"><img src="{% static 'assets/img/banners/2.jpg' %}" class="img-fluid" alt=""></a>
-                    </div>
-                    <!-- End Banner -->
+                    {% banner pk=2 as banner_2 %}
+                    {% if banner_2 %}
+                        <!-- Banner -->
+                        <div class="col-lg-12 g-mt-30" id="banner_2">
+                            {% if banner_2.link %}
+                                <a href="{{ banner_2.link }}" target="_blank"><img src="{{ banner_2.image.url }}" class="img-fluid" alt=""></a>
+                            {% else %}
+                                <img src="{{ banner_2.image.url }}" class="img-fluid" alt="">
+                            {% endif %}
+                        </div>
+                        <!-- End Banner -->
+                    {% endif %}
 
                     <!-- Bombardiers -->
                     <div class="col-lg-12 g-mt-30" id="bombardiers">
@@ -97,11 +104,18 @@
                     </div>
                     <!-- End Person -->
 
-                    <!-- Banner -->
-                    <div class="col-lg-12 g-my-30" id="banner_3">
-                        <a href="#"><img src="{% static 'assets/img/banners/3.jpg' %}" class="img-fluid" alt=""></a>
-                    </div>
-                    <!-- End Banner -->
+                    {% banner pk=3 as banner_3 %}
+                    {% if banner_3 %}
+                        <!-- Banner -->
+                        <div class="col-lg-12 g-mt-30" id="banner_2">
+                            {% if banner_3.link %}
+                                <a href="{{ banner_3.link }}" target="_blank"><img src="{{ banner_3.image.url }}" class="img-fluid" alt=""></a>
+                            {% else %}
+                                <img src="{{ banner_3.image.url }}" class="img-fluid" alt="">
+                            {% endif %}
+                        </div>
+                        <!-- End Banner -->
+                    {% endif %}
                 </div>
             </div>
         </div>

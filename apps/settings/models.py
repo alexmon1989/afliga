@@ -23,3 +23,17 @@ class FooterSettings(models.Model):
     class Meta:
         verbose_name = 'Footer'
         verbose_name_plural = 'Footer'
+
+
+class Banner(models.Model):
+    """Модель баннера."""
+    title = models.CharField('Заголовок', max_length=255, blank=False)
+    is_visible = models.BooleanField('Включено', default=True)
+    link = models.CharField('Ссылка', max_length=255, null=True, blank=True)
+    image = models.ImageField('Изображение', upload_to='banners', null=True, blank=True)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Баннер'
+        verbose_name_plural = 'Баннеры'
