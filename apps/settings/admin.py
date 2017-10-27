@@ -1,8 +1,9 @@
 from django.contrib import admin
 from singlemodeladmin import SingleModelAdmin
-from apps.settings.models import FooterSettings, Banner
+from apps.settings.models import FooterSettings, Banner, PersonWidget
 
 admin.site.register(FooterSettings, SingleModelAdmin)
+admin.site.register(PersonWidget, SingleModelAdmin)
 
 
 @admin.register(Banner)

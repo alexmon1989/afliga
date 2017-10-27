@@ -1,4 +1,5 @@
 from django.db import models
+from apps.league.models import Player
 
 
 class FooterSettings(models.Model):
@@ -37,3 +38,14 @@ class Banner(models.Model):
     class Meta:
         verbose_name = 'Баннер'
         verbose_name_plural = 'Баннеры'
+
+
+class PersonWidget(models.Model):
+    """Настройки виджета персоны."""
+    title = models.CharField('Заголовок', max_length=255, default='Персона')
+    player = models.ForeignKey(Player, verbose_name='Игрок')
+    is_visible = models.BooleanField('Включено', default=True)
+
+    class Meta:
+        verbose_name = 'Виджет "Персона"'
+        verbose_name_plural = 'Виджет "Персона"'

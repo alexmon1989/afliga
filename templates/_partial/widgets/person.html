@@ -1,12 +1,16 @@
-{% load staticfiles %}
-<h2 class="text-uppercase h3">Персона</h2>
-<hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
+<!-- Person -->
+{% if person_widget_data and person_widget_data.is_visible %}
+    <div class="col-lg-12 g-mt-30" id="person">
+        <h2 class="text-uppercase h3">{{ person_widget_data.title }}</h2>
+        <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
-<img src="{% static 'assets/img/persons/1.jpg' %}" class="img-fluid g-mt-10" alt="">
+        <img src="{{ person_widget_data.player.photo.url }}" class="img-fluid g-mt-10" alt="">
 
-<div class="g-mt-10">
-    <a href="#" class="text-dark text-uppercase g-font-size-20">Мозговой Антоха</a>
-</div>
+        <div class="g-mt-10">
+            <a href="#" class="text-dark text-uppercase g-font-size-20">{{ person_widget_data.player.name }}</a>
+        </div>
 
-<p>Лучший игрок в мире. Капитан лучшей команды. Такого вы больше нигде не найдёте. Антон, дай
-    зарплату.</p>
+        <p>{{ person_widget_data.player.biography|striptags|truncatewords:15 }}</p>
+    </div>
+    <!-- End Person -->
+{% endif %}
