@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'apps.team',
     'apps.settings',
     'apps.photogallery',
+    'apps.videogallery',
+    'apps.league',
 ]
 
 MIDDLEWARE = [
