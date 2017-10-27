@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load home_extras %}
+
 <header id="js-header" class="u-header u-header--toggle-section u-header--change-appearance"
         data-header-fix-moment="300">
     <div class="u-header__section u-header__section--hidden g-pb-7">
@@ -68,8 +70,8 @@
                             <a href="{% url 'team_list' %}" class="nav-link px-4 py-3">Руководство</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-4 py-3">Турниры</a>
+                        <li class="nav-item {% if request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail' %}active{% endif %}">
+                            <a href="{% url 'tournaments_list' %}" class="nav-link px-4 py-3">Турниры</a>
                         </li>
 
                         <li class="nav-item {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">

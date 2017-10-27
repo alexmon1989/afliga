@@ -58,62 +58,70 @@
 
     <div class="container mt-3">
         <div class="row">
+            {% if not request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail' %}
             <div class="col-lg-9">
+            {% else %}
+            <div class="col-lg-12">
+            {% endif %}
                 <div class="row">
                     {% block content %}
                         <p>Содержимое страницы</p>
                     {% endblock %}
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="row">
-                    <!-- Tournament table -->
-                    <div class="col-lg-12" id="tournament_table">
-                        {% include '_partial/widgets/table.html' %}
-                    </div>
-                    <!-- End Tournament table -->
-
-                    {% banner pk=2 as banner_2 %}
-                    {% if banner_2 %}
-                        <!-- Banner -->
-                        <div class="col-lg-12 g-mt-30" id="banner_2">
-                            {% if banner_2.link %}
-                                <a href="{{ banner_2.link }}" target="_blank"><img src="{{ banner_2.image.url }}" class="img-fluid" alt=""></a>
-                            {% else %}
-                                <img src="{{ banner_2.image.url }}" class="img-fluid" alt="">
-                            {% endif %}
+            {% if not request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail' %}
+                <div class="col-lg-3">
+                    <div class="row">
+                        <!-- Tournament table -->
+                        <div class="col-lg-12" id="tournament_table">
+                            {% include '_partial/widgets/table.html' %}
                         </div>
-                        <!-- End Banner -->
-                    {% endif %}
+                        <!-- End Tournament table -->
 
-                    <!-- Bombardiers -->
-                    <div class="col-lg-12 g-mt-30" id="bombardiers">
-                        {% include '_partial/widgets/bombardiers.html' %}
-                    </div>
-                    <!-- End Bombardiers -->
+                        {% banner pk=2 as banner_2 %}
+                        {% if banner_2 %}
+                            <!-- Banner -->
+                            <div class="col-lg-12 g-mt-30" id="banner_2">
+                                {% if banner_2.link %}
+                                    <a href="{{ banner_2.link }}" target="_blank"><img src="{{ banner_2.image.url }}"
+                                                                                       class="img-fluid" alt=""></a>
+                                {% else %}
+                                    <img src="{{ banner_2.image.url }}" class="img-fluid" alt="">
+                                {% endif %}
+                            </div>
+                            <!-- End Banner -->
+                        {% endif %}
 
-                    <!-- Penalties -->
-                    <div class="col-lg-12 g-mt-30" id="penalties">
-                        {% include '_partial/widgets/penalties.html' %}
-                    </div>
-                    <!-- End Penalties -->
-
-                    {% person_widget %}
-
-                    {% banner pk=3 as banner_3 %}
-                    {% if banner_3 %}
-                        <!-- Banner -->
-                        <div class="col-lg-12 g-mt-30" id="banner_2">
-                            {% if banner_3.link %}
-                                <a href="{{ banner_3.link }}" target="_blank"><img src="{{ banner_3.image.url }}" class="img-fluid" alt=""></a>
-                            {% else %}
-                                <img src="{{ banner_3.image.url }}" class="img-fluid" alt="">
-                            {% endif %}
+                        <!-- Bombardiers -->
+                        <div class="col-lg-12 g-mt-30" id="bombardiers">
+                            {% include '_partial/widgets/bombardiers.html' %}
                         </div>
-                        <!-- End Banner -->
-                    {% endif %}
+                        <!-- End Bombardiers -->
+
+                        <!-- Penalties -->
+                        <div class="col-lg-12 g-mt-30" id="penalties">
+                            {% include '_partial/widgets/penalties.html' %}
+                        </div>
+                        <!-- End Penalties -->
+
+                        {% person_widget %}
+
+                        {% banner pk=3 as banner_3 %}
+                        {% if banner_3 %}
+                            <!-- Banner -->
+                            <div class="col-lg-12 g-mt-30" id="banner_2">
+                                {% if banner_3.link %}
+                                    <a href="{{ banner_3.link }}" target="_blank"><img src="{{ banner_3.image.url }}"
+                                                                                       class="img-fluid" alt=""></a>
+                                {% else %}
+                                    <img src="{{ banner_3.image.url }}" class="img-fluid" alt="">
+                                {% endif %}
+                            </div>
+                            <!-- End Banner -->
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 
@@ -143,6 +151,7 @@
 <script src="{% static 'assets/js/components/hs.popup.js' %}"></script>
 <script src="{% static 'assets/js/components/hs.go-to.js' %}"></script>
 <script src="{% static 'assets/js/components/hs.scrollbar.js' %}"></script>
+<script src="{% static 'assets/js/components/hs.tabs.js' %}"></script>
 <script src="{% static 'assets/vendor/hs-megamenu/src/hs.megamenu.js' %}"></script>
 <script src="{% static 'assets/vendor/fancybox/jquery.fancybox.min.js' %}"></script>
 
@@ -157,6 +166,7 @@
         // initialization of HSScrollBar component
         $.HSCore.components.HSScrollBar.init($('.matches'), {'theme': 'rounded-dark'});
         $.HSCore.components.HSPopup.init('.js-fancybox');
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
     });
 
     $(window).on('load', function () {
@@ -170,6 +180,12 @@
             pageContainer: $('.container'),
             breakpoint: 991
         });
+    });
+
+    $(window).on('resize', function () {
+        setTimeout(function () {
+            $.HSCore.components.HSTabs.init('[role="tablist"]');
+        }, 200);
     });
 </script>
 </body>

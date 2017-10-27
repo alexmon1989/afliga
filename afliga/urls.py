@@ -23,6 +23,7 @@ from apps.contacts import urls as contacts_urls
 from apps.team import urls as team_urls
 from apps.photogallery import urls as photogallery_urls
 from apps.videogallery import urls as videogallery_urls
+from apps.league import urls as league_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^team/', include(team_urls)),
     url(r'^photo-gallery/', include(photogallery_urls)),
     url(r'^video/', include(videogallery_urls)),
+    url(r'^league/', include(league_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

@@ -18,3 +18,9 @@ def person_widget():
 def banner(pk):
     banner_item = Banner.objects.filter(pk=pk, is_visible=True).first()
     return banner_item
+
+
+@register.filter
+def in_list(value, the_list):
+    value = str(value)
+    return value in the_list.split(',')
