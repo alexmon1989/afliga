@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block breadcrumbs %}
+    {% include 'league/tournaments/list/_partial/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <ul class="list-unstyled g-mb-30 g-min-height-200">
+            {% for tournament in tournament_list %}
+                <li class="h3"><a href="{% url 'tournament_detail' pk=tournament.pk %}">{{ tournament }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
