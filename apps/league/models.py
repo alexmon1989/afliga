@@ -120,7 +120,7 @@ class Match(models.Model):
             return 'Матч ещё не начался'
         goals_team_1 = 0
         goals_team_2 = 0
-        goals = self.event_set.filter(pk=1).all()
+        goals = self.event_set.filter(event_type_id=1).all()
         for goal in goals:
             if goal.team == self.team_1:
                 goals_team_1 += 1
