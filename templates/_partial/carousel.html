@@ -12,17 +12,17 @@
                     {% if slide.link %}
                         <a href="{{ slide.link }}"><img class="d-block w-100"
                                          src="{{ slide.image.url }}"
-                                         alt="{{ slide.title }}"></a>
+                                         alt="{{ slide.title|default_if_none:"" }}"></a>
                     {% else %}
-                        <img class="d-block w-100" src="{{ slide.image.url }}" alt="{{ slide.title }}">
+                        <img class="d-block w-100" src="{{ slide.image.url }}" alt="{{ slide.title|default_if_none:"" }}">
                     {% endif %}
                     <div class="carousel-caption d-none d-md-block">
                         {% if slide.link %}
-                            <a href="#" class="text-uppercase">{{ slide.title }}</a>
+                            <a href="#" class="text-uppercase">{{ slide.title|default_if_none:"" }}</a>
                         {% else %}
-                            <span class="text-uppercase g-font-size-28">{{ slide.title }}</span>
+                            <span class="text-uppercase g-font-size-28">{{ slide.title|default_if_none:"" }}</span>
                         {% endif %}
-                        <p class="text-uppercase">{{ slide.under_title }}</p>
+                        <p class="text-uppercase">{{ slide.under_title|default_if_none:"" }}</p>
                     </div>
                 </div>
             {% endfor %}
