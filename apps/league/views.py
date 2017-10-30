@@ -21,9 +21,9 @@ class TournamentDetailView(DetailView):
         context['groups'] = self.get_object().get_groups_sorted_tables()
 
         # Последние сыгранные туры
-        context['last_rounds'] = Round.get_last_rounds()
+        context['last_rounds'] = Round.get_last_rounds(self.get_object())
 
         # Последние несыгранные туры
-        context['future_rounds'] = Round.get_future_rounds()
+        context['future_rounds'] = Round.get_future_rounds(self.get_object())
 
         return context

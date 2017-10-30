@@ -150,14 +150,20 @@ class Round(models.Model):
         return self.title
 
     @staticmethod
-    def get_last_rounds():
+    def get_last_rounds(tournament):
         """Возвращает последние туры, в которых есть сыгранные матчи."""
-        return Round.objects.filter(match__match_date__lte=timezone.now()).order_by('-created_at').distinct().all()[:3]
+        return Round.objects.filter(
+            tournament=tournament,
+            match__match_date__lte=timezone.now()
+        ).order_by('-created_at').distinct().all()[:3]
 
     @staticmethod
-    def get_future_rounds():
+    def get_future_rounds(tournament):
         """Возвращает туры, в которых есть сыгранные матчи."""
-        return Round.objects.filter(match__match_date__gte=timezone.now()).order_by('created_at').distinct().all()[:3]
+        return Round.objects.filter(
+            tournament=tournament,
+            match__match_date__gte=timezone.now()
+        ).order_by('created_at').distinct().all()[:3]
 
     def get_last_matches(self):
         """Возвращает сыгранные матчи тура."""
