@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import m2m_changed
+import json
 
 
 class Team(models.Model):
@@ -65,6 +68,16 @@ class Tournament(models.Model):
     def __str__(self):
         return self.title
 
+    def get_groups_sorted_tables(self):
+        """Возвращает список групп турнира с отсортированными таблицами."""
+        res = []
+        for group in self.group_set.all():
+            res.append({
+                'title': group.title,
+                'table': sorted(json.loads(group.table), key=lambda x: x['score'], reverse=True)
+            })
+        return res
+
     class Meta:
         verbose_name = 'Турнир'
         verbose_name_plural = 'Турниры'
@@ -101,11 +114,70 @@ class Group(models.Model):
         verbose_name_plural = 'Группы'
 
 
+@receiver(m2m_changed, sender=Group.teams.through)
+def group_save_callback(sender, instance, action, reverse, model, pk_set, *args, **kwargs):
+    """Обработчик сигнала изменения поля teams модели Group. Меняет содержимое поля table."""
+    data = json.loads(instance.table or '[]')
+    if action == 'pre_remove':
+        new_data = [x for x in data if x['id'] not in pk_set]
+        instance.table = json.dumps(new_data)
+        instance.save()
+    if action == 'pre_add':
+        for pk in pk_set:
+            data.append({
+                'id': pk,
+                'title': Team.objects.filter(pk=pk).first().title,
+                'games': 0,
+                'wins': 0,
+                'draws': 0,
+                'defeats': 0,
+                'goals_scored': 0,
+                'goals_missed': 0,
+                'score': 0,
+            })
+        instance.table = json.dumps(data)
+        instance.save()
+
+
+class Round(models.Model):
+    """Модуль тура."""
+    title = models.CharField('Название', max_length=255, help_text='Например, "4 марта 2017, суббота. 17 Тур"')
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, verbose_name='Турнир')
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    @staticmethod
+    def get_last_rounds():
+        """Возвращает последние туры, в которых есть сыгранные матчи."""
+        return Round.objects.filter(match__match_date__lte=timezone.now()).order_by('-created_at').distinct().all()[:3]
+
+    @staticmethod
+    def get_future_rounds():
+        """Возвращает туры, в которых есть сыгранные матчи."""
+        return Round.objects.filter(match__match_date__gte=timezone.now()).order_by('created_at').distinct().all()[:3]
+
+    def get_last_matches(self):
+        """Возвращает сыгранные матчи тура."""
+        return self.match_set.filter(match_date__lte=timezone.now()).all()
+
+    def get_future_matches(self):
+        """Возвращает несыгранные матчи тура."""
+        return self.match_set.filter(match_date__gte=timezone.now()).all()
+
+    class Meta:
+        verbose_name = 'Тур'
+        verbose_name_plural = 'Туры'
+
+
 class Match(models.Model):
     """Модель матча."""
     team_1 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда хозяев', related_name='team_1')
     team_2 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда гостей', related_name='team_2')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
+    match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
     match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
     protocol = models.TextField('Протокол', blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
@@ -117,7 +189,7 @@ class Match(models.Model):
     def get_score(self):
         """Возвращает счёт матча."""
         if self.match_date > timezone.now():
-            return 'Матч ещё не начался'
+            return '-:-'
         goals_team_1 = 0
         goals_team_2 = 0
         goals = self.event_set.filter(event_type_id=1).all()

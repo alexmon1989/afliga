@@ -1,17 +1,18 @@
 from django.contrib import admin
-from apps.league.models import Team, Player, Position, Tournament, Group, Match, TournamentPlayer, Event, EventType
+from apps.league.models import (Team, Player, Position, Tournament, Group, Match, TournamentPlayer, Event, EventType,
+                                Round)
 
 
 @admin.register(Position)
 class PositionsAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
+    """Класс для описания интерфейса администрирования возможных позиций игроков."""
     ordering = ('title',)
     search_fields = ('title',)
 
 
 @admin.register(Team)
 class TeamsAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
+    """Класс для описания интерфейса администрирования команд."""
     list_display = ('title', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title',)
@@ -19,7 +20,7 @@ class TeamsAdmin(admin.ModelAdmin):
 
 @admin.register(Player)
 class PlayersAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
+    """Класс для описания интерфейса администрирования игроков."""
     list_display = ('name', 'team', 'position', 'birth_date', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title', 'team')
@@ -39,7 +40,7 @@ class GroupInline(admin.StackedInline):
 
 @admin.register(Tournament)
 class TournamentsAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
+    """Класс для описания интерфейса администрирования турниров."""
     list_display = ('title', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title',)
@@ -48,7 +49,7 @@ class TournamentsAdmin(admin.ModelAdmin):
 
 @admin.register(Group)
 class GroupsAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
+    """Класс для описания интерфейса администрирования групп."""
     list_display = ('title', 'tournament', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title', 'tournament')
@@ -63,8 +64,8 @@ class EventInline(admin.StackedInline):
 
 @admin.register(Match)
 class MatchesAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
-    list_display = ('teams', 'match_date', 'score', 'group', 'tournament', 'created_at', 'updated_at')
+    """Класс для описания интерфейса администрирования матчей."""
+    list_display = ('teams', 'score', 'match_round', 'group', 'tournament', 'match_date', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     inlines = (EventInline,)
     list_filter = ('team_1', 'team_2', 'group__tournament__title')
@@ -84,5 +85,14 @@ class MatchesAdmin(admin.ModelAdmin):
 
 @admin.register(EventType)
 class EventTypeAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования новостей."""
+    """Класс для описания интерфейса администрирования типов событий."""
     ordering = ('title',)
+
+
+@admin.register(Round)
+class RoundAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования туров."""
+    list_display = ('title', 'tournament', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
+    list_filter = ('tournament',)
+    search_fields = ('title', 'tournament')
