@@ -10,7 +10,7 @@
         {% endif %}
 
         <div class="row">
-            {% for group in groups %}
+            {% for group in tournament.group_set.all %}
                 {% if groups|length > 1 %}
                     <div class="col-lg-6">
                         <h3 class="h4 g-mt-20">{{ group.title }}</h3>
@@ -32,7 +32,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for team in group.table %}
+                    {% for team in group.get_sorted_table %}
                         <tr>
                             <td class="text-center">{{ forloop.counter }}</td>
                             <td>

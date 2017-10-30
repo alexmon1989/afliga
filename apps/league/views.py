@@ -17,13 +17,4 @@ class TournamentDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TournamentDetailView, self).get_context_data(**kwargs)
 
-        # Сортировка таблиц в группах для вывода (по очкам)
-        context['groups'] = self.get_object().get_groups_sorted_tables()
-
-        # Последние сыгранные туры
-        context['last_rounds'] = Round.get_last_rounds(self.get_object())
-
-        # Последние несыгранные туры
-        context['future_rounds'] = Round.get_future_rounds(self.get_object())
-
         return context

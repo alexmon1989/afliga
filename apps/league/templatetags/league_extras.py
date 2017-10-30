@@ -11,3 +11,21 @@ def get_team_logo(pk):
     if team.logo:
         return team.logo
     return None
+
+
+@register.simple_tag
+def get_last_matches_in_group(round, group):
+    """Возвращает сыгранные матчи тура в конкретной группе."""
+    return round.get_last_matches_in_group(group)
+
+
+@register.simple_tag
+def get_future_matches_in_group(round, group):
+    """Возвращает несыгранные матчи тура в конкретной группе."""
+    return round.get_future_matches_in_group(group)
+
+
+@register.simple_tag
+def get_matches_in_group(round, group):
+    """Возвращает матчи тура в конкретной группе."""
+    return round.get_matches_in_group(group)

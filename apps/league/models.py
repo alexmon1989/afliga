@@ -68,16 +68,6 @@ class Tournament(models.Model):
     def __str__(self):
         return self.title
 
-    def get_groups_sorted_tables(self):
-        """Возвращает список групп турнира с отсортированными таблицами."""
-        res = []
-        for group in self.group_set.all():
-            res.append({
-                'title': group.title,
-                'table': sorted(json.loads(group.table), key=lambda x: x['score'], reverse=True)
-            })
-        return res
-
     class Meta:
         verbose_name = 'Турнир'
         verbose_name_plural = 'Турниры'
@@ -108,6 +98,33 @@ class Group(models.Model):
 
     def __str__(self):
         return f"{self.title} в {self.tournament.title}"
+
+    def get_sorted_table(self):
+        """Возвращает отсортированную по очкам таблицу."""
+        return sorted(json.loads(self.table), key=lambda x: x['score'], reverse=True)
+
+    def get_rounds(self):
+        """Возвращает список туров группы."""
+        return Round.objects.filter(
+            tournament=self.tournament,
+            match__group=self
+        ).distinct().all()
+
+    def get_last_rounds(self):
+        """Возвращает список туров группы, в которых есть сыгранные матчи."""
+        return Round.objects.filter(
+            tournament=self.tournament,
+            match__group=self,
+            match__match_date__lte=timezone.now()
+        ).distinct().all()[:3]
+
+    def get_future_rounds(self):
+        """Возвращает список туров группы, в которых есть несыгранные матчи."""
+        return Round.objects.filter(
+            tournament=self.tournament,
+            match__group=self,
+            match__match_date__gte=timezone.now()
+        ).distinct().all()[:3]
 
     class Meta:
         verbose_name = 'Группа'
@@ -149,29 +166,25 @@ class Round(models.Model):
     def __str__(self):
         return self.title
 
-    @staticmethod
-    def get_last_rounds(tournament):
-        """Возвращает последние туры, в которых есть сыгранные матчи."""
-        return Round.objects.filter(
-            tournament=tournament,
-            match__match_date__lte=timezone.now()
-        ).order_by('-created_at').distinct().all()[:3]
+    def get_matches_in_group(self, group):
+        """Возвращает матчи тура в конкретной группе."""
+        return self.match_set.filter(
+            group=group
+        ).all()
 
-    @staticmethod
-    def get_future_rounds(tournament):
-        """Возвращает туры, в которых есть сыгранные матчи."""
-        return Round.objects.filter(
-            tournament=tournament,
-            match__match_date__gte=timezone.now()
-        ).order_by('created_at').distinct().all()[:3]
+    def get_last_matches_in_group(self, group):
+        """Возвращает сыгранные матчи тура в конкретной группе."""
+        return self.match_set.filter(
+            match_date__lte=timezone.now(),
+            group=group
+        ).all()
 
-    def get_last_matches(self):
-        """Возвращает сыгранные матчи тура."""
-        return self.match_set.filter(match_date__lte=timezone.now()).all()
-
-    def get_future_matches(self):
-        """Возвращает несыгранные матчи тура."""
-        return self.match_set.filter(match_date__gte=timezone.now()).all()
+    def get_future_matches_in_group(self, group):
+        """Возвращает несыгранные матчи тура в конкретной группе."""
+        return self.match_set.filter(
+            match_date__gte=timezone.now(),
+            group=group
+        ).all()
 
     class Meta:
         verbose_name = 'Тур'
