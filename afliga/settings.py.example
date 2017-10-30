@@ -148,5 +148,6 @@ MANAGERS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
 THUMBNAIL_ALIASES = {
     '': {
         'gallery_item_small': {'size': (400, 270), 'crop': True},
+        'team_small': {'size': (45, 45), 'crop': True},
     },
 }
