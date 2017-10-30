@@ -9,47 +9,54 @@
             <h2 class="h3">Турнирные таблицы</h2>
         {% endif %}
 
-        {% for group in groups %}
-            {% if groups|length > 1 %}
-                <h3 class="h4 g-mt-20 g-mb-30">{{ group.title }}</h3>
-            {% endif %}
+        <div class="row">
+            {% for group in groups %}
+                {% if groups|length > 1 %}
+                    <div class="col-lg-6">
+                        <h3 class="h4 g-mt-20">{{ group.title }}</h3>
+                {% else %}
+                    <div class="col-lg-12">
+                {% endif %}
 
-            <table class="table table-sm g-mt-20 g-mb-30">
-                <thead>
-                <tr>
-                    <th><abbr title="Место">М.</abbr></th>
-                    <th>Команда</th>
-                    <th class="text-center">Игр</th>
-                    <th class="text-center"><abbr title="Выигранных">В.</abbr></th>
-                    <th class="text-center"><abbr title="Ничьи">Н.</abbr></th>
-                    <th class="text-center"><abbr title="Проигранных">П.</abbr></th>
-                    <th class="text-center"><abbr title="Голы забитые - голы пропущенные">Г.</abbr></th>
-                    <th class="text-center">Очков</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for team in group.table %}
+                <table class="table table-sm table-bordered g-mt-20 g-mb-30">
+                    <thead>
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>
-                            {% get_team_logo pk=team.id as team_logo %}
-                            {% if team_logo %}
-                                <a href="#"><img src="{{ team_logo|thumbnail_url:'team_small' }}" alt="{{ team.title }}"></a>
-                            {% else %}
-                                <a href="#"><img src="http://via.placeholder.com/45?text=No+image" alt=""></a>
-                            {% endif %}
-                            &nbsp;<a href="#">{{ team.title }}</a>
-                        </td>
-                        <td class="text-center">{{ team.games }}</td>
-                        <td class="text-center">{{ team.wins }}</td>
-                        <td class="text-center">{{ team.draws }}</td>
-                        <td class="text-center">{{ team.defeats }}</td>
-                        <td class="text-center">{{ team.goals_scored }} - {{ team.goals_missed }}</td>
-                        <td class="text-center">{{ team.score }}</td>
+                        <th class="text-center"><abbr title="Место">М.</abbr></th>
+                        <th>Команда</th>
+                        <th class="text-center">Игр</th>
+                        <th class="text-center"><abbr title="Выигранных">В.</abbr></th>
+                        <th class="text-center"><abbr title="Ничьи">Н.</abbr></th>
+                        <th class="text-center"><abbr title="Проигранных">П.</abbr></th>
+                        <th class="text-center"><abbr title="Голы забитые - голы пропущенные">Г.</abbr></th>
+                        <th class="text-center">Очков</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% endfor %}
+                    </thead>
+                    <tbody>
+                    {% for team in group.table %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td>
+                            <td>
+                                {% get_team_logo pk=team.id as team_logo %}
+                                {% if team_logo %}
+                                    <a href="#"><img src="{{ team_logo|thumbnail_url:'team_small' }}"
+                                                     alt="{{ team.title }}"></a>
+                                {% else %}
+                                    <a href="#"><img src="http://via.placeholder.com/45?text=No+image" alt=""></a>
+                                {% endif %}
+                                &nbsp;<a href="#">{{ team.title }}</a>
+                            </td>
+                            <td class="text-center">{{ team.games }}</td>
+                            <td class="text-center">{{ team.wins }}</td>
+                            <td class="text-center">{{ team.draws }}</td>
+                            <td class="text-center">{{ team.defeats }}</td>
+                            <td class="text-center">{{ team.goals_scored }} - {{ team.goals_missed }}</td>
+                            <td class="text-center">{{ team.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
