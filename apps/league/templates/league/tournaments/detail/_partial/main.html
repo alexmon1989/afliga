@@ -1,3 +1,6 @@
+{% load thumbnail %}
+{% load league_extras %}
+
 <div class="row">
     <div class="col-lg-12 g-mb-30">
         {{ tournament.description|safe }}
@@ -29,7 +32,16 @@
                 {% for team in group.table %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><a href="#">{{ team.title }}</a></td>
+                        <td>
+                            {% get_team_logo pk=team.id as team_logo %}
+                            {% if team_logo %}
+                                <a href="#"><img src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
+                                                 alt="{{ team.title }}"></a>
+                            {% else %}
+                                <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                            {% endif %}
+                            &nbsp;<a href="#">{{ team.title }}</a>
+                        </td>
                         <td class="text-center">{{ team.games }}</td>
                         <td class="text-center">{{ team.score }}</td>
                     </tr>
@@ -53,9 +65,25 @@
                         {% for match in round.get_last_matches %}
                             <tr>
                                 <td>{{ match.match_date|time }}</td>
-                                <td><a href="#">{{ match.team_1 }}</a></td>
+                                <td>
+                                    {% if match.team_1.logo %}
+                                        <a href="#"><img src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
+                                                         alt="{{ match.team_1.title }}"></a>
+                                    {% else %}
+                                        <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                    {% endif %}
+                                    &nbsp;<a href="#">{{ match.team_1 }}</a>
+                                </td>
                                 <td><a href="#">{{ match.get_score }}</a></td>
-                                <td><a href="#">{{ match.team_2 }}</a></td>
+                                <td>
+                                    <a href="#">{{ match.team_2 }}</a>&nbsp;
+                                    {% if match.team_2.logo %}
+                                        <a href="#"><img src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
+                                                         alt="{{ match.team_2.title }}"></a>
+                                    {% else %}
+                                        <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endfor %}
@@ -76,9 +104,25 @@
                         {% for match in round.get_future_matches %}
                             <tr>
                                 <td>{{ match.match_date|time }}</td>
-                                <td><a href="#">{{ match.team_1 }}</a></td>
+                                <td>
+                                    {% if match.team_1.logo %}
+                                        <a href="#"><img src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
+                                                         alt="{{ match.team_1.title }}"></a>
+                                    {% else %}
+                                        <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                    {% endif %}
+                                    &nbsp;<a href="#">{{ match.team_1 }}</a>
+                                </td>
                                 <td><a href="#">{{ match.get_score }}</a></td>
-                                <td><a href="#">{{ match.team_2 }}</a></td>
+                                <td>
+                                    <a href="#">{{ match.team_2 }}</a>&nbsp;
+                                    {% if match.team_2.logo %}
+                                        <a href="#"><img src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
+                                                         alt="{{ match.team_2.title }}"></a>
+                                    {% else %}
+                                        <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endfor %}
