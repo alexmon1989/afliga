@@ -1,12 +1,50 @@
-<p>Equidem recteque sea et. Per detracto iracundia ea, duo nusquam denique omittantur in. Nam ex quas
-    saperet, solum convenire vel in, dicant atomorum his ne. Putant bonorum in nam, nostrud neglegentur
-    accommodare eam ad. Quo
-    cu primis delenit.</p>
+{% load thumbnail %}
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="h3">Календарь игр</h2>
+    </div>
 
-<p>Nam ut viris disputando dissentiunt, sumo vocent ad mea. Vel justo debitis neglegentur an. Facer
-    doctus
-    inimicus et est, sed ea sint dicant. Per soleat pertinax complectitur et, pro no porro cetero, mea
-    probo
-    apeirian torquatos
-    ut. Habeo dicat errem quo et, ut democritum sententiae eloquentiam cum. Sit ad oblique inciderint
-    reformidans, homero albucius voluptatum pro te, saepe laoreet in est.</p>
+    {% for round in tournament.round_set.all|dictsortreversed:"created_at" %}
+        <div class="col-lg-6 g-my-30">
+            <!-- Table Head Option -->
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr class="thead-default">
+                        <th colspan="4">{{ round.title }}</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for match in round.match_set.all %}
+                        <tr>
+                            <td>{{ match.match_date|time }}</td>
+                            <td>
+                                {% if match.team_1.logo %}
+                                    <a href="#"><img src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
+                                                     alt="{{ match.team_1.title }}"></a>
+                                {% else %}
+                                    <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                {% endif %}
+                                &nbsp;<a href="#">{{ match.team_1 }}</a>
+                            </td>
+                            <td><a href="#">{{ match.get_score }}</a></td>
+                            <td>
+                                <a href="#">{{ match.team_2 }}</a>&nbsp;
+                                {% if match.team_2.logo %}
+                                    <a href="#"><img src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
+                                                     alt="{{ match.team_2.title }}"></a>
+                                {% else %}
+                                    <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Table Head Option -->
+        </div>
+    {% endfor %}
+
+</div>
