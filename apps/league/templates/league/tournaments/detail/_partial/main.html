@@ -55,107 +55,88 @@
             <div class="col-lg-12">
                 <h2 class="h3">Последние матчи</h2>
 
-                {% for group in tournament.group_set.all %}
-                    {% if group.get_last_rounds.count > 0 %}
-
-                        {% if tournament.group_set.count > 1 %}
-                            <h3 class="h4 g-mt-20">{{ group.title }}</h3>
-                        {% endif %}
-
-                        <table class="table table-sm g-mt-20 g-mb-30">
-                            <tbody>
-                            {% for round in group.get_last_rounds %}
-                                <tr class="thead-default">
-                                    <th colspan="4">{{ round.title }}</th>
-                                </tr>
-
-                                {% get_last_matches_in_group round group as last_matches %}
-                                {% for match in last_matches %}
-                                    <tr>
-                                        <td class="text-center">{{ match.match_date|time }}</td>
-                                        <td class="text-right">
-                                            {% if match.team_1.logo %}
-                                                <a href="#"><img
-                                                        src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
-                                                        alt="{{ match.team_1.title }}"></a>
-                                            {% else %}
-                                                <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
-                                                                 alt=""></a>
-                                            {% endif %}
-                                            &nbsp;<a href="#">{{ match.team_1 }}</a>
-                                        </td>
-                                        <td class="text-center"><a href="#">{{ match.get_score }}</a></td>
-                                        <td class="text-left">
-                                            <a href="#">{{ match.team_2 }}</a>&nbsp;
-                                            {% if match.team_2.logo %}
-                                                <a href="#"><img
-                                                        src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
-                                                        alt="{{ match.team_2.title }}"></a>
-                                            {% else %}
-                                                <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
-                                                                 alt=""></a>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                {% if tournament.get_playoff_last_rounds.count > 0 %}
+                    <table class="table table-sm g-mt-20 g-mb-30">
+                        <tbody>
+                        {% for round in tournament.get_playoff_last_rounds %}
+                            <tr class="thead-default">
+                                <th colspan="4">{{ round.title }}</th>
+                            </tr>
+                            {% for match in round.get_last_matches %}
+                                {% match_tr match=match %}
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endif %}
-                {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    {% for group in tournament.group_set.all %}
+                        {% if group.get_last_rounds.count > 0 %}
+
+                            {% if tournament.group_set.count > 1 %}
+                                <h3 class="h4 g-mt-20">{{ group.title }}</h3>
+                            {% endif %}
+
+                            <table class="table table-sm g-mt-20 g-mb-30">
+                                <tbody>
+                                {% for round in group.get_last_rounds %}
+                                    <tr class="thead-default">
+                                        <th colspan="4">{{ round.title }}</th>
+                                    </tr>
+
+                                    {% get_last_matches_in_group round group as last_matches %}
+                                    {% for match in last_matches %}
+                                        {% match_tr match=match %}
+                                    {% endfor %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <div class="col-lg-12">
                 <h2 class="h3">Ближайшие матчи</h2>
 
-                {% for group in tournament.group_set.all %}
-                    {% if group.get_future_rounds.count > 0 %}
-
-                        {% if tournament.group_set.count > 1 %}
-                            <h3 class="h4 g-mt-20">{{ group.title }}</h3>
-                        {% endif %}
-
-                        <table class="table table-sm g-mt-20 g-mb-30">
-                            <tbody>
-                            {% for round in group.get_future_rounds %}
-                                <tr class="thead-default">
-                                    <th colspan="4">{{ round.title }}</th>
-                                </tr>
-
-                                {% get_future_matches_in_group round group as future_matches %}
-                                {% for match in future_matches %}
-                                    <tr>
-                                        <td class="text-center">{{ match.match_date|time }}</td>
-                                        <td class="text-right">
-                                            {% if match.team_1.logo %}
-                                                <a href="#"><img
-                                                        src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
-                                                        alt="{{ match.team_1.title }}"></a>
-                                            {% else %}
-                                                <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
-                                                                 alt=""></a>
-                                            {% endif %}
-                                            &nbsp;<a href="#">{{ match.team_1 }}</a>
-                                        </td>
-                                        <td class="text-center"><a href="#">{{ match.get_score }}</a></td>
-                                        <td class="text-left">
-                                            <a href="#">{{ match.team_2 }}</a>&nbsp;
-                                            {% if match.team_2.logo %}
-                                                <a href="#"><img
-                                                        src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
-                                                        alt="{{ match.team_2.title }}"></a>
-                                            {% else %}
-                                                <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
-                                                                 alt=""></a>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                {% if tournament.get_playoff_future_rounds.count > 0 %}
+                    <table class="table table-sm g-mt-20 g-mb-30">
+                        <tbody>
+                        {% for round in tournament.get_playoff_future_rounds %}
+                            <tr class="thead-default">
+                                <th colspan="4">{{ round.title }}</th>
+                            </tr>
+                            {% for match in round.get_future_matches %}
+                                {% match_tr match=match %}
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endif %}
-                {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    {% for group in tournament.group_set.all %}
+                        {% if group.get_future_rounds.count > 0 %}
+
+                            {% if tournament.group_set.count > 1 %}
+                                <h3 class="h4 g-mt-20">{{ group.title }}</h3>
+                            {% endif %}
+
+                            <table class="table table-sm g-mt-20 g-mb-30">
+                                <tbody>
+                                {% for round in group.get_future_rounds %}
+                                    <tr class="thead-default">
+                                        <th colspan="4">{{ round.title }}</th>
+                                    </tr>
+
+                                    {% get_future_matches_in_group round group as future_matches %}
+                                    {% for match in future_matches %}
+                                        {% match_tr match=match %}
+                                    {% endfor %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

@@ -29,3 +29,8 @@ def get_future_matches_in_group(round, group):
 def get_matches_in_group(round, group):
     """Возвращает матчи тура в конкретной группе."""
     return round.get_matches_in_group(group)
+
+
+@register.inclusion_tag('league/tournaments/detail/_partial/match_tr.html')
+def match_tr(match):
+    return {'match': match}

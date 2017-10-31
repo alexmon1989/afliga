@@ -11,7 +11,7 @@
 
         <div class="row">
             {% for group in tournament.group_set.all %}
-                {% if groups|length > 1 %}
+                {% if tournament.group_set.count > 1 %}
                     <div class="col-lg-6">
                         <h3 class="h4 g-mt-20">{{ group.title }}</h3>
                 {% else %}

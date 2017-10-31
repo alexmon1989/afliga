@@ -68,14 +68,14 @@ class MatchesAdmin(admin.ModelAdmin):
     list_display = ('teams', 'score', 'match_round', 'group', 'tournament', 'match_date', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     inlines = (EventInline,)
-    list_filter = ('team_1', 'team_2', 'group__tournament__title')
+    list_filter = ('team_1', 'team_2', 'match_round__tournament__title')
 
     def teams(self, obj):
         return f"{obj.team_1} - {obj.team_2}"
     teams.short_description = 'Команды'
 
     def tournament(self, obj):
-        return f"{obj.group.tournament}"
+        return f"{obj.match_round.tournament}"
     tournament.short_description = 'Турнир'
 
     def score(self, obj):

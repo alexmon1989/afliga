@@ -65,6 +65,20 @@ class Tournament(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
     players = models.ManyToManyField(Player, through='TournamentPlayer', blank=True)
 
+    def get_playoff_last_rounds(self):
+        """Возвращает список туров турнира, в котором есть сыгранные матчи без групп."""
+        return self.round_set.filter(
+            match__group__isnull=True,
+            match__match_date__lte=timezone.now()
+        ).all()
+
+    def get_playoff_future_rounds(self):
+        """Возвращает список туров турнира, в котором несыгранные матчи без групп."""
+        return self.round_set.filter(
+            match__group__isnull=True,
+            match__match_date__gte=timezone.now()
+        ).all()
+
     def __str__(self):
         return self.title
 
@@ -184,6 +198,18 @@ class Round(models.Model):
         return self.match_set.filter(
             match_date__gte=timezone.now(),
             group=group
+        ).all()
+
+    def get_last_matches(self):
+        """Возвращает сыгранные матчи тура."""
+        return self.match_set.filter(
+            match_date__lte=timezone.now()
+        ).all()
+
+    def get_future_matches(self):
+        """Возвращает несыгранные матчи тура."""
+        return self.match_set.filter(
+            match_date__gte=timezone.now()
         ).all()
 
     class Meta:
