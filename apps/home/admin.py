@@ -1,9 +1,9 @@
 from django.contrib import admin
-from apps.home.models import Carousel, LastTournament, BombardiersPenaltiesSettings
+from apps.home.models import Carousel, LastTournament, BombardiersPenaltiesTableSettings
 from singlemodeladmin import SingleModelAdmin
 
 
-admin.site.register(BombardiersPenaltiesSettings, SingleModelAdmin)
+admin.site.register(BombardiersPenaltiesTableSettings, SingleModelAdmin)
 
 
 @admin.register(Carousel)

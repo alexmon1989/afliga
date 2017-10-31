@@ -31,12 +31,12 @@ class LastTournament(models.Model):
         verbose_name_plural = 'Турниры'
 
 
-class BombardiersPenaltiesSettings(models.Model):
-    """Модель настроек блоков "Бомабардиры" и "Штрафники"."""
+class BombardiersPenaltiesTableSettings(models.Model):
+    """Модель настроек блоков "Бомабардиры", "Штрафники" и "Таблица"."""
     tournament = models.ForeignKey(Tournament, blank=True, null=True, verbose_name='Турнир', on_delete=models.CASCADE)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class Meta:
-        verbose_name = 'Бомбардиры, штрафники'
-        verbose_name_plural = 'Бомбардиры, штрафники'
+        verbose_name = 'Таблица, бомбардиры, штрафники'
+        verbose_name_plural = 'Таблица, бомбардиры, штрафники'

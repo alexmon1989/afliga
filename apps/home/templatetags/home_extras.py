@@ -1,5 +1,5 @@
 from django import template
-from apps.home.models import BombardiersPenaltiesSettings
+from apps.home.models import BombardiersPenaltiesTableSettings
 from apps.settings.models import FooterSettings, Banner, PersonWidget
 
 register = template.Library()
@@ -17,12 +17,17 @@ def person_widget():
 
 @register.inclusion_tag('_partial/widgets/bombardiers.html')
 def bombardiers_widget():
-    return {'bombardiers_penalties': BombardiersPenaltiesSettings.objects.first()}
+    return {'bombardiers_penalties': BombardiersPenaltiesTableSettings.objects.first()}
 
 
 @register.inclusion_tag('_partial/widgets/penalties.html')
 def penalties_widget():
-    return {'bombardiers_penalties': BombardiersPenaltiesSettings.objects.first()}
+    return {'bombardiers_penalties': BombardiersPenaltiesTableSettings.objects.first()}
+
+
+@register.inclusion_tag('_partial/widgets/table.html')
+def table_widget():
+    return {'table': BombardiersPenaltiesTableSettings.objects.first()}
 
 
 @register.inclusion_tag('home/_partial/matches.html')
