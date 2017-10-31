@@ -65,6 +65,12 @@ class Tournament(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
     players = models.ManyToManyField(Player, through='TournamentPlayer', blank=True)
 
+    def get_playoff_rounds(self):
+        """Возвращает список туров турнира."""
+        return self.round_set.filter(
+            match__group__isnull=True
+        ).all()
+
     def get_playoff_last_rounds(self):
         """Возвращает список туров турнира, в котором есть сыгранные матчи без групп."""
         return self.round_set.filter(

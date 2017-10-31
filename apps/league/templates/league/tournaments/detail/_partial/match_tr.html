@@ -1,27 +1,27 @@
 {% load thumbnail %}
 <tr>
-    <td class="text-center">{{ match.match_date|time }}</td>
-    <td class="text-right">
+    <td class="text-center" width="10%">{{ match.match_date|time }}</td>
+    <td class="text-right" width="40%">
+        <a href="#">{{ match.team_1 }}</a>
         {% if match.team_1.logo %}
-            <a href="#"><img
+            &nbsp;<a href="#"><img
                     src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
                     alt="{{ match.team_1.title }}"></a>
         {% else %}
-            <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
+            &nbsp;<a href="#"><img src="http://via.placeholder.com/18?text=No+image"
                              alt=""></a>
         {% endif %}
-        &nbsp;<a href="#">{{ match.team_1 }}</a>
     </td>
-    <td class="text-center"><a href="#">{{ match.get_score }}</a></td>
-    <td class="text-left">
-        <a href="#">{{ match.team_2 }}</a>&nbsp;
+    <td class="text-center" width="10%"><a href="#">{{ match.get_score }}</a></td>
+    <td class="text-left" width="40%">
         {% if match.team_2.logo %}
             <a href="#"><img
                     src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
-                    alt="{{ match.team_2.title }}"></a>
+                    alt="{{ match.team_2.title }}"></a>&nbsp;
         {% else %}
             <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
-                             alt=""></a>
+                             alt=""></a>&nbsp;
         {% endif %}
+        <a href="#">{{ match.team_2 }}</a>
     </td>
 </tr>
