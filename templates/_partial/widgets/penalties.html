@@ -20,29 +20,37 @@
     <!-- Tab panes -->
     <div id="nav-1-1-primary-hor-center" class="tab-content">
         <div class="tab-pane fade show active" id="nav-1-1-primary-hor-center--1" role="tabpanel">
-            <table class="table table-sm g-font-size-16 table-bombardiers">
-                <tbody>
-                {% for player in bombardiers_penalties.tournament.get_yellow_cards %}
-                    <tr>
-                        <td class="g-pt-10"><a href="#">{{ player }}</a></td>
-                        <td class="g-pt-10">{{ player.num_yellow_cards }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% if bombardiers_penalties.tournament.get_yellow_cards.count > 0 %}
+                <table class="table table-sm g-font-size-16 table-bombardiers">
+                    <tbody>
+                    {% for player in bombardiers_penalties.tournament.get_yellow_cards %}
+                        <tr>
+                            <td class="g-pt-10"><a href="#">{{ player }}</a></td>
+                            <td class="g-pt-10">{{ player.num_yellow_cards }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Нет данных.</p>
+            {% endif %}
         </div>
 
         <div class="tab-pane fade" id="nav-1-1-primary-hor-center--2" role="tabpanel">
-            <table class="table table-sm g-font-size-16 table-bombardiers">
-                <tbody>
-                {% for player in bombardiers_penalties.tournament.get_red_cards %}
-                    <tr>
-                        <td class="g-pt-10"><a href="#">{{ player }}</a></td>
-                        <td class="g-pt-10">{{ player.num_red_cards }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% if bombardiers_penalties.tournament.get_red_cards.count > 0 %}
+                <table class="table table-sm g-font-size-16 table-bombardiers">
+                    <tbody>
+                    {% for player in bombardiers_penalties.tournament.get_red_cards %}
+                        <tr>
+                            <td class="g-pt-10"><a href="#">{{ player }}</a></td>
+                            <td class="g-pt-10">{{ player.num_red_cards }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Нет данных.</p>
+            {% endif %}
         </div>
     </div>
     <!-- End Tab panes -->
