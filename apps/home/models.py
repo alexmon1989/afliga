@@ -1,4 +1,5 @@
 from django.db import models
+from apps.league.models import Tournament
 
 
 class Carousel(models.Model):
@@ -17,3 +18,25 @@ class Carousel(models.Model):
     class Meta:
         verbose_name = 'Слайд'
         verbose_name_plural = 'Слайдер'
+
+
+class LastTournament(models.Model):
+    """Модель блока последнего турнира."""
+    tournament = models.ForeignKey(Tournament, blank=True, null=True, verbose_name='Турнир', on_delete=models.CASCADE)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Турнир'
+        verbose_name_plural = 'Турниры'
+
+
+class BombardiersPenaltiesSettings(models.Model):
+    """Модель настроек блоков "Бомабардиры" и "Штрафники"."""
+    tournament = models.ForeignKey(Tournament, blank=True, null=True, verbose_name='Турнир', on_delete=models.CASCADE)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Бомбардиры, штрафники'
+        verbose_name_plural = 'Бомбардиры, штрафники'
