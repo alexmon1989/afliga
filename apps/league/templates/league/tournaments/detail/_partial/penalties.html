@@ -1,12 +1,69 @@
-<p>Equidem recteque sea et. Per detracto iracundia ea, duo nusquam denique omittantur in. Nam ex quas
-    saperet, solum convenire vel in, dicant atomorum his ne. Putant bonorum in nam, nostrud neglegentur
-    accommodare eam ad. Quo
-    cu primis delenit.</p>
+<div class="row">
+    <div class="col-lg-12 g-mb-30">
+        <h2 class="h3">Штрафники турнира</h2>
+    </div>
 
-<p>Nam ut viris disputando dissentiunt, sumo vocent ad mea. Vel justo debitis neglegentur an. Facer
-    doctus
-    inimicus et est, sed ea sint dicant. Per soleat pertinax complectitur et, pro no porro cetero, mea
-    probo
-    apeirian torquatos
-    ut. Habeo dicat errem quo et, ut democritum sententiae eloquentiam cum. Sit ad oblique inciderint
-    reformidans, homero albucius voluptatum pro te, saepe laoreet in est.</p>
+    <div class="col-lg-6">
+        {% if tournament.get_yellow_cards.count > 0 %}
+            <h3 class="h4">Желтые карточки</h3>
+
+            <!-- Basic Table -->
+            <div class="table-responsive g-my-30">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">ФИО игрока</th>
+                        <th class="text-center">Количество жёлтых карточек</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for player in tournament.get_yellow_cards %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="text-center"><a href="#">{{ player }}</a></td>
+                            <td class="g-font-weight-600 text-center">
+                                {{ player.num_yellow_cards }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Basic Table -->
+        {% endif %}
+    </div>
+
+    <div class="col-lg-6">
+        {% if tournament.get_red_cards.count > 0 %}
+            <h3 class="h4">Красные карточки</h3>
+
+            <!-- Basic Table -->
+            <div class="table-responsive g-my-30">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">ФИО игрока</th>
+                        <th class="text-center">Количество красных карточек</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for player in tournament.get_red_cards %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="text-center"><a href="#">{{ player }}</a></td>
+                            <td class="g-font-weight-600 text-center">
+                                {{ player.num_red_cards }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Basic Table -->
+        {% endif %}
+    </div>
+</div>

@@ -1,12 +1,31 @@
-<p>Equidem recteque sea et. Per detracto iracundia ea, duo nusquam denique omittantur in. Nam ex quas
-    saperet, solum convenire vel in, dicant atomorum his ne. Putant bonorum in nam, nostrud neglegentur
-    accommodare eam ad. Quo
-    cu primis delenit.</p>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="h3">Бомбардиры турнира</h2>
 
-<p>Nam ut viris disputando dissentiunt, sumo vocent ad mea. Vel justo debitis neglegentur an. Facer
-    doctus
-    inimicus et est, sed ea sint dicant. Per soleat pertinax complectitur et, pro no porro cetero, mea
-    probo
-    apeirian torquatos
-    ut. Habeo dicat errem quo et, ut democritum sententiae eloquentiam cum. Sit ad oblique inciderint
-    reformidans, homero albucius voluptatum pro te, saepe laoreet in est.</p>
+        <!-- Basic Table -->
+        <div class="table-responsive g-my-30">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="text-center">ФИО игрока</th>
+                    <th class="text-center">Количество забитых голов</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for player in tournament.get_bombardiers %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td class="text-center"><a href="#">{{ player }}</a></td>
+                        <td class="g-font-weight-600 text-center">
+                            {{ player.num_goals }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- End Basic Table -->
+    </div>
+</div>

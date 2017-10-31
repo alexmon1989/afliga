@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed
+from django.db.models import Count
 import json
 
 
@@ -84,6 +85,27 @@ class Tournament(models.Model):
             match__group__isnull=True,
             match__match_date__gte=timezone.now()
         ).all()
+
+    def get_bombardiers(self):
+        """Возвращает список бомбардиров турнира."""
+        return Player.objects.filter(
+            event__match__match_round__tournament=self,
+            event__event_type=1
+        ).annotate(num_goals=Count('event')).order_by('-num_goals').all()[:10]
+
+    def get_yellow_cards(self):
+        """Возвращает список штрафников турнира (жёлтые карточки)."""
+        return Player.objects.filter(
+            event__match__match_round__tournament=self,
+            event__event_type=2
+        ).annotate(num_yellow_cards=Count('event')).order_by('-num_yellow_cards').all()[:10]
+
+    def get_red_cards(self):
+        """Возвращает список штрафников турнира (красные карточки)."""
+        return Player.objects.filter(
+            event__match__match_round__tournament=self,
+            event__event_type=3
+        ).annotate(num_red_cards=Count('event')).order_by('-num_red_cards').all()[:10]
 
     def __str__(self):
         return self.title
