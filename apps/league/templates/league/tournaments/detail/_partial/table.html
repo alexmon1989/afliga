@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-lg-12 g-mb-30">
-        {% if groups|length == 1 %}
+        {% if tournament.group_set.count == 1 %}
             <h2 class="h3">Турнирная таблица</h2>
         {% else %}
             <h2 class="h3">Турнирные таблицы</h2>

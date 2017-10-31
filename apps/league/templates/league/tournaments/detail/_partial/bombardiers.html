@@ -1,31 +1,35 @@
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 g-mb-30">
         <h2 class="h3">Бомбардиры турнира</h2>
 
-        <!-- Basic Table -->
-        <div class="table-responsive g-my-30">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th class="text-center">ФИО игрока</th>
-                    <th class="text-center">Количество забитых голов</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                {% for player in tournament.get_bombardiers %}
+        {% if tournament.get_bombardiers.count > 0 %}
+            <!-- Basic Table -->
+            <div class="table-responsive g-mb-30">
+                <table class="table table-bordered table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td class="text-center"><a href="#">{{ player }}</a></td>
-                        <td class="g-font-weight-600 text-center">
-                            {{ player.num_goals }}
-                        </td>
+                        <th>#</th>
+                        <th class="text-center">ФИО игрока</th>
+                        <th class="text-center">Количество забитых голов</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!-- End Basic Table -->
+                    </thead>
+
+                    <tbody>
+                    {% for player in tournament.get_bombardiers %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="text-center"><a href="#">{{ player }}</a></td>
+                            <td class="g-font-weight-600 text-center">
+                                {{ player.num_goals }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Basic Table -->
+        {% else %}
+            <p>Нет данных.</p>
+        {% endif %}
     </div>
 </div>

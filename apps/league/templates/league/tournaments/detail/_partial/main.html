@@ -1,143 +1,159 @@
 {% load thumbnail %}
 {% load league_extras %}
 
-<div class="row">
-    <div class="col-lg-12 g-mb-30">
-        {{ tournament.description|safe }}
+{% if tournament.description %}
+    <div class="row">
+        <div class="col-lg-12 g-mb-30">
+            {{ tournament.description|safe }}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-4">
-        {% if tournament.group_set.count == 1 %}
-            <h2 class="h3">Таблица</h2>
-        {% else %}
-            <h2 class="h3">Таблицы</h2>
-        {% endif %}
+{% endif %}
 
-        {% for group in tournament.group_set.all %}
-            {% if tournament.group_set.count > 1 %}
-                <h3 class="h4 g-mt-20 g-mb-30">{{ group.title }}</h3>
+<div class="row">
+    {% if tournament.group_set.count > 0 %}
+        <div class="col-lg-4">
+            {% if tournament.group_set.count == 1 %}
+                <h2 class="h3">Таблица</h2>
+            {% else %}
+                <h2 class="h3">Таблицы</h2>
             {% endif %}
 
-            <table class="table table-sm table-bordered g-mt-20 g-mb-30">
-                <thead>
-                <tr>
-                    <th><abbr title="Место">М.</abbr></th>
-                    <th>Команда</th>
-                    <th class="text-center"><abbr title="Игр">И.</abbr></th>
-                    <th class="text-center"><abbr title="Очков">О.</abbr></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for team in group.get_sorted_table %}
+            {% for group in tournament.group_set.all %}
+                {% if tournament.group_set.count > 1 %}
+                    <h3 class="h4 g-mt-20 g-mb-30">{{ group.title }}</h3>
+                {% endif %}
+
+                <table class="table table-sm table-bordered g-mt-20 g-mb-30">
+                    <thead>
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>
-                            {% get_team_logo pk=team.id as team_logo %}
-                            {% if team_logo %}
-                                <a href="#"><img src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
-                                                 alt="{{ team.title }}"></a>
-                            {% else %}
-                                <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
-                            {% endif %}
-                            &nbsp;<a href="#">{{ team.title }}</a>
-                        </td>
-                        <td class="text-center">{{ team.games }}</td>
-                        <td class="text-center">{{ team.score }}</td>
+                        <th><abbr title="Место">М.</abbr></th>
+                        <th>Команда</th>
+                        <th class="text-center"><abbr title="Игр">И.</abbr></th>
+                        <th class="text-center"><abbr title="Очков">О.</abbr></th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% endfor %}
-    </div>
-    <div class="col-lg-8">
-        <div class="row">
-            <div class="col-lg-12">
+                    </thead>
+                    <tbody>
+                    {% for team in group.get_sorted_table %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                {% get_team_logo pk=team.id as team_logo %}
+                                {% if team_logo %}
+                                    <a href="#"><img src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
+                                                     alt="{{ team.title }}"></a>
+                                {% else %}
+                                    <a href="#"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                {% endif %}
+                                &nbsp;<a href="#">{{ team.title }}</a>
+                            </td>
+                            <td class="text-center">{{ team.games }}</td>
+                            <td class="text-center">{{ team.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        </div>
+        <div class="col-lg-8">
+    {% else %}
+        <div class="col-lg-12">
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-12">
+            {% if tournament.get_playoff_last_rounds.count > 0 %}
                 <h2 class="h3">Последние матчи</h2>
 
-                {% if tournament.get_playoff_last_rounds.count > 0 %}
-                    <table class="table table-sm g-mt-20 g-mb-30">
-                        <tbody>
-                        {% for round in tournament.get_playoff_last_rounds %}
-                            <tr class="thead-default">
-                                <th colspan="4">{{ round.title }}</th>
-                            </tr>
-                            {% for match in round.get_last_matches %}
-                                {% match_tr match=match %}
-                            {% endfor %}
+                <table class="table table-sm g-mt-20 g-mb-30">
+                    <tbody>
+                    {% for round in tournament.get_playoff_last_rounds %}
+                        <tr class="thead-default">
+                            <th colspan="4">{{ round.title }}</th>
+                        </tr>
+                        {% for match in round.get_last_matches %}
+                            {% match_tr match=match %}
                         {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    {% for group in tournament.group_set.all %}
-                        {% if group.get_last_rounds.count > 0 %}
-
-                            {% if tournament.group_set.count > 1 %}
-                                <h3 class="h4 g-mt-20">{{ group.title }}</h3>
-                            {% endif %}
-
-                            <table class="table table-sm g-mt-20 g-mb-30">
-                                <tbody>
-                                {% for round in group.get_last_rounds %}
-                                    <tr class="thead-default">
-                                        <th colspan="4">{{ round.title }}</th>
-                                    </tr>
-
-                                    {% get_last_matches_in_group round group as last_matches %}
-                                    {% for match in last_matches %}
-                                        {% match_tr match=match %}
-                                    {% endfor %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-                        {% endif %}
                     {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% if tournament.group_set.count > 0 %}
+                    <h2 class="h3">Последние матчи</h2>
                 {% endif %}
-            </div>
 
-            <div class="col-lg-12">
+                {% for group in tournament.group_set.all %}
+
+                    {% if group.get_last_rounds.count > 0 %}
+
+                        {% if tournament.group_set.count > 1 %}
+                            <h3 class="h4 g-mt-20">{{ group.title }}</h3>
+                        {% endif %}
+
+                        <table class="table table-sm g-mt-20 g-mb-30">
+                            <tbody>
+                            {% for round in group.get_last_rounds %}
+                                <tr class="thead-default">
+                                    <th colspan="4">{{ round.title }}</th>
+                                </tr>
+
+                                {% get_last_matches_in_group round group as last_matches %}
+                                {% for match in last_matches %}
+                                    {% match_tr match=match %}
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="col-lg-12">
+            {% if tournament.get_playoff_future_rounds.count > 0 %}
                 <h2 class="h3">Ближайшие матчи</h2>
 
-                {% if tournament.get_playoff_future_rounds.count > 0 %}
-                    <table class="table table-sm g-mt-20 g-mb-30">
-                        <tbody>
-                        {% for round in tournament.get_playoff_future_rounds %}
-                            <tr class="thead-default">
-                                <th colspan="4">{{ round.title }}</th>
-                            </tr>
-                            {% for match in round.get_future_matches %}
-                                {% match_tr match=match %}
-                            {% endfor %}
+                <table class="table table-sm g-mt-20 g-mb-30">
+                    <tbody>
+                    {% for round in tournament.get_playoff_future_rounds %}
+                        <tr class="thead-default">
+                            <th colspan="4">{{ round.title }}</th>
+                        </tr>
+                        {% for match in round.get_future_matches %}
+                            {% match_tr match=match %}
                         {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    {% for group in tournament.group_set.all %}
-                        {% if group.get_future_rounds.count > 0 %}
-
-                            {% if tournament.group_set.count > 1 %}
-                                <h3 class="h4 g-mt-20">{{ group.title }}</h3>
-                            {% endif %}
-
-                            <table class="table table-sm g-mt-20 g-mb-30">
-                                <tbody>
-                                {% for round in group.get_future_rounds %}
-                                    <tr class="thead-default">
-                                        <th colspan="4">{{ round.title }}</th>
-                                    </tr>
-
-                                    {% get_future_matches_in_group round group as future_matches %}
-                                    {% for match in future_matches %}
-                                        {% match_tr match=match %}
-                                    {% endfor %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
                     {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% if tournament.group_set.count > 0 %}
+                    <h2 class="h3">Ближайшие матчи</h2>
                 {% endif %}
-            </div>
+
+                {% for group in tournament.group_set.all %}
+                    {% if group.get_future_rounds.count > 0 %}
+
+                        {% if tournament.group_set.count > 1 %}
+                            <h3 class="h4 g-mt-20">{{ group.title }}</h3>
+                        {% endif %}
+
+                        <table class="table table-sm g-mt-20 g-mb-30">
+                            <tbody>
+                            {% for round in group.get_future_rounds %}
+                                <tr class="thead-default">
+                                    <th colspan="4">{{ round.title }}</th>
+                                </tr>
+
+                                {% get_future_matches_in_group round group as future_matches %}
+                                {% for match in future_matches %}
+                                    {% match_tr match=match %}
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
+    </div>
     </div>
 </div>

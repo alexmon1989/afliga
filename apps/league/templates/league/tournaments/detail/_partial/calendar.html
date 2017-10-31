@@ -6,49 +6,55 @@
         <h2 class="h3">Календарь игр</h2>
     </div>
 
-    {% for group in tournament.group_set.all %}
-        {% if group.get_rounds.count > 0 %}
+    {% if tournament.get_playoff_rounds.count > 0 or tournament.group_set.count > 0 %}
+        {% for group in tournament.group_set.all %}
             {% if tournament.group_set.count > 1 %}
                 <div class="col-lg-12 g-mt-20">
                     <h3 class="h4">{{ group.title }}</h3>
                 </div>
             {% endif %}
 
-            {% for round in group.get_rounds %}
-                <div class="col-lg-6">
-                    <table class="table table-sm g-mt-20 g-mb-20">
-                        <tbody>
-                        <tr class="thead-default">
-                            <th colspan="4">{{ round.title }}</th>
-                        </tr>
-                        {% get_matches_in_group round group as matches %}
-                        {% for match in matches %}
-                            {% match_tr match=match %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
+            {% if group.get_rounds.count > 0 %}
+                {% for round in group.get_rounds %}
+                    <div class="col-lg-6">
+                        <table class="table table-sm g-mt-20 g-mb-20">
+                            <tbody>
+                            <tr class="thead-default">
+                                <th colspan="4">{{ round.title }}</th>
+                            </tr>
+                            {% get_matches_in_group round group as matches %}
+                            {% for match in matches %}
+                                {% match_tr match=match %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
 
-    {% if tournament.get_playoff_rounds.count > 0 and tournament.group_set.count > 0 %}
+        {% if tournament.get_playoff_rounds.count > 0 and tournament.group_set.count > 0 %}
+            <div class="col-lg-12">
+                <h3 class="h4">Плейофф</h3>
+            </div>
+        {% endif %}
+        {% for round in tournament.get_playoff_rounds %}
+            <div class="col-lg-12">
+                <table class="table table-sm g-mt-20 g-mb-20">
+                    <tbody>
+                    <tr class="thead-default">
+                        <th colspan="4">{{ round.title }}</th>
+                    </tr>
+                    {% for match in round.match_set.all %}
+                        {% match_tr match=match %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    {% else %}
         <div class="col-lg-12">
-            <h3 class="h4">Плейофф</h3>
+            <p>Нет данных.</p>
         </div>
     {% endif %}
-    {% for round in tournament.get_playoff_rounds %}
-        <div class="col-lg-12">
-            <table class="table table-sm g-mt-20 g-mb-20">
-                <tbody>
-                <tr class="thead-default">
-                    <th colspan="4">{{ round.title }}</th>
-                </tr>
-                {% for match in round.match_set.all %}
-                    {% match_tr match=match %}
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endfor %}
 </div>
