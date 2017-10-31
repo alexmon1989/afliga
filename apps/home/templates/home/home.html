@@ -15,7 +15,8 @@
         <!-- Banner -->
         <div class="col-lg-12 g-mt-15" id="banner_1">
             {% if banner_1.link %}
-                <a href="{{ banner_1.link }}" target="_blank"><img src="{{ banner_1.image.url }}" class="img-fluid" alt=""></a>
+                <a href="{{ banner_1.link }}" target="_blank"><img src="{{ banner_1.image.url }}" class="img-fluid"
+                                                                   alt=""></a>
             {% else %}
                 <img src="{{ banner_1.image.url }}" class="img-fluid" alt="">
             {% endif %}
@@ -23,17 +24,13 @@
         <!-- End Banner -->
     {% endif %}
 
-    <!-- Matches 1 -->
-    <div class="col-lg-12 g-mt-40" id="matches_latest_tournament">
-        {% include 'home/_partial/matches_last_tournament.html' %}
-    </div>
-    <!-- End Matches 1 -->
-
-    <!-- Matches 2 -->
-    <div class="col-lg-12 g-mt-15" id="matches_prelatest_tournament">
-        {% include 'home/_partial/matches_prelast_tournament.html' %}
-    </div>
-    <!-- End Matches 2 -->
+    {% for tournament in tournaments %}
+        <!-- Matches -->
+        <div class="col-lg-12 {% if forloop.counter0 == 0 %}g-mt-40{% else %}g-my-30{% endif %}" id="matches_latest_tournament">
+            {% matches_block tournament=tournament %}
+        </div>
+        <!-- End Matches -->
+    {% endfor %}
 
     <!-- Video gallery -->
     <div class="col-lg-12 g-mt-15 video-gallery" id="video_gallery">

@@ -1,0 +1,101 @@
+{% load staticfiles %}
+{% load league_extras %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="text-uppercase h3">{{ tournament }}</h2>
+        <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
+    </div>
+
+    <div class="col-lg-6">
+        <h5 class="text-uppercase">Результаты прошедших матчей</h5>
+
+        <div class="matches">
+            {% if tournament.get_playoff_last_rounds.count > 0 %}
+                <table class="table table-sm">
+                    <tbody>
+                    {% for round in tournament.get_playoff_last_rounds %}
+                        <tr>
+                            <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                        </tr>
+                        {% for match in round.get_last_matches %}
+                            {% match_tr match=match %}
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% for group in tournament.group_set.all %}
+
+                    {% if group.get_last_rounds.count > 0 %}
+
+                        {% if tournament.group_set.count > 1 %}
+                            <h5 class="h6 g-font-weight-600">{{ group.title }}</h5>
+                        {% endif %}
+
+                        <table class="table table-sm">
+                            <tbody>
+                            {% for round in group.get_last_rounds %}
+                                <tr>
+                                    <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                                </tr>
+
+                                {% get_last_matches_in_group round group as last_matches %}
+                                {% for match in last_matches %}
+                                    {% match_tr match=match %}
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <h5 class="text-uppercase">Расписание будущих матчей</h5>
+        <div class="matches">
+            {% if tournament.get_playoff_future_rounds.count > 0 %}
+                <table class="table table-sm">
+                    <tbody>
+                    {% for round in tournament.get_playoff_future_rounds %}
+                        <tr>
+                            <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                        </tr>
+                        {% for match in round.get_future_matches %}
+                            {% match_tr match=match %}
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% for group in tournament.group_set.all %}
+
+                    {% if group.get_future_rounds.count > 0 %}
+
+                        {% if tournament.group_set.count > 1 %}
+                            <h5 class="h6 g-font-weight-600">{{ group.title }}</h5>
+                        {% endif %}
+
+                        <table class="table table-sm">
+                            <tbody>
+                            {% for round in group.get_future_rounds %}
+                                <tr>
+                                    <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                                </tr>
+
+                                {% get_future_matches_in_group round group as future_matches %}
+                                {% for match in future_matches %}
+                                    {% match_tr match=match %}
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

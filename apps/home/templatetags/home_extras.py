@@ -25,6 +25,11 @@ def penalties_widget():
     return {'bombardiers_penalties': BombardiersPenaltiesSettings.objects.first()}
 
 
+@register.inclusion_tag('home/_partial/matches.html')
+def matches_block(tournament):
+    return {'tournament': tournament.tournament}
+
+
 @register.simple_tag
 def banner(pk):
     banner_item = Banner.objects.filter(pk=pk, is_visible=True).first()
