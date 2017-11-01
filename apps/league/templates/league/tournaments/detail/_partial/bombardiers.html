@@ -18,7 +18,7 @@
                     {% for player in tournament.get_bombardiers %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a href="#">{{ player }}</a></td>
+                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_goals }}
                             </td>

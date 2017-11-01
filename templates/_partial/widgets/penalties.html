@@ -25,7 +25,7 @@
                     <tbody>
                     {% for player in bombardiers_penalties.tournament.get_yellow_cards %}
                         <tr>
-                            <td class="g-pt-10"><a href="#">{{ player }}</a></td>
+                            <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
                             <td class="g-pt-10">{{ player.num_yellow_cards }}</td>
                         </tr>
                     {% endfor %}
@@ -42,7 +42,7 @@
                     <tbody>
                     {% for player in bombardiers_penalties.tournament.get_red_cards %}
                         <tr>
-                            <td class="g-pt-10"><a href="#">{{ player }}</a></td>
+                            <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
                             <td class="g-pt-10">{{ player.num_red_cards }}</td>
                         </tr>
                     {% endfor %}

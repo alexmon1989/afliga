@@ -7,7 +7,8 @@
         <img src="{{ person_widget_data.player.photo.url }}" class="img-fluid g-mt-10" alt="">
 
         <div class="g-mt-10">
-            <a href="#" class="text-dark text-uppercase g-font-size-20">{{ person_widget_data.player.name }}</a>
+            <a href="{% url 'player_detail' pk=person_widget_data.player.pk %}"
+               class="text-dark text-uppercase g-font-size-20">{{ person_widget_data.player.name }}</a>
         </div>
 
         <p>{{ person_widget_data.player.biography|striptags|truncatewords:15 }}</p>

@@ -6,7 +6,7 @@
     <tbody>
     {% for player in bombardiers_penalties.tournament.get_bombardiers %}
         <tr>
-            <td class="g-pt-10"><a href="#">{{ player }}</a></td>
+            <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
             <td class="g-pt-10">{{ player.num_goals }}</td>
         </tr>
     {% endfor %}
