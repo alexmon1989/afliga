@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+    {% include 'league/players/_partial/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-3 g-mb-30">
+        <img src="{{ player.photo.url }}" class="img-fluid" alt="{{ player.name }}" title="{{ player.name }}">
+    </div>
+    <div class="col-md-9 g-mb-30">
+        <dl class="row">
+            <dt class="col-sm-3">Имя игрока</dt>
+            <dd class="col-sm-9">{{ player.name }}</dd>
+
+            <dt class="col-sm-3">Дата рождения</dt>
+            <dd class="col-sm-9">{{ player.birth_date }}</dd>
+
+            <dt class="col-sm-3">Текущая команда</dt>
+            <dd class="col-sm-9"><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></dd>
+        </dl>
+
+        {{ player.biography|safe }}
+    </div>
+{% endblock %}

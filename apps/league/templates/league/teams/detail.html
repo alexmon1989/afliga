@@ -36,7 +36,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td class="text-center">
-                        <a href="#">
+                        <a href="{% url 'player_detail' pk=player.pk %}">
                             {% if player.photo %}
                                 <img src="{{ player.photo|thumbnail_url:'avatar' }}" class="img-fluid"
                                      alt="{{ player.name }}">
@@ -46,7 +46,7 @@
                             {% endif %}
                         </a>
                     </td>
-                    <td class="g-font-weight-600"><a href="#">{{ player.name }}</a></td>
+                    <td class="g-font-weight-600"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
                     <td class="hidden-sm">{{ player.birth_date }}</td>
                     <td>{{ player.position }}</td>
                 </tr>

@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from apps.league.models import Tournament, Team
+from apps.league.models import Tournament, Team, Player
 
 
 class TournamentListView(ListView):
@@ -19,3 +19,9 @@ class TeamDetailView(DetailView):
     """Отображает страницу с деталями команды."""
     model = Team
     template_name = 'league/teams/detail.html'
+
+
+class PlayerDetailView(DetailView):
+    """Отображает страницу с деталями игрока."""
+    model = Player
+    template_name = 'league/players/detail.html'
