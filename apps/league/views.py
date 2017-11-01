@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from apps.league.models import Tournament
+from apps.league.models import Tournament, Team
 
 
 class TournamentListView(ListView):
@@ -14,6 +14,8 @@ class TournamentDetailView(DetailView):
     model = Tournament
     template_name = 'league/tournaments/detail/detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(TournamentDetailView, self).get_context_data(**kwargs)
-        return context
+
+class TeamDetailView(DetailView):
+    """Отображает страницу с деталями команды."""
+    model = Team
+    template_name = 'league/teams/detail.html'

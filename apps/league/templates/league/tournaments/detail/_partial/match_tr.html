@@ -4,15 +4,15 @@
     <td class="text-right" width="40%">
         <div class="row no-gutters">
             <div class="col-10">
-                <a href="#">{{ match.team_1 }}</a>
+                <a href="{% url 'team_detail' pk=match.team_1.pk %}">{{ match.team_1 }}</a>
             </div>
             <div class="col-2">
                 {% if match.team_1.logo %}
-                    <a href="#"><img
+                    <a href="{% url 'team_detail' pk=match.team_1.pk %}"><img
                             src="{{ match.team_1.logo|thumbnail_url:'team_extra_small' }}"
                             alt="{{ match.team_1.title }}"></a>
                 {% else %}
-                    <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
+                    <a href="{% url 'team_detail' pk=match.team_1.pk %}"><img src="http://via.placeholder.com/18?text=No+image"
                                      alt=""></a>
                 {% endif %}
             </div>
@@ -23,16 +23,16 @@
         <div class="row no-gutters">
             <div class="col-2">
                 {% if match.team_2.logo %}
-                    <a href="#"><img
+                    <a href="{% url 'team_detail' pk=match.team_2.pk %}"><img
                             src="{{ match.team_2.logo|thumbnail_url:'team_extra_small' }}"
                             alt="{{ match.team_2.title }}"></a>
                 {% else %}
-                    <a href="#"><img src="http://via.placeholder.com/18?text=No+image"
+                    <a href="{% url 'team_detail' pk=match.team_2.pk %}"><img src="http://via.placeholder.com/18?text=No+image"
                                      alt=""></a>
                 {% endif %}
             </div>
             <div class="col-10">
-                <a href="#">{{ match.team_2 }}</a>
+                <a href="{% url 'team_detail' pk=match.team_2.pk %}">{{ match.team_2 }}</a>
             </div>
         </div>
     </td>

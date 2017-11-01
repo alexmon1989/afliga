@@ -70,7 +70,7 @@
                             <a href="{% url 'team_list' %}" class="nav-link px-4 py-3">Руководство</a>
                         </li>
 
-                        <li class="nav-item {% if request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail' %}active{% endif %}">
+                        <li class="nav-item {% if request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail,team_detail' %}active{% endif %}">
                             <a href="{% url 'tournaments_list' %}" class="nav-link px-4 py-3">Турниры</a>
                         </li>
 
