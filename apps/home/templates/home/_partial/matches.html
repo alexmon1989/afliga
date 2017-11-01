@@ -12,7 +12,7 @@
 
         <div class="matches">
             {% if tournament.get_playoff_last_rounds.count > 0 %}
-                <table class="table table-sm">
+                <table class="table table-sm table-striped">
                     <tbody>
                     {% for round in tournament.get_playoff_last_rounds %}
                         <tr>
@@ -33,7 +33,7 @@
                             <h5 class="h6 g-font-weight-600">{{ group.title }}</h5>
                         {% endif %}
 
-                        <table class="table table-sm">
+                        <table class="table table-sm table-striped">
                             <tbody>
                             {% for round in group.get_last_rounds %}
                                 <tr>
@@ -57,7 +57,7 @@
         <h5 class="text-uppercase">Расписание будущих матчей</h5>
         <div class="matches">
             {% if tournament.get_playoff_future_rounds.count > 0 %}
-                <table class="table table-sm">
+                <table class="table table-sm table-striped">
                     <tbody>
                     {% for round in tournament.get_playoff_future_rounds %}
                         <tr>
@@ -78,7 +78,7 @@
                             <h5 class="h6 g-font-weight-600">{{ group.title }}</h5>
                         {% endif %}
 
-                        <table class="table table-sm">
+                        <table class="table table-sm table-striped">
                             <tbody>
                             {% for round in group.get_future_rounds %}
                                 <tr>
