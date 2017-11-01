@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django import forms
+import json
 from apps.league.models import (Team, Player, Position, Tournament, Group, Match, TournamentPlayer, Event, EventType,
                                 Round)
 
@@ -47,9 +49,22 @@ class TournamentsAdmin(admin.ModelAdmin):
     inlines = (GroupInline, TournamentPlayerInline,)
 
 
+class GroupForm(forms.ModelForm):
+    """Класс формы для редактирования группы."""
+    def __init__(self, *args, **kwargs):
+        super(GroupForm, self).__init__(*args, **kwargs)
+        self.initial['table'] = json.dumps(
+            json.loads(self.instance.table),
+            ensure_ascii=False,
+            sort_keys=True,
+            indent=2
+        )
+
+
 @admin.register(Group)
 class GroupsAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования групп."""
+    form = GroupForm
     list_display = ('title', 'tournament', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title', 'tournament')
