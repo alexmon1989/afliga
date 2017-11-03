@@ -14,6 +14,11 @@
                         <i class="g-color-gray-light-v2 g-ml-5">/</i>
                     </li>
                     <li class="list-inline-item g-color-primary">
+                        <span><a class="u-link-v5 g-color-main"
+                                 href="{% url 'tournament_detail' pk=match.match_round.tournament.pk %}">{{ match.match_round.tournament }}</a></span>
+                        <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                    </li>
+                    <li class="list-inline-item g-color-primary">
                         <span>Детали матча</span>
                     </li>
                 </ul>

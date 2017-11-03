@@ -249,6 +249,8 @@ class Match(models.Model):
     """Модель матча."""
     team_1 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда хозяев', related_name='team_1')
     team_2 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда гостей', related_name='team_2')
+    goals_team_1 = models.PositiveIntegerField('Голов забила команда хозяев', null=True, blank=True, default=None)
+    goals_team_2 = models.PositiveIntegerField('Голов забила команда гостей', null=True, blank=True, default=None)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
     match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
     match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
@@ -261,17 +263,33 @@ class Match(models.Model):
 
     def get_score(self):
         """Возвращает счёт матча."""
+        return f"{self.get_goals_team_1()}:{self.get_goals_team_2()}"
+
+    def get_goals_team_1(self):
+        """Возвращает количество голов, которые забила команда хозяев."""
         if self.match_date > timezone.now():
-            return '-:-'
-        goals_team_1 = 0
-        goals_team_2 = 0
-        goals = self.event_set.filter(event_type_id=1).all()
-        for goal in goals:
-            if goal.team == self.team_1:
-                goals_team_1 += 1
-            else:
-                goals_team_2 += 1
-        return f"{goals_team_1}:{goals_team_2}"
+            return '-'
+        if self.goals_team_1:
+            return self.goals_team_1
+        goals = 0
+        goals_events = self.event_set.filter(event_type_id=1).all()
+        for goal_event in goals_events:
+            if goal_event.team == self.team_1:
+                goals += 1
+        return goals
+
+    def get_goals_team_2(self):
+        """Возвращает количество голов, которые забила команда гостей."""
+        if self.match_date > timezone.now():
+            return '-'
+        if self.goals_team_2:
+            return self.goals_team_2
+        goals = 0
+        goals_events = self.event_set.filter(event_type_id=1).all()
+        for goal_event in goals_events:
+            if goal_event.team == self.team_2:
+                goals += 1
+        return goals
 
     class Meta:
         verbose_name = 'Матч'
