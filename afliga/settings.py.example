@@ -149,6 +149,9 @@ THUMBNAIL_ALIASES = {
         'team_small': {'size': (45, 45), 'crop': True},
         'team_extra_small': {'size': (18, 18), 'crop': True},
         'team_large': {'size': (130, 130), 'crop': True},
+        'news_large': {'size': (740, 380), 'crop': True},
+        'news_small': {'size': (255, 130), 'crop': True},
+        'news_extra_small': {'size': (160, 82), 'crop': True},
     },
 }
 

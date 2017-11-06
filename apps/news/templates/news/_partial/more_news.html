@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load thumbnail %}
+
 <div class="text-center g-my-30">
     <h4>Ещё новости</h4>
 </div>
@@ -10,7 +12,7 @@
             <!-- Article -->
             <article class="g-bg-secondary">
                 {% if news.image %}
-                    <a href="{% url 'news_detail' pk=news.pk %}"><img class="img-fluid w-100" src="{{ news.image.url }}" alt="{{ news.title }}"></a>
+                    <a href="{% url 'news_detail' pk=news.pk %}"><img class="img-fluid w-100" src="{{ news.image|thumbnail_url:'news_small' }}" alt="{{ news.title }}"></a>
                 {% endif %}
 
                 <div class="g-px-25 g-pt-25">

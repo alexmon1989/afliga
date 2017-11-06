@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <h2 class="text-uppercase h3">Последние новости</h2>
 <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
@@ -6,7 +7,7 @@
         {% with last_news.0 as first_news_item %}
              <div class="col-lg-4">
                 {% if first_news_item.image %}
-                    <a href="{% url 'news_detail' pk=first_news_item.pk %}"><img src="{{ first_news_item.image.url }}"
+                    <a href="{% url 'news_detail' pk=first_news_item.pk %}"><img src="{{ first_news_item.image|thumbnail_url:'news_small' }}"
                                                                              class="img-fluid"></a>
                 {% endif %}
                 <div class="g-mt-10">
@@ -30,7 +31,7 @@
                 <div class="row g-mb-15">
                     {% if news.image %}
                         <div class="col-lg-4"><a href="{% url 'news_detail' pk=news.pk %}"><img
-                                src="{{ news.image.url }}"
+                                src="{{ news.image|thumbnail_url:'news_extra_small' }}"
                                 class="img-fluid"></a></div>
                     {% endif %}
                     <div class="col-lg-8">

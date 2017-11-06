@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load staticfiles %}
+{% load thumbnail %}
 
 {% block title %}Новости {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
 
@@ -46,7 +47,7 @@
                         <span class="d-block g-color-gray-dark-v4 g-font-weight-700 g-font-size-12 text-uppercase mb-2">{{ news_item.created_at|date }}</span>
 
                         {% if news_item.image %}
-                            <img class="img-fluid w-100 g-mb-25" src="{{ news_item.image.url }}"
+                            <img class="img-fluid w-100 g-mb-25" src="{{ news_item.image|thumbnail_url:'news_large' }}"
                                  alt="{{ news_item.title }}">
                         {% endif %}
                         <h2 class="h4 g-color-black g-font-weight-600 mb-3">

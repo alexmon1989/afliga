@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load staticfiles %}
+{% load thumbnail %}
 
 {% block title %}{{ news.title }} / Новости / {{ block.super }}{% endblock %}
 
@@ -34,7 +35,7 @@
         <h1 class="g-letter-spacing-1 g-mb-35">{{ news.title }}</h1>
 
         {% if news.image %}
-            <img class="img-fluid w-100 g-mb-25" src="{{ news.image.url }}" alt="{{ news.title }}">
+            <img class="img-fluid w-100 g-mb-25" src="{{ news.image|thumbnail_url:'news_large' }}" alt="{{ news.title }}">
         {% endif %}
 
         <div class="g-line-height-1_8">{{ news.text|safe }}</div>
