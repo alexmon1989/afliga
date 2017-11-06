@@ -43,7 +43,12 @@ class Player(models.Model):
 
     name = models.CharField('ФИО', max_length=255, blank=False)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда', null=True, blank=True)
-    photo = models.ImageField('Фотография', upload_to=upload_to, null=True, blank=True)
+    photo = models.ImageField(
+        'Фотография',
+        upload_to=upload_to,
+        null=True, blank=True,
+        help_text='Рекомендуемый размер фото: 350px*400px.'
+    )
     position = models.ForeignKey(Position, on_delete=models.CASCADE, verbose_name='Амплуа', null=True, blank=True)
     birth_date = models.DateField('Дата рождения', blank=True, null=True)
     biography = models.TextField('Биография', blank=True)

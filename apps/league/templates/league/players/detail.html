@@ -12,7 +12,7 @@
 {% block content %}
     <div class="col-md-3 g-mb-30">
         {% if player.photo %}
-            <img src="{{ player.photo.url }}" class="img-fluid" alt="{{ player.name }}" title="{{ player.name }}">
+            <img src="{{ player.photo|thumbnail_url:'avatar_large' }}" class="img-fluid" alt="{{ player.name }}" title="{{ player.name }}">
         {% else %}
             <img src="{% static 'assets/img/persons/dummy-person.jpg' %}" class="img-fluid" alt="">
         {% endif %}
