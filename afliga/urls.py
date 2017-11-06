@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^photo-gallery/', include(photogallery_urls)),
     url(r'^video/', include(videogallery_urls)),
     url(r'^league/', include(league_urls)),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

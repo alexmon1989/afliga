@@ -4,13 +4,14 @@ from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed
 from django.db.models import Count
+from ckeditor_uploader.fields import RichTextUploadingField
 import json
 
 
 class Team(models.Model):
     """Модель команды."""
     title = models.CharField('Название', max_length=255)
-    description = models.TextField('Описание', null=True, blank=True)
+    description = RichTextUploadingField('Описание', null=True, blank=True)
     logo = models.ImageField('Логотип', upload_to='teams', null=True, blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
@@ -51,7 +52,7 @@ class Player(models.Model):
     )
     position = models.ForeignKey(Position, on_delete=models.CASCADE, verbose_name='Амплуа', null=True, blank=True)
     birth_date = models.DateField('Дата рождения', blank=True, null=True)
-    biography = models.TextField('Биография', blank=True)
+    biography = RichTextUploadingField('Биография', blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
@@ -66,7 +67,7 @@ class Player(models.Model):
 class Tournament(models.Model):
     """Модель турнира."""
     title = models.CharField('Название турнира', max_length=255)
-    description = models.TextField('Описание', null=True, blank=True)
+    description = RichTextUploadingField('Описание', null=True, blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
     players = models.ManyToManyField(Player, through='TournamentPlayer', blank=True)
@@ -259,7 +260,7 @@ class Match(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
     match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
     match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
-    protocol = models.TextField('Протокол', blank=True)
+    protocol = RichTextUploadingField('Протокол', blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 

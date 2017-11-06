@@ -1,11 +1,16 @@
 Django==1.11.5
+django-ckeditor==5.3.1
 django-debug-toolbar==1.8
 django-goodforms==0.2.1
+django-js-asset==0.1.1
 easy-thumbnails==2.4.2
 htmlutils==0.1.2
 olefile==0.44
+packaging==16.8
 Pillow==4.3.0
+pyparsing==2.2.0
 pytz==2017.2
 selenium==3.6.0
 singlemodeladmin==0.7
+six==1.11.0
 sqlparse==0.2.4
