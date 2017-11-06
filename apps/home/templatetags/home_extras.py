@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 from apps.home.models import BombardiersPenaltiesTableSettings
 from apps.settings.models import FooterSettings, Banner, PersonWidget
 
@@ -45,3 +46,8 @@ def banner(pk):
 def in_list(value, the_list):
     value = str(value)
     return value in the_list.split(',')
+
+
+@register.simple_tag
+def settings_value(name):
+    return getattr(settings, name, "")

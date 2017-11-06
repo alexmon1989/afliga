@@ -3,7 +3,8 @@
 {% load staticfiles %}
 {% load thumbnail %}
 
-{% block title %}Новости {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
+{% block title %}Новости {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/
+    {{ block.super }}{% endblock %}
 
 {% block breadcrumbs %}
     <div class="container">
@@ -22,13 +23,13 @@
                         <li class="list-inline-item g-color-primary">
                             <span>Список новостей</span>
                             {% if request.GET.page %}
-                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                                <i class="g-color-gray-light-v2 g-ml-5">/</i>
                             {% endif %}
                         </li>
                         {% if request.GET.page %}
-                        <li class="list-inline-item g-color-primary">
-                            <span>Страница {{ request.GET.page }}</span>
-                        </li>
+                            <li class="list-inline-item g-color-primary">
+                                <span>Страница {{ request.GET.page }}</span>
+                            </li>
                         {% endif %}
                     </ul>
                 </div>
@@ -51,7 +52,8 @@
                                  alt="{{ news_item.title }}">
                         {% endif %}
                         <h2 class="h4 g-color-black g-font-weight-600 mb-3">
-                            <a class="u-link-v5 g-color-black g-color-primary--hover" href="{% url 'news_detail' pk=news_item.pk %}">{{ news_item.title }}</a>
+                            <a class="u-link-v5 g-color-black g-color-primary--hover"
+                               href="{% url 'news_detail' pk=news_item.pk %}">{{ news_item.title }}</a>
                         </h2>
                         <p class="g-line-height-1_8">{{ news_item.text|striptags|truncatewords:40 }}</p>
                         <a class="g-font-size-13" href="{% url 'news_detail' pk=news_item.pk %}">Читать далее...</a>
@@ -60,8 +62,9 @@
                     <ul class="d-flex justify-content-end list-inline g-brd-y g-brd-gray-light-v3 g-font-size-13 g-py-13 mb-0">
                         <li class="list-inline-item mr-4">
                             <i class="align-middle g-color-primary g-font-size-default mr-1 icon-finance-206 u-line-icon-pro"></i>
-                            <a class="d-inline-block g-color-gray-dark-v4 g-text-underline--none--hover" href="{% url 'news_detail' pk=news_item.pk %}#comments">0
-                                Комментариев</a>
+                            <a class="d-inline-block g-color-gray-dark-v4 g-text-underline--none--hover"
+                               href="{% url 'news_detail' pk=news_item.pk %}#comments">Комментариев: <span
+                                    class="disqus-comment-count" data-disqus-identifier="news-{{ news_item.pk }}">0</span></a>
                         </li>
                     </ul>
                 </article>

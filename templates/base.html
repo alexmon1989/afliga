@@ -170,6 +170,7 @@
         $.HSCore.components.HSScrollBar.init($('.matches'), {'theme': 'rounded-dark'});
         $.HSCore.components.HSPopup.init('.js-fancybox');
         $.HSCore.components.HSTabs.init('[role="tablist"]');
+        DISQUSWIDGETS.getCount({reset: true});
     });
 
     $(window).on('load', function () {
@@ -191,6 +192,8 @@
         }, 200);
     });
 </script>
+
+<script id="dsq-count-scr" src="//afl15-ru.disqus.com/count.js" async></script>
 </body>
 
 </html>

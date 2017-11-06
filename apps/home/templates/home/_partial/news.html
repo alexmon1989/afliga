@@ -16,7 +16,8 @@
                 </div>
 
                 <div class="g-mt-5">
-                    <small class="text-muted">Дата: {{ first_news_item.created_at|date }} / Комментариев: 0</small>
+                    <small class="text-muted">Дата: {{ first_news_item.created_at|date }} / Комментариев: <span class="disqus-comment-count" data-disqus-identifier="news-{{ first_news_item.pk }}">0</span></small>
+
                 </div>
 
                 <div class="g-mt-5">
@@ -39,7 +40,7 @@
                            class="text-uppercase g-font-size-15">{{ news.title }}</a>
 
                         <div class="g-mt-5">
-                            <small class="text-muted">Дата: {{ news.created_at|date }} / Комментариев: 0</small>
+                            <small class="text-muted">Дата: {{ news.created_at|date }} / Комментариев: <span class="disqus-comment-count" data-disqus-identifier="news-{{ news.pk }}">0</span></small>
                         </div>
 
                         <div class="g-mt-5">
