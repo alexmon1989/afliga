@@ -71,7 +71,7 @@ class GroupsAdmin(admin.ModelAdmin):
     list_filter = ('tournament',)
 
 
-class EventInline(admin.StackedInline):
+class EventInline(admin.TabularInline):
     model = Event
     extra = 2
     exclude = ('table',)
