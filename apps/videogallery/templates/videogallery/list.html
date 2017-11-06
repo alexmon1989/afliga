@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% block title %}Видеогалерея {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
+
 {% block breadcrumbs %}
     {% include 'videogallery/_partial/breadcrumbs.html' %}
 {% endblock %}

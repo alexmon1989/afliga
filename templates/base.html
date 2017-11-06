@@ -5,7 +5,7 @@
 
 <head>
     <!-- Title -->
-    <title>Afliga</title>
+    <title>{% block title %}{{ request.get_host }}{% endblock %}</title>
 
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">

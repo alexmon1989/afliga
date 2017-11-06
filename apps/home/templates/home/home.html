@@ -3,6 +3,8 @@
 {% load staticfiles %}
 {% load home_extras %}
 
+{% block title %}Главная / {{ block.super }}{% endblock %}
+
 {% block content %}
     <!-- News -->
     <div class="col-lg-12" id="latest_news">

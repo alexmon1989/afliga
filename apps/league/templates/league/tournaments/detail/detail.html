@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ tournament }} / {{ block.super }}{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/tournaments/detail/_partial/breadcrumbs.html' %}

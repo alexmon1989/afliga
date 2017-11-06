@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% block title %}Фотогалереи {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
+
 {% block breadcrumbs %}
     {% include 'photogallery/_partial/breadcrumbs_galleries.html' %}
 {% endblock %}

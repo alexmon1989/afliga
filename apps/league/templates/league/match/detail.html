@@ -3,6 +3,8 @@
 {% load thumbnail %}
 {% load staticfiles %}
 
+{% block title %}{{ match }} / {{ block.super }}{% endblock %}
+
 {% block breadcrumbs %}
     {% include 'league/match/_partial/breadcrumbs.html' %}
 {% endblock %}
