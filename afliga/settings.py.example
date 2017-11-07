@@ -146,15 +146,17 @@ MANAGERS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
 
 THUMBNAIL_ALIASES = {
     '': {
-        'avatar_large': {'size': (350, 400), 'crop': True},
+        'avatar_large': {'size': (350, 400), 'crop': False},
         'avatar_small': {'size': (100, 100), 'crop': True},
         'gallery_item_small': {'size': (400, 270), 'crop': True},
         'team_small': {'size': (45, 45), 'crop': True},
         'team_extra_small': {'size': (18, 18), 'crop': True},
         'team_large': {'size': (130, 130), 'crop': True},
-        'news_large': {'size': (740, 380), 'crop': True},
+        'team_extra_large': {'size': (300, 300)},
+        'news_large': {'size': (740, 380), 'crop': False},
         'news_small': {'size': (255, 130), 'crop': True},
         'news_extra_small': {'size': (160, 82), 'crop': True},
+        'carousel_item': {'size': (1140, 400), 'crop': True},
     },
 }
 

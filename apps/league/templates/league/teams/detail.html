@@ -12,7 +12,7 @@
 
 {% block content %}
     <div class="col-lg-12">
-        <img src="{{ team.logo.url }}" alt="">
+        <img src="{{ team.logo|thumbnail_url:'team_extra_large' }}" alt="" class="img-fluid">
     </div>
 
     {% if team.description %}
