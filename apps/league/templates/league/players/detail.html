@@ -2,6 +2,7 @@
 
 {% load thumbnail %}
 {% load staticfiles %}
+{% load project_tags %}
 
 {% block title %}{{ player }} / {{ player.team }} / {{ block.super }}{% endblock %}
 
@@ -10,14 +11,14 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-3 g-mb-30">
+    <div class="col-md-3">
         {% if player.photo %}
             <img src="{{ player.photo|thumbnail_url:'avatar_large' }}" class="img-fluid" alt="{{ player.name }}" title="{{ player.name }}">
         {% else %}
             <img src="{% static 'assets/img/persons/dummy-person.jpg' %}" class="img-fluid" alt="">
         {% endif %}
     </div>
-    <div class="col-md-9 g-mb-30">
+    <div class="col-md-9">
         <dl class="row">
             <dt class="col-sm-3">Имя игрока</dt>
             <dd class="col-sm-9">{{ player.name }}</dd>
@@ -30,5 +31,9 @@
         </dl>
 
         {{ player.biography|safe }}
+    </div>
+
+    <div class="col-lg-12">
+        {% comments_widget identifier='players' identifier_id=player.pk %}
     </div>
 {% endblock %}
