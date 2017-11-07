@@ -167,11 +167,10 @@
     $(document).on('ready', function () {
         // initialization of go to
         $.HSCore.components.HSGoTo.init('.js-go-to');
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
         // initialization of HSScrollBar component
         $.HSCore.components.HSScrollBar.init($('.matches'), {'theme': 'rounded-dark'});
         $.HSCore.components.HSPopup.init('.js-fancybox');
-        $.HSCore.components.HSTabs.init('[role="tablist"]');
-        DISQUSWIDGETS.getCount({reset: true});
     });
 
     $(window).on('load', function () {
