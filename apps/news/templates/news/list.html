@@ -116,4 +116,9 @@
 
 {% block extra_scripts %}
     <script id="dsq-count-scr" src="{% settings_value "DISQUS_COUNT_SCRIPT" %}" async></script>
+    <script>
+        $(document).on('ready', function () {
+            DISQUSWIDGETS.getCount({reset: true});
+        });
+    </script>
 {% endblock %}

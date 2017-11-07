@@ -29,7 +29,8 @@
 
     {% for tournament in tournaments %}
         <!-- Matches -->
-        <div class="col-lg-12 {% if forloop.counter0 == 0 %}g-mt-40{% else %}g-my-30{% endif %}" id="matches_latest_tournament">
+        <div class="col-lg-12 {% if forloop.counter0 == 0 %}g-mt-40{% else %}g-my-30{% endif %}"
+             id="matches_latest_tournament">
             {% matches_block tournament=tournament %}
         </div>
         <!-- End Matches -->
@@ -44,4 +45,9 @@
 
 {% block extra_scripts %}
     <script id="dsq-count-scr" src="{% settings_value "DISQUS_COUNT_SCRIPT" %}" async></script>
+    <script>
+        $(document).on('ready', function () {
+            DISQUSWIDGETS.getCount({reset: true});
+        });
+    </script>
 {% endblock %}
