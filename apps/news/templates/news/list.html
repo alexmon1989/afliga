@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load thumbnail %}
+{% load project_tags %}
 
 {% block title %}Новости {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/
     {{ block.super }}{% endblock %}
@@ -111,4 +112,8 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script id="dsq-count-scr" src="{% settings_value "DISQUS_COUNT_SCRIPT" %}" async></script>
 {% endblock %}

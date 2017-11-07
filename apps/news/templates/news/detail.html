@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load thumbnail %}
+{% load project_tags %}
 
 {% block title %}{{ news.title }} / Новости / {{ block.super }}{% endblock %}
 
@@ -42,6 +43,10 @@
 
         {% include 'news/_partial/more_news.html' %}
 
-        {% include 'news/_partial/comments.html' %}
+        {% comments_widget identifier='news' identifier_id=news.pk %}
     </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script id="dsq-count-scr" src="{% settings_value "DISQUS_COUNT_SCRIPT" %}" async></script>
 {% endblock %}

@@ -8,12 +8,12 @@
 <div id="disqus_thread" class="g-mb-60"></div>
 <script>
     var disqus_config = function () {
-        {% if request.is_secure %}
-            this.page.url = 'https://{{ request.get_host }}{{ request.get_full_path }}';
+        {% if is_secure %}
+            this.page.url = 'https://{{ host }}{{ full_path }}';
         {% else %}
-            this.page.url = 'http://{{ request.get_host }}{{ request.get_full_path }}';
+            this.page.url = 'http://{{ host }}{{ full_path }}';
         {% endif %}
-        this.page.identifier = 'news-{{ news.pk }}';
+        this.page.identifier = '{{ identifier }}-{{ identifier_id }}';
     };
 
     (function () {
