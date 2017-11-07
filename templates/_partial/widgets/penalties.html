@@ -23,7 +23,7 @@
             {% if bombardiers_penalties.tournament.get_yellow_cards.count > 0 %}
                 <table class="table table-sm g-font-size-16 table-bombardiers">
                     <tbody>
-                    {% for player in bombardiers_penalties.tournament.get_yellow_cards %}
+                    {% for player in bombardiers_penalties.tournament.get_yellow_cards|slice:":3" %}
                         <tr>
                             <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
                             <td class="g-pt-10">{{ player.num_yellow_cards }}</td>
@@ -40,7 +40,7 @@
             {% if bombardiers_penalties.tournament.get_red_cards.count > 0 %}
                 <table class="table table-sm g-font-size-16 table-bombardiers">
                     <tbody>
-                    {% for player in bombardiers_penalties.tournament.get_red_cards %}
+                    {% for player in bombardiers_penalties.tournament.get_red_cards|slice:":3" %}
                         <tr>
                             <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
                             <td class="g-pt-10">{{ player.num_red_cards }}</td>
