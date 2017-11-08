@@ -51,7 +51,7 @@
                     </td>
                     <td class="g-font-weight-600"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
                     <td class="hidden-sm">{{ player.birth_date }}</td>
-                    <td>{{ player.position }}</td>
+                    <td>{{ player.position|default_if_none:"" }}</td>
                 </tr>
             {% endfor %}
             </tbody>
