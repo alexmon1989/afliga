@@ -107,6 +107,7 @@ class MatchForm(forms.ModelForm):
                         if item['id'] == team_1.pk:
                             item['goals_scored'] += goals_team_1
                             item['goals_missed'] += goals_team_2
+                            item['games'] += 1
                             if goals_team_1 > goals_team_2:
                                 item['wins'] += 1
                                 item['score'] += 3
@@ -120,6 +121,7 @@ class MatchForm(forms.ModelForm):
                         if item['id'] == team_2.pk:
                             item['goals_scored'] += goals_team_2
                             item['goals_missed'] += goals_team_1
+                            item['games'] += 1
                             if goals_team_2 > goals_team_1:
                                 item['wins'] += 1
                                 item['score'] += 3
