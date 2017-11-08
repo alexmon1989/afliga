@@ -20,6 +20,11 @@ class TeamDetailView(DetailView):
     model = Team
     template_name = 'league/teams/detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(TeamDetailView, self).get_context_data(**kwargs)
+        context['players'] = self.get_object().player_set.order_by('position').all()
+        return context
+
 
 class PlayerDetailView(DetailView):
     """Отображает страницу с деталями игрока."""
