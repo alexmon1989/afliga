@@ -26,10 +26,12 @@
                     <td>
                         {% get_team_logo pk=team.id as team_logo %}
                         {% if team_logo %}
-                            <a href="{% url 'team_detail' pk=team.id %}"><img src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
-                                             alt="{{ team.title }}"></a>
+                            <a href="{% url 'team_detail' pk=team.id %}"><img
+                                    src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
+                                    alt="{{ team.title }}"></a>
                         {% else %}
-                            <a href="{% url 'team_detail' pk=team.id %}"><img src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                            <a href="{% url 'team_detail' pk=team.id %}"><img
+                                    src="http://via.placeholder.com/18?text=No+image" alt=""></a>
                         {% endif %}
                         &nbsp;<a href="{% url 'team_detail' pk=team.id %}">{{ team.title }}</a>
                     </td>
@@ -39,6 +41,11 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <div class="text-center">
+            <a href="{% url 'tournament_detail' pk=table.tournament.pk %}"
+               class="btn btn-lg u-btn-outline-deeporange g-mt-10">Страница турнира</a>
+        </div>
     {% endfor %}
 {% else %}
     <p>Нет данных.</p>
