@@ -22,6 +22,7 @@ class Team(models.Model):
     class Meta:
         verbose_name = 'Команда'
         verbose_name_plural = 'Команды'
+        ordering = ['title']
 
 
 class Position(models.Model):
@@ -62,6 +63,7 @@ class Player(models.Model):
     class Meta:
         verbose_name = 'Игрок'
         verbose_name_plural = 'Игроки'
+        ordering = ['name']
 
 
 class Tournament(models.Model):

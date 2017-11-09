@@ -16,7 +16,6 @@ class PositionsAdmin(admin.ModelAdmin):
 class TeamsAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования команд."""
     list_display = ('title', 'created_at', 'updated_at')
-    ordering = ('-created_at',)
     search_fields = ('title',)
 
 
@@ -24,7 +23,6 @@ class TeamsAdmin(admin.ModelAdmin):
 class PlayersAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования игроков."""
     list_display = ('name', 'team', 'position', 'birth_date', 'created_at', 'updated_at')
-    ordering = ('-created_at',)
     search_fields = ('title', 'team')
     list_filter = ('team', 'position')
 
