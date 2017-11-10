@@ -12,7 +12,11 @@
 
 {% block content %}
     <div class="col-lg-12">
-        <img src="{{ team.logo|thumbnail_url:'team_extra_large' }}" alt="" class="img-fluid">
+        {% if team.logo %}
+            <img src="{{ team.logo|thumbnail_url:'team_extra_large' }}" alt="" class="img-fluid">
+        {% else %}
+            <img class="img-fluid" src="http://via.placeholder.com/300?text=No+image" alt="">
+        {% endif %}
     </div>
 
     {% if team.description %}
