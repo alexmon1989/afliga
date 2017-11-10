@@ -322,7 +322,8 @@ class Event(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч')
     player = models.ForeignKey(Player, on_delete=models.CASCADE, verbose_name='Игрок')
     team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда')
-    event_time = models.IntegerField('Минута', validators=[MinValueValidator(1), MaxValueValidator(100)])
+    event_time = models.IntegerField('Минута', validators=[MinValueValidator(1), MaxValueValidator(100)], blank=True,
+                                     null=True, default=None)
 
     def __str__(self):
         return f"{self.event_type} ({self.match})"

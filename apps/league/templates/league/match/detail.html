@@ -81,7 +81,13 @@
                         {% for event in match.event_set.all %}
                             {% if event.team == match.team_1 %}
                                 <tr>
-                                    <td>{{ event.event_time }}'</td>
+                                    <td>
+                                        {% if event.event_time %}
+                                            {{ event.event_time }}'
+                                        {% else %}
+                                            &nbsp;
+                                        {% endif %}
+                                    </td>
                                     <td><a href="{% url 'player_detail' pk=event.player.pk %}">{{ event.player }}</a>
                                     </td>
                                     <td>{{ event.event_type }}</td>
@@ -99,7 +105,13 @@
                         {% for event in match.event_set.all %}
                             {% if event.team == match.team_2 %}
                                 <tr>
-                                    <td>{{ event.event_time }}'</td>
+                                    <td>
+                                        {% if event.event_time %}
+                                            {{ event.event_time }}'
+                                        {% else %}
+                                            &nbsp;
+                                        {% endif %}
+                                    </td>
                                     <td><a href="{% url 'player_detail' pk=event.player.pk %}">{{ event.player }}</a>
                                     </td>
                                     <td>{{ event.event_type }}</td>
