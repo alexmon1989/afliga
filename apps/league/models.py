@@ -85,14 +85,14 @@ class Tournament(models.Model):
         return self.round_set.filter(
             match__group__isnull=True,
             match__match_date__lte=timezone.now()
-        ).all()
+        ).order_by('-created_at').all()
 
     def get_playoff_future_rounds(self):
         """Возвращает список туров турнира, в котором несыгранные матчи без групп."""
         return self.round_set.filter(
             match__group__isnull=True,
             match__match_date__gte=timezone.now()
-        ).all()
+        ).order_by('created_at').all()
 
     def get_bombardiers(self):
         """Возвращает список бомбардиров турнира."""
@@ -166,7 +166,7 @@ class Group(models.Model):
             tournament=self.tournament,
             match__group=self,
             match__match_date__lte=timezone.now()
-        ).distinct().all()[:3]
+        ).order_by('-created_at').distinct().all()[:3]
 
     def get_future_rounds(self):
         """Возвращает список туров группы, в которых есть несыгранные матчи."""
@@ -174,7 +174,7 @@ class Group(models.Model):
             tournament=self.tournament,
             match__group=self,
             match__match_date__gte=timezone.now()
-        ).distinct().all()[:3]
+        ).order_by('created_at').distinct().all()[:3]
 
     class Meta:
         verbose_name = 'Группа'
