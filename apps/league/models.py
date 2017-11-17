@@ -275,7 +275,7 @@ class Match(models.Model):
 
     def get_goals_team_1(self):
         """Возвращает количество голов, которые забила команда хозяев."""
-        if self.match_date > timezone.now():
+        if self.match_date and self.match_date > timezone.now():
             return '-'
         if self.goals_team_1:
             return self.goals_team_1
@@ -288,7 +288,7 @@ class Match(models.Model):
 
     def get_goals_team_2(self):
         """Возвращает количество голов, которые забила команда гостей."""
-        if self.match_date > timezone.now():
+        if self.match_date and self.match_date > timezone.now():
             return '-'
         if self.goals_team_2:
             return self.goals_team_2
