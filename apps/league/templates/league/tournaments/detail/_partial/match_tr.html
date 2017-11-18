@@ -1,6 +1,6 @@
 {% load thumbnail %}
 <tr>
-    <td class="text-center" width="10%">{{ match.match_date|time }}</td>
+    <td class="text-center" width="10%" data-toggle="tooltip" data-original-title="{{ match.match_date|date }}">{{ match.match_date|time }}</td>
     <td class="text-right" width="40%">
         <div class="row no-gutters">
             <div class="col-10">
