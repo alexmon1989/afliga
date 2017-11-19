@@ -27,7 +27,7 @@
                     <tbody>
                     {% for player in bombardiers_penalties.tournament.get_yellow_cards|slice:":3" %}
                         <tr>
-                            <td class="g-py-5">
+                            <td class="g-py-5" width="15%">
                                 <a href="{% url 'player_detail' pk=player.pk %}">
                                     {% if player.photo %}
                                         <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}"
@@ -57,7 +57,7 @@
                     <tbody>
                     {% for player in bombardiers_penalties.tournament.get_red_cards|slice:":3" %}
                         <tr>
-                            <td class="g-py-5">
+                            <td class="g-py-5" width="15%">
                                 <a href="{% url 'player_detail' pk=player.pk %}">
                                     {% if player.photo %}
                                         <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}"
