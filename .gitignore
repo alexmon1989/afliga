@@ -99,3 +99,6 @@ ENV/
 /.idea/
 /node_modules/
 /static/assets/css/
+/nginx.conf
+/staticfiles/
+/media/

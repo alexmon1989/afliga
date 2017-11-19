@@ -5,10 +5,20 @@ services:
     image: postgres
   web:
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn afliga.wsgi -b 0.0.0.0:8000"
     volumes:
       - .:/code
-    ports:
-      - "80:8000"
+    expose:
+      - "8000"
     depends_on:
       - db
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/afliga.conf
+      - ./staticfiles:/static
+      - ./media:/media
+    depends_on:
+      - web
