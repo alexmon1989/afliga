@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <h2 class="text-uppercase h3">Штрафники</h2>
 <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
@@ -25,8 +27,21 @@
                     <tbody>
                     {% for player in bombardiers_penalties.tournament.get_yellow_cards|slice:":3" %}
                         <tr>
-                            <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
-                            <td class="g-pt-10">{{ player.num_yellow_cards }}</td>
+                            <td class="g-py-5">
+                                <a href="{% url 'player_detail' pk=player.pk %}">
+                                    {% if player.photo %}
+                                        <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}"
+                                             class="img-fluid"
+                                             alt="{{ player.name }}"
+                                             title="{{ player.name }}">
+                                    {% else %}
+                                        <img src="http://via.placeholder.com/25" class="img-fluid"
+                                             alt="Фото отсутствует">
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="g-py-7"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
+                            <td class="g-py-7">{{ player.num_yellow_cards }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -42,8 +57,21 @@
                     <tbody>
                     {% for player in bombardiers_penalties.tournament.get_red_cards|slice:":3" %}
                         <tr>
-                            <td class="g-pt-10"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
-                            <td class="g-pt-10">{{ player.num_red_cards }}</td>
+                            <td class="g-py-5">
+                                <a href="{% url 'player_detail' pk=player.pk %}">
+                                    {% if player.photo %}
+                                        <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}"
+                                             class="img-fluid"
+                                             alt="{{ player.name }}"
+                                             title="{{ player.name }}">
+                                    {% else %}
+                                        <img src="http://via.placeholder.com/25?text=No+Photo" class="img-fluid"
+                                             alt="Фото отсутствует">
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="g-py-5"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
+                            <td class="g-py-5">{{ player.num_red_cards }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
