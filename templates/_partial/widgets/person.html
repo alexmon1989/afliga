@@ -2,13 +2,14 @@
 {% if person_widget_data and person_widget_data.is_visible %}
     <div class="col-lg-12 g-mt-30" id="person">
         <h2 class="text-uppercase h3">{{ person_widget_data.title }}</h2>
-        <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
+        <hr class="g-mt-0 g-brd-black-top u-mb-025">
 
-        <img src="{{ person_widget_data.player.photo.url }}" class="img-fluid g-mt-10" alt="">
+        <a href="{% url 'player_detail' pk=person_widget_data.player.pk %}"><img
+                src="{{ person_widget_data.player.photo.url }}" class="img-fluid g-mt-10" alt=""></a>
 
         <div class="g-mt-10">
             <a href="{% url 'player_detail' pk=person_widget_data.player.pk %}"
-               class="text-dark text-uppercase g-font-size-20">{{ person_widget_data.player.name }}</a>
+               class="text-dark text-uppercase g-font-size-16">{{ person_widget_data.player.name }}</a>
         </div>
 
         <p>{{ person_widget_data.player.biography|striptags|truncatewords:15 }}</p>
