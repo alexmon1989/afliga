@@ -20,7 +20,7 @@
                     {% endif %}
                     <div class="carousel-caption d-none d-md-block">
                         {% if slide.link %}
-                            <a href="#" class="text-uppercase">{{ slide.title|default_if_none:"" }}</a>
+                            <a href="{{ slide.link }}" class="text-uppercase">{{ slide.title|default_if_none:"" }}</a>
                         {% else %}
                             <span class="text-uppercase g-font-size-28">{{ slide.title|default_if_none:"" }}</span>
                         {% endif %}
