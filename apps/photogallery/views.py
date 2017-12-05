@@ -21,7 +21,7 @@ class PhotosListView(ListView):
     gallery = None
 
     def get_queryset(self, *args, **kwargs):
-        self.gallery = get_object_or_404(Gallery, pk=self.kwargs['pk'])
+        self.gallery = get_object_or_404(Gallery, pk=self.kwargs['pk'], is_visible=True)
         return self.gallery.photo_set.filter(is_visible=True).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
