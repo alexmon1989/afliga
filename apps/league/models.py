@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed
 from django.db.models import Count
+from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 import json
 
@@ -18,6 +19,9 @@ class Team(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('team_detail', args=[self.pk])
 
     class Meta:
         verbose_name = 'Команда'
@@ -59,6 +63,9 @@ class Player(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('player_detail', args=[self.pk])
 
     class Meta:
         verbose_name = 'Игрок'
@@ -117,6 +124,9 @@ class Tournament(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('tournament_detail', args=[self.pk])
 
     class Meta:
         verbose_name = 'Турнир'
@@ -298,6 +308,9 @@ class Match(models.Model):
             if goal_event.team == self.team_2:
                 goals += 1
         return goals
+
+    def get_absolute_url(self):
+        return reverse('match_detail', args=[self.pk])
 
     class Meta:
         verbose_name = 'Матч'

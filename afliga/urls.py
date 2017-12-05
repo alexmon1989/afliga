@@ -24,6 +24,20 @@ from apps.team import urls as team_urls
 from apps.photogallery import urls as photogallery_urls
 from apps.videogallery import urls as videogallery_urls
 from apps.league import urls as league_urls
+from afliga.sitemap import (StaticSitemap, NewsSitemap, GallerySitemap, TournamentSitemap, TeamSitemap, PlayerSitemap,
+                            MatchSitemap)
+from django.contrib.sitemaps.views import sitemap
+
+
+sitemaps = {
+    'static': StaticSitemap,
+    'news': NewsSitemap,
+    'photogalleries': GallerySitemap,
+    'tournaments': TournamentSitemap,
+    'teams': TeamSitemap,
+    'players': PlayerSitemap,
+    'matches': MatchSitemap,
+}
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -34,6 +48,7 @@ urlpatterns = [
     url(r'^photo-gallery/', include(photogallery_urls)),
     url(r'^video/', include(videogallery_urls)),
     url(r'^league/', include(league_urls)),
+    url(r'^sitemap.xml$', sitemap, {'sitemaps': sitemaps}),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

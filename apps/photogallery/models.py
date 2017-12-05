@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from easy_thumbnails.fields import ThumbnailerImageField
 
 
@@ -11,6 +12,9 @@ class Gallery(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('photos_list', args=[self.pk])
 
     class Meta:
         verbose_name = 'Галерея'
