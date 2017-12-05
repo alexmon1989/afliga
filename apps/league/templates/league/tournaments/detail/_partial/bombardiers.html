@@ -10,6 +10,7 @@
                     <tr>
                         <th>#</th>
                         <th class="text-center">ФИО игрока</th>
+                        <th class="text-center">Команда</th>
                         <th class="text-center">Количество забитых голов</th>
                     </tr>
                     </thead>
@@ -19,6 +20,7 @@
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
+                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_goals }}
                             </td>

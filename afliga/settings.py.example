@@ -148,7 +148,7 @@ THUMBNAIL_ALIASES = {
     '': {
         'avatar_large': {'size': (350, 400), 'crop': False},
         'avatar_small': {'size': (100, 100), 'crop': True},
-        'avatar_extra_small': {'size': (25, 25), 'crop': True},
+        'avatar_extra_small': {'size': (45, 45), 'crop': True},
         'gallery_item_small': {'size': (400, 270), 'crop': True},
         'team_small': {'size': (45, 45), 'crop': True},
         'team_extra_small': {'size': (18, 18), 'crop': True},

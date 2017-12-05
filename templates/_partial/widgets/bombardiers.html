@@ -4,24 +4,27 @@
 <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
 {% if bombardiers_penalties and bombardiers_penalties.tournament and bombardiers_penalties.tournament.get_bombardiers.count > 0 %}
-    <table class="table table-sm g-font-size-16 table-bombardiers">
+    <table class="table table-sm table-bombardiers">
         <tbody>
         {% for player in bombardiers_penalties.tournament.get_bombardiers|slice:":3" %}
             <tr>
-                <td class="g-py-7" width="15%">
+                <td class="g-py-7 g-valign-middle" width="20%">
                     <a href="{% url 'player_detail' pk=player.pk %}">
                         {% if player.photo %}
-                            <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="img-fluid"
+                            <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
                                  alt="{{ player.name }}"
                                  title="{{ player.name }}">
                         {% else %}
-                            <img src="http://via.placeholder.com/25?text=No+Photo" class="img-fluid"
+                            <img src="http://via.placeholder.com/45?text=No+Photo" class="w-100"
                                  alt="Фото отсутствует">
                         {% endif %}
                     </a>
                 </td>
-                <td class="g-py-7"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
-                <td class="g-py-7">{{ player.num_goals }}</td>
+                <td class="g-py-7">
+                    <a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a>
+                    <br><span>({{ player.team }})</span>
+                </td>
+                <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_goals }}</td>
             </tr>
         {% endfor %}
         </tbody>
