@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'debug_toolbar',
     'goodforms',
+    'compressor',
     'easy_thumbnails',
     'ckeditor',
     'ckeditor_uploader',
@@ -221,3 +222,8 @@ CKEDITOR_CONFIGS = {
 
 DISQUS_URL = 'https://afl15-ru.disqus.com/embed.js'
 DISQUS_COUNT_SCRIPT = '//afl15-ru.disqus.com/count.js'
+
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter'
+]
