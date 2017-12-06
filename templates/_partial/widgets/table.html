@@ -31,7 +31,7 @@
                                     alt="{{ team.title }}"></a>
                         {% else %}
                             <a href="{% url 'team_detail' pk=team.id %}"><img
-                                    src="http://via.placeholder.com/18?text=No+image" alt=""></a>
+                                    src="//via.placeholder.com/18?text=No+image" alt=""></a>
                         {% endif %}
                         &nbsp;<a href="{% url 'team_detail' pk=team.id %}">{{ team.title }}</a>
                     </td>

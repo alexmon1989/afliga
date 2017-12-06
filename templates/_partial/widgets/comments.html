@@ -11,7 +11,7 @@
         {% if is_secure %}
             this.page.url = 'https://{{ host }}{{ full_path }}';
         {% else %}
-            this.page.url = 'http://{{ host }}{{ full_path }}';
+            this.page.url = '//{{ host }}{{ full_path }}';
         {% endif %}
         this.page.identifier = '{{ identifier }}-{{ identifier_id }}';
     };
