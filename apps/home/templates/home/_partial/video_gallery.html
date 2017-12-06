@@ -6,7 +6,7 @@
         {% with last_videos.0 as first_video %}
             <div class="col-md-8">
                 <a class="js-fancybox d-block u-bg-overlay g-bg-black-opacity-0_5--after g-mb-30 g-mb-0--md"
-                   data-fancybox-gallery="lightbox-gallery--05" href="http://www.youtube.com/embed/{{ first_video.youtube_id }}?autoplay=1"
+                   data-fancybox-gallery="lightbox-gallery--05" href="//www.youtube.com/embed/{{ first_video.youtube_id }}?autoplay=1"
                    title="Смотреть">
                     <img class="img-fluid"
                          src="//img.youtube.com/vi/{{ first_video.youtube_id }}/maxresdefault.jpg"
@@ -26,7 +26,7 @@
         <div class="col-md-4">
             {% for video in last_videos|slice:"1:" %}
                 <a class="js-fancybox d-block u-bg-overlay g-bg-black-opacity-0_5--after g-mb-20"
-                   data-fancybox-gallery="lightbox-gallery--05" href="http://www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1"
+                   data-fancybox-gallery="lightbox-gallery--05" href="//www.youtube.com/embed/{{ video.youtube_id }}?autoplay=1"
                    title="Смотреть">
                     <img class="img-fluid" src="//img.youtube.com/vi/{{ video.youtube_id }}/mqdefault.jpg"
                              alt="{{ video.title }}">

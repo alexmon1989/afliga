@@ -33,7 +33,7 @@
                                     src="{{ match.team_1.logo|thumbnail_url:'team_large' }}" alt=""></a>
                         {% else %}
                             <a href="{% url 'team_detail' pk=match.team_1.pk %}"><img class="img-fluid"
-                                    src="http://via.placeholder.com/130?text=No+image" alt=""></a>
+                                    src="//via.placeholder.com/130?text=No+image" alt=""></a>
                         {% endif %}
                     </div>
 
@@ -61,7 +61,7 @@
                                     src="{{ match.team_2.logo|thumbnail_url:'team_large' }}" alt=""></a>
                         {% else %}
                             <a href="{% url 'team_detail' pk=match.team_2.pk %}"><img class="img-fluid"
-                                    src="http://via.placeholder.com/130?text=No+image" alt=""></a>
+                                    src="//via.placeholder.com/130?text=No+image" alt=""></a>
                         {% endif %}
                     </div>
 
