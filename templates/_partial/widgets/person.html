@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <!-- Person -->
 {% if person_widget_data and person_widget_data.is_visible %}
     <div class="col-lg-12 g-mt-30" id="person">
@@ -5,7 +7,7 @@
         <hr class="g-mt-0 g-brd-black-top u-mb-025">
 
         <a href="{% url 'player_detail' pk=person_widget_data.player.pk %}"><img
-                src="{{ person_widget_data.player.photo.url }}" class="img-fluid g-mt-10" alt=""></a>
+                src="{{ person_widget_data.player.photo|thumbnail_url:'avatar_large' }}" class="img-fluid g-mt-10" alt=""></a>
 
         <div class="g-mt-10">
             <a href="{% url 'player_detail' pk=person_widget_data.player.pk %}"
