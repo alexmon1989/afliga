@@ -3,6 +3,7 @@ version: '3'
 services:
   db:
     image: postgres
+    restart: always
   web:
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn afliga.wsgi -b 0.0.0.0:8000 -w 4"
@@ -12,3 +13,4 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    restart: always
