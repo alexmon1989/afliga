@@ -5,7 +5,7 @@ services:
     image: postgres
   web:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn afliga.wsgi -b 0.0.0.0:8000"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn afliga.wsgi -b 0.0.0.0:8000 -w 4"
     volumes:
       - .:/code
     expose:
