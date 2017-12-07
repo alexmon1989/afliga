@@ -5,6 +5,7 @@
 {% load project_tags %}
 
 {% block title %}{{ player }} / {{ player.team }} / {{ block.super }}{% endblock %}
+{% block description %}Страница игрока {{ player }}. Биография, фото и пр.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/players/_partial/breadcrumbs.html' %}

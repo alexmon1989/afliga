@@ -3,6 +3,7 @@
 {% load staticfiles %}
 
 {% block title %}{{ gallery.title }} {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
+{% block description %}Фотогалерея {{ gallery.title }}.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'photogallery/_partial/breadcrumbs_photos.html' %}

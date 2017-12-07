@@ -3,6 +3,7 @@
 {% load project_tags %}
 
 {% block title %}{{ tournament }} / {{ block.super }}{% endblock %}
+{% block description %}Страница турнира {{ tournament }}. Команды, таблица, календарь матчей, бомбардиры, штрафники.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/tournaments/detail/_partial/breadcrumbs.html' %}

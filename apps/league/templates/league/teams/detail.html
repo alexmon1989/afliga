@@ -4,7 +4,8 @@
 {% load staticfiles %}
 {% load project_tags %}
 
-{% block title %}{{ team.title }} / {{ block.super }}{% endblock %}
+{% block title %}Футбольная команда {{ team.title }} / {{ block.super }}{% endblock %}
+{% block description %}Страница футбольной команды {{ team.title }}. Описание команды, текущий состав игроков.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/teams/_partial/breadcrumbs.html' %}

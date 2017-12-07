@@ -5,6 +5,7 @@
 {% load project_tags %}
 
 {% block title %}{{ news.title }} / Новости / {{ block.super }}{% endblock %}
+{% block description %}{{ news.text|striptags|truncatechars:40 }}{% endblock %}
 
 {% block breadcrumbs %}
     <div class="container">

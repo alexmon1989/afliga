@@ -5,6 +5,7 @@
 {% load project_tags %}
 
 {% block title %}{{ match }} / {{ block.super }}{% endblock %}
+{% block description %}Матч {{ match }} ({{ match.get_score }}). {{ match.match_date }}, {{ match.match_round }}. {{ match.match_round.tournament }}.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/match/_partial/breadcrumbs.html' %}
