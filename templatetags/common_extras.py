@@ -1,5 +1,7 @@
 from django import template
 from django.conf import settings
+from django.utils.safestring import mark_safe
+from apps.settings.models import Analytics
 
 register = template.Library()
 
@@ -25,3 +27,10 @@ def comments_widget(context, identifier, identifier_id):
         'identifier': identifier,
         'identifier_id': identifier_id
     }
+
+
+@register.simple_tag
+def analytics_code():
+    """Возвращает HTML-код аналитики."""
+    analytics, created = Analytics.objects.get_or_create()
+    return mark_safe(analytics.code)

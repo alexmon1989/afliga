@@ -49,3 +49,14 @@ class PersonWidget(models.Model):
     class Meta:
         verbose_name = 'Виджет "Персона"'
         verbose_name_plural = 'Виджет "Персона"'
+
+
+class Analytics(models.Model):
+    """Модель HTML-кода аналитики."""
+    code = models.TextField('HTML-код')
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'HTML-код аналитики'
+        verbose_name_plural = 'HTML-код аналитики'
