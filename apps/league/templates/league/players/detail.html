@@ -4,7 +4,7 @@
 {% load staticfiles %}
 {% load project_tags %}
 
-{% block title %}{{ player }} / {{ player.team }} / {{ block.super }}{% endblock %}
+{% block title %}{{ player }} / {% if player.team %}{{ player.team }} /{% endif %} {{ block.super }}{% endblock %}
 {% block description %}Страница игрока {{ player }}. Биография, фото и пр.{% endblock %}
 
 {% block breadcrumbs %}
@@ -35,7 +35,7 @@
             <dd class="col-sm-9">{{ player.birth_date|default_if_none:"Нет данных" }}</dd>
 
             <dt class="col-sm-3">Текущая команда</dt>
-            <dd class="col-sm-9"><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></dd>
+            <dd class="col-sm-9">{% if player.team %}<a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a>{% else %}-{% endif %}</dd>
         </dl>
 
         {{ player.biography|safe }}

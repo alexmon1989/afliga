@@ -13,10 +13,12 @@
                         <a class="u-link-v5 g-color-main" href="/">Главная</a>
                         <i class="g-color-gray-light-v2 g-ml-5">/</i>
                     </li>
-                    <li class="list-inline-item g-color-primary">
-                        <span><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></span>
-                        <i class="g-color-gray-light-v2 g-ml-5">/</i>
-                    </li>
+                    {% if player.team %}
+                        <li class="list-inline-item g-color-primary">
+                            <span><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></span>
+                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                        </li>
+                    {% endif %}
                     <li class="list-inline-item g-color-primary">
                         <span>{{ player.name }}</span>
                     </li>
