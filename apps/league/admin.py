@@ -23,7 +23,7 @@ class TeamsAdmin(admin.ModelAdmin):
 class PlayersAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования игроков."""
     list_display = ('name', 'team', 'position', 'birth_date', 'created_at', 'updated_at')
-    search_fields = ('title', 'team')
+    search_fields = ('name',)
     list_filter = ('team', 'position')
 
 
