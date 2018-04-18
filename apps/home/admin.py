@@ -1,9 +1,12 @@
 from django.contrib import admin
 from apps.home.models import Carousel, LastTournament, BombardiersPenaltiesTableSettings
-from singlemodeladmin import SingleModelAdmin
 
 
-admin.site.register(BombardiersPenaltiesTableSettings, SingleModelAdmin)
+@admin.register(BombardiersPenaltiesTableSettings)
+class BombardiersPenaltiesTableSettingsAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования виджетов главной страницы."""
+    list_display = ('tournament', 'show_table', 'show_bombardiers', 'show_penalties', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
 
 
 @admin.register(Carousel)

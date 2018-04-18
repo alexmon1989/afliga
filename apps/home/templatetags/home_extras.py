@@ -18,17 +18,17 @@ def person_widget():
 
 @register.inclusion_tag('_partial/widgets/bombardiers.html')
 def bombardiers_widget():
-    return {'bombardiers_penalties': BombardiersPenaltiesTableSettings.objects.first()}
+    return {'tournaments': BombardiersPenaltiesTableSettings.objects.order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/penalties.html')
 def penalties_widget():
-    return {'bombardiers_penalties': BombardiersPenaltiesTableSettings.objects.first()}
+    return {'tournaments': BombardiersPenaltiesTableSettings.objects.order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/table.html')
 def table_widget():
-    return {'table': BombardiersPenaltiesTableSettings.objects.first()}
+    return {'tables': BombardiersPenaltiesTableSettings.objects.order_by('-created_at').all()}
 
 
 @register.inclusion_tag('home/_partial/matches.html')

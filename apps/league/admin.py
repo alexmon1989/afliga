@@ -51,12 +51,13 @@ class GroupForm(forms.ModelForm):
     """Класс формы для редактирования группы."""
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
-        self.initial['table'] = json.dumps(
-            json.loads(self.instance.table),
-            ensure_ascii=False,
-            sort_keys=True,
-            indent=2
-        )
+        if self.instance.table:
+            self.initial['table'] = json.dumps(
+                json.loads(self.instance.table),
+                ensure_ascii=False,
+                sort_keys=True,
+                indent=2
+            )
 
 
 @admin.register(Group)

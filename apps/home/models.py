@@ -33,7 +33,10 @@ class LastTournament(models.Model):
 
 class BombardiersPenaltiesTableSettings(models.Model):
     """Модель настроек блоков "Бомабардиры", "Штрафники" и "Таблица"."""
-    tournament = models.ForeignKey(Tournament, blank=True, null=True, verbose_name='Турнир', on_delete=models.CASCADE)
+    tournament = models.ForeignKey(Tournament, verbose_name='Турнир', on_delete=models.CASCADE)
+    show_table = models.BooleanField('Показывать турнирную таблицу', default=True)
+    show_bombardiers = models.BooleanField('Показывать бомбардиров', default=True)
+    show_penalties = models.BooleanField('Показывать штрафников', default=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
