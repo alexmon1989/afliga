@@ -8,7 +8,7 @@ register = template.Library()
 def get_team_logo(pk):
     """Возвращает логотип команды."""
     team = Team.objects.filter(pk=pk).first()
-    if team.logo:
+    if team and team.logo:
         return team.logo
     return None
 
