@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: afliga_db
+    restart: always
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    #restart: always
+  web:
+    build: .
+    container_name: afliga_web
+    command: /bin/sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn afliga.wsgi -b 0.0.0.0:8000 -w 4"
+    volumes:
+      - ./frontend:/frontend:ro
+      - ./static:/static
+      - ./media:/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    #restart: always

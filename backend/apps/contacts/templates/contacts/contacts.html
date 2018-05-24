@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Контакты / {{ block.super }}{% endblock %}
+{% block description %}Связь с представителями Аланской футбольной лиги. Телефон, E-Mail, форма контакта.{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="container">
+        <section class="g-bg-gray-light-v5 g-py-20 g-px-30 g-mb-30">
+            <div class="d-sm-flex text-center">
+                <div class="align-self-center">
+                    <h1 class="h2 g-font-weight-300 w-100 g-mb-10 g-mb-0--md">Контакты</h1>
+                </div>
+
+                <div class="align-self-center ml-auto">
+                    <ul class="u-list-inline">
+                        <li class="list-inline-item g-mr-5">
+                            <a class="u-link-v5 g-color-main" href="/">Главная</a>
+                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                        </li>
+                        <li class="list-inline-item g-color-primary">
+                            <span>Контакты</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12 g-mb-30">
+        <!-- Heading -->
+        <h2 class="h1 g-color-black g-font-weight-700 mb-4">{{ contacts.title }}</h2>
+        <p class="g-font-size-18 mb-0">{{ contacts.text|linebreaksbr }}</p>
+        <!-- End Heading -->
+    </div>
+
+    <div class="col-lg-6 align-self-end ml-auto g-mb-50">
+        <div class="media">
+            <div class="d-flex align-self-center">
+              <span class="u-icon-v2 u-icon-size--sm g-color-white g-bg-primary rounded-circle mr-3">
+                  <i class="g-font-size-16 icon-communication-033 u-line-icon-pro"></i>
+                </span>
+            </div>
+            <div class="media-body align-self-center">
+                <h3 class="h6 g-color-black g-font-weight-700 text-uppercase mb-0">Телефон</h3>
+                <p class="mb-0">{{ contacts.phones|linebreaksbr }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 align-self-end ml-auto g-mb-50">
+        <div class="media">
+            <div class="d-flex align-self-center">
+              <span class="u-icon-v2 u-icon-size--sm g-color-white g-bg-primary rounded-circle mr-3">
+                  <i class="g-font-size-16 icon-communication-062 u-line-icon-pro"></i>
+                </span>
+            </div>
+            <div class="media-body align-self-center">
+                <h3 class="h6 g-color-black g-font-weight-700 text-uppercase mb-0">E-Mail</h3>
+                <p class="mb-0">{{ contacts.emails|linebreaksbr }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        {% if messages %}
+            {% include 'contacts/_partial/success_message.html' %}
+        {% else %}
+            <h3 class="h6 g-color-black g-font-weight-600 text-uppercase g-mb-20 g-mt-10">Отправить сообщение</h3>
+            {% include 'contacts/_partial/form.html' %}
+        {% endif %}
+    </div>
+{% endblock %}

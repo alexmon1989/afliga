@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+{% load project_tags %}
+
+{% block title %}{{ news.title }} / Новости / {{ block.super }}{% endblock %}
+{% block description %}{{ news.text|striptags|truncatechars:40 }}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="container">
+        <section class="g-bg-gray-light-v5 g-py-20 g-px-30 g-mb-30">
+            <div class="d-sm-flex text-center">
+
+                <div class="align-self-center ml-auto">
+                    <ul class="u-list-inline">
+                        <li class="list-inline-item g-mr-5">
+                            <a class="u-link-v5 g-color-main" href="/">Главная</a>
+                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                        </li>
+                        <li class="list-inline-item g-mr-5">
+                            <a class="u-link-v5 g-color-main" href="{% url 'news_list' %}">Список новостей</a>
+                            <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                        </li>
+                        <li class="list-inline-item g-color-primary">
+                            <span>{{ news.title }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <h1 class="g-letter-spacing-1 g-mb-35">{{ news.title }}</h1>
+
+        {% if news.image %}
+            <img class="img-fluid w-100 g-mb-25" src="{{ news.image|thumbnail_url:'news_large' }}" alt="{{ news.title }}">
+        {% endif %}
+
+        <div class="g-line-height-1_8">{{ news.text|safe }}</div>
+
+        {% include 'news/_partial/more_news.html' %}
+
+        {% comments_widget identifier='news' identifier_id=news.pk %}
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script id="dsq-count-scr" src="{% settings_value "DISQUS_COUNT_SCRIPT" %}" async></script>
+    <script>
+        $(document).on('ready', function () {
+            DISQUSWIDGETS.getCount({reset: true});
+        });
+    </script>
+{% endblock %}

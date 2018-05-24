@@ -1,0 +1,50 @@
+[
+  {
+    "model": "settings.banner",
+    "pk": 1,
+    "fields": {
+      "title": "\u0411\u0430\u043d\u043d\u0435\u0440 1",
+      "is_visible": true,
+      "link": "#",
+      "image": "banners/1.jpg",
+      "created_at": "2017-10-25T08:14:07.989Z",
+      "updated_at": "2017-10-25T08:14:07.989Z"
+    }
+  },
+  {
+    "model": "settings.banner",
+    "pk": 2,
+    "fields": {
+      "title": "\u0411\u0430\u043d\u043d\u0435\u0440 2",
+      "is_visible": true,
+      "link": "#",
+      "image": "banners/2.jpg",
+      "created_at": "2017-10-25T08:14:17.909Z",
+      "updated_at": "2017-10-25T08:14:17.909Z"
+    }
+  },
+  {
+    "model": "settings.banner",
+    "pk": 3,
+    "fields": {
+      "title": "\u0411\u0430\u043d\u043d\u0435\u0440 3",
+      "is_visible": true,
+      "link": "#",
+      "image": "banners/3.jpg",
+      "created_at": "2017-10-25T08:14:27.219Z",
+      "updated_at": "2017-10-25T08:14:27.219Z"
+    }
+  },
+  {
+    "model": "settings.banner",
+    "pk": 4,
+    "fields": {
+      "title": "\u0411\u0430\u043d\u043d\u0435\u0440 4",
+      "is_visible": true,
+      "link": "#",
+      "image": "banners/4.jpg",
+      "created_at": "2017-10-25T08:14:37.771Z",
+      "updated_at": "2017-10-25T08:14:37.771Z"
+    }
+  }
+]

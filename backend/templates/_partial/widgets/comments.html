@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% load project_tags %}
+
+<div class="g-brd-y g-brd-gray-light-v4 g-py-30 g-mt-40 mb-3">
+    <h3 class="h5 g-color-black g-font-weight-600 text-uppercase mb-0">Комментарии</h3>
+</div>
+
+<div id="disqus_thread" class="g-mb-60"></div>
+<script>
+    var disqus_config = function () {
+        {% if is_secure %}
+            this.page.url = 'https://{{ host }}{{ full_path }}';
+        {% else %}
+            this.page.url = '//{{ host }}{{ full_path }}';
+        {% endif %}
+        this.page.identifier = '{{ identifier }}-{{ identifier_id }}';
+    };
+
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '{% settings_value "DISQUS_URL" %}';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+    Disqus.</a></noscript>
