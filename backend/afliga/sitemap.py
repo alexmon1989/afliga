@@ -1,5 +1,5 @@
 from django.contrib.sitemaps import Sitemap
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from apps.news.models import News
 from apps.photogallery.models import Gallery
 from apps.league.models import Tournament, Team, Player, Match

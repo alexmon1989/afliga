@@ -43,7 +43,7 @@ class Banner(models.Model):
 class PersonWidget(models.Model):
     """Настройки виджета персоны."""
     title = models.CharField('Заголовок', max_length=255, default='Персона')
-    player = models.ForeignKey(Player, verbose_name='Игрок')
+    player = models.ForeignKey(Player, verbose_name='Игрок', on_delete=models.CASCADE)
     is_visible = models.BooleanField('Включено', default=True)
 
     class Meta:
