@@ -1,46 +1,44 @@
 {% load thumbnail %}
 
-<h2 class="text-uppercase h3 g-mb-0">Бомбардиры</h2>
+{% if tournaments %}
+    <div class="col-lg-12">
+        <h2 class="text-uppercase h3 g-mb-0">Бомбардиры</h2>
 
-{% if not tournaments %}
-    <p>Нет данных.</p>
+        {% for tournament in tournaments %}
+            <small>{{ tournament.tournament.title }}</small>
+            <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
+
+            <div class="g-mb-30">
+                {% if tournament.tournament.get_bombardiers.count > 0 %}
+                    <table class="table table-sm table-bombardiers">
+                        <tbody>
+                        {% for player in tournament.tournament.get_bombardiers|slice:":3" %}
+                            <tr>
+                                <td class="g-py-7 g-valign-middle" width="20%">
+                                    <a href="{% url 'player_detail' pk=player.pk %}">
+                                        {% if player.photo %}
+                                            <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
+                                                 alt="{{ player.name }}"
+                                                 title="{{ player.name }}">
+                                        {% else %}
+                                            <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
+                                                 alt="Фото отсутствует">
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td class="g-py-7">
+                                    <a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a>
+                                    <br><span>({{ player.team }})</span>
+                                </td>
+                                <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_goals }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Нет данных.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}
-
-{% for tournament in tournaments %}
-    {% if tournament.show_bombardiers %}
-        <small>{{ tournament.tournament.title }}</small>
-        <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
-
-        <div class="g-mb-30">
-            {% if tournament.tournament.get_bombardiers.count > 0 %}
-                <table class="table table-sm table-bombardiers">
-                    <tbody>
-                    {% for player in tournament.tournament.get_bombardiers|slice:":3" %}
-                        <tr>
-                            <td class="g-py-7 g-valign-middle" width="20%">
-                                <a href="{% url 'player_detail' pk=player.pk %}">
-                                    {% if player.photo %}
-                                        <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
-                                             alt="{{ player.name }}"
-                                             title="{{ player.name }}">
-                                    {% else %}
-                                        <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
-                                             alt="Фото отсутствует">
-                                    {% endif %}
-                                </a>
-                            </td>
-                            <td class="g-py-7">
-                                <a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a>
-                                <br><span>({{ player.team }})</span>
-                            </td>
-                            <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_goals }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Нет данных.</p>
-            {% endif %}
-        </div>
-    {% endif %}
-{% endfor %}

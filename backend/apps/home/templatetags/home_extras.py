@@ -17,7 +17,7 @@ def person_widget():
 
 @register.inclusion_tag('_partial/widgets/bombardiers.html')
 def bombardiers_widget():
-    return {'tournaments': WidgetsSettings.objects.order_by('-created_at').all()}
+    return {'tournaments': WidgetsSettings.objects.filter(show_bombardiers=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/assistants.html')
@@ -27,12 +27,12 @@ def assistants_widget():
 
 @register.inclusion_tag('_partial/widgets/penalties.html')
 def penalties_widget():
-    return {'tournaments': WidgetsSettings.objects.order_by('-created_at').all()}
+    return {'tournaments': WidgetsSettings.objects.filter(show_penalties=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/table.html')
 def table_widget():
-    return {'tables': WidgetsSettings.objects.order_by('-created_at').all()}
+    return {'tables': WidgetsSettings.objects.filter(show_table=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('home/_partial/matches.html')

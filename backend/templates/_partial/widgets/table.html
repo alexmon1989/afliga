@@ -1,60 +1,58 @@
 {% load thumbnail %}
 {% load league_extras %}
 
-<h2 class="text-uppercase h3 g-mb-0">Таблица</h2>
+{% if tables %}
+    <div class="col-lg-12">
+        <h2 class="text-uppercase h3 g-mb-0">Таблица</h2>
 
-{% if not tables %}
-    <p>Нет данных.</p>
-{% endif %}
+        {% for table in tables %}
+            <small>{{ table.tournament.title }}</small>
+            <hr class="g-mt-0 g-mb-10 g-brd-black-top">
 
-{% for table in tables %}
-    {% if table.show_table %}
-        <small>{{ table.tournament.title }}</small>
-        <hr class="g-mt-0 g-mb-10 g-brd-black-top">
+            <div class="g-mb-20">
+                {% for group in table.tournament.group_set.all %}
+                    {% if table.tournament.group_set.count > 1 %}
+                        <h3 class="h4">{{ group.title }}</h3>
+                    {% endif %}
 
-        <div class="g-mb-30">
-            {% for group in table.tournament.group_set.all %}
-                {% if table.tournament.group_set.count > 1 %}
-                    <h3 class="h4">{{ group.title }}</h3>
-                {% endif %}
-
-                <table class="table table-sm table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th><abbr title="Место">М.</abbr></th>
-                        <th>Команда</th>
-                        <th class="text-center"><abbr title="Игр">И.</abbr></th>
-                        <th class="text-center"><abbr title="Очков">О.</abbr></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for team in group.get_sorted_table %}
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead>
                         <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>
-                                {% get_team_logo pk=team.id as team_logo %}
-                                {% if team_logo %}
-                                    <a href="{% url 'team_detail' pk=team.id %}"><img
-                                            src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
-                                            alt="{{ team.title }}"></a>
-                                {% else %}
-                                    <a href="{% url 'team_detail' pk=team.id %}"><img
-                                            src="//via.placeholder.com/18?text=No+image" alt=""></a>
-                                {% endif %}
-                                &nbsp;<a href="{% url 'team_detail' pk=team.id %}">{{ team.title }}</a>
-                            </td>
-                            <td class="text-center">{{ team.games }}</td>
-                            <td class="text-center">{{ team.score }}</td>
+                            <th><abbr title="Место">М.</abbr></th>
+                            <th>Команда</th>
+                            <th class="text-center"><abbr title="Игр">И.</abbr></th>
+                            <th class="text-center"><abbr title="Очков">О.</abbr></th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for team in group.get_sorted_table %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    {% get_team_logo pk=team.id as team_logo %}
+                                    {% if team_logo %}
+                                        <a href="{% url 'team_detail' pk=team.id %}"><img
+                                                src="{{ team_logo|thumbnail_url:'team_extra_small' }}"
+                                                alt="{{ team.title }}"></a>
+                                    {% else %}
+                                        <a href="{% url 'team_detail' pk=team.id %}"><img
+                                                src="//via.placeholder.com/18?text=No+image" alt=""></a>
+                                    {% endif %}
+                                    &nbsp;<a href="{% url 'team_detail' pk=team.id %}">{{ team.title }}</a>
+                                </td>
+                                <td class="text-center">{{ team.games }}</td>
+                                <td class="text-center">{{ team.score }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 
-                <div class="text-center">
-                    <a href="{% url 'tournament_detail' pk=table.tournament.pk %}"
-                       class="btn btn-lg u-btn-outline-deeporange g-mt-10">Страница турнира</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endfor %}
+                    <div class="text-center">
+                        <a href="{% url 'tournament_detail' pk=table.tournament.pk %}"
+                           class="btn btn-lg u-btn-outline-deeporange g-mt-10">Страница турнира</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
