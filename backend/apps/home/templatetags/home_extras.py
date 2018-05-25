@@ -1,6 +1,5 @@
 from django import template
-from django.conf import settings
-from apps.home.models import BombardiersPenaltiesTableSettings
+from apps.home.models import WidgetsSettings
 from apps.settings.models import FooterSettings, Banner, PersonWidget
 
 register = template.Library()
@@ -18,17 +17,22 @@ def person_widget():
 
 @register.inclusion_tag('_partial/widgets/bombardiers.html')
 def bombardiers_widget():
-    return {'tournaments': BombardiersPenaltiesTableSettings.objects.order_by('-created_at').all()}
+    return {'tournaments': WidgetsSettings.objects.order_by('-created_at').all()}
+
+
+@register.inclusion_tag('_partial/widgets/assistants.html')
+def assistants_widget():
+    return {'tournaments': WidgetsSettings.objects.filter(show_assistants=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/penalties.html')
 def penalties_widget():
-    return {'tournaments': BombardiersPenaltiesTableSettings.objects.order_by('-created_at').all()}
+    return {'tournaments': WidgetsSettings.objects.order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/table.html')
 def table_widget():
-    return {'tables': BombardiersPenaltiesTableSettings.objects.order_by('-created_at').all()}
+    return {'tables': WidgetsSettings.objects.order_by('-created_at').all()}
 
 
 @register.inclusion_tag('home/_partial/matches.html')

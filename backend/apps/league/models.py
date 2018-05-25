@@ -108,6 +108,13 @@ class Tournament(models.Model):
             event__event_type=1
         ).annotate(num_goals=Count('event')).order_by('-num_goals').all()[:10]
 
+    def get_assistants(self):
+        """Возвращает список бомбардиров турнира."""
+        return Player.objects.filter(
+            event__match__match_round__tournament=self,
+            event__event_type=6
+        ).annotate(num_assistants=Count('event')).order_by('-num_assistants').all()[:10]
+
     def get_yellow_cards(self):
         """Возвращает список штрафников турнира (жёлтые карточки)."""
         return Player.objects.filter(
