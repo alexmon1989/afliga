@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <tr>
-    <td class="text-center" width="10%" data-toggle="tooltip" data-original-title="{{ match.match_date|date }}">{{ match.match_date|time }}</td>
-    <td class="text-right" width="40%">
+    <td class="text-center" width="20%">{{ match.match_date }}</td>
+    <td class="text-right" width="35%">
         <div class="row no-gutters">
             <div class="col-10">
                 <a href="{% url 'team_detail' pk=match.team_1.pk %}">{{ match.team_1 }}</a>
@@ -19,7 +19,7 @@
         </div>
     </td>
     <td class="text-center" width="10%"><a href="{% url 'match_detail' pk=match.pk %}">{{ match.get_score }}</a></td>
-    <td class="text-left" width="40%">
+    <td class="text-left" width="35%">
         <div class="row no-gutters">
             <div class="col-2">
                 {% if match.team_2.logo %}
