@@ -168,7 +168,7 @@ class Group(models.Model):
 
     def get_sorted_table(self):
         """Возвращает отсортированную по очкам таблицу."""
-        return sorted(json.loads(self.table), key=lambda x: x['score'], reverse=True)
+        return sorted(json.loads(self.table), key=lambda x: (-x['score'], -(x['goals_scored'] - x['goals_missed'])))
 
     def get_rounds(self):
         """Возвращает список туров группы."""
