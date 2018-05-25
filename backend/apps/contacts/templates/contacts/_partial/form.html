@@ -52,12 +52,25 @@
         {% endif %}
     </div>
 
-    <div class="g-mb-40 {% if form.message.errors %}has-danger{% endif %}">
+    <div class="g-mb-20 {% if form.message.errors %}has-danger{% endif %}">
         {% label form.message class="g-color-gray-dark-v2 g-font-size-13" %}
         {% textarea form.message rows="12" placeholder="Текст сообщения" class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-primary--focus g-resize-none rounded-3 g-py-13 g-px-15" %}
         {% if form.message.errors %}
             <div class="form-control-feedback">
                 {% for error in form.message.errors %}
+                    {{ error|escape }}<br>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="g-mb-40 {% if form.captcha.errors %}has-danger{% endif %}">
+        {% label form.captcha class="g-color-gray-dark-v2 g-font-size-13" %}
+        <br>
+        {{ form.captcha }}
+        {% if form.captcha.errors %}
+            <div class="form-control-feedback">
+                {% for error in form.captcha.errors %}
                     {{ error|escape }}<br>
                 {% endfor %}
             </div>

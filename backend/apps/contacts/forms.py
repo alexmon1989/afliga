@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import get_template
 from apps.contacts.models import ContactEmail
+from captcha.fields import CaptchaField
 
 
 class ContactForm(forms.Form):
@@ -12,6 +13,14 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='E-Mail', max_length=100)
     phone = forms.CharField(label='Телефон', max_length=100)
     message = forms.CharField(label='Сообщение', max_length=1000, widget=forms.Textarea)
+    captcha = CaptchaField(label='Введите текст с картинки')
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['captcha'].widget.attrs['class'] = 'form-control g-width-auto g-color-black ' \
+                                                       'g-bg-white g-bg-white--focus g-brd-primary--focus rounded-3 ' \
+                                                       'g-py-13 g-px-15'
+        self.fields['captcha'].widget.attrs['style'] = 'display: inline'
 
     def send_email(self):
         """Отправляет данные формы на E-Mail."""

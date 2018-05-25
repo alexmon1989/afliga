@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^league/', include(league_urls)),
     url(r'^sitemap.xml$', sitemap, {'sitemaps': sitemaps}),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^captcha/', include('captcha.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

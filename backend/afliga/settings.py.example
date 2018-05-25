@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'ckeditor',
     'ckeditor_uploader',
+    'captcha',
     'apps.home',
     'apps.news',
     'apps.contacts',
