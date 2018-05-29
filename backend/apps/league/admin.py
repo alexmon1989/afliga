@@ -3,6 +3,7 @@ from django import forms
 import json
 from apps.league.models import (Team, Player, Position, Tournament, Group, Match, TournamentPlayer, Event, EventType,
                                 Round)
+from json import JSONDecodeError
 
 
 @admin.register(Position)
@@ -58,6 +59,14 @@ class GroupForm(forms.ModelForm):
                 sort_keys=True,
                 indent=2
             )
+
+    def clean_table(self):
+        data = self.cleaned_data['table']
+        try:
+            json.loads(data)
+        except JSONDecodeError as e:
+            raise forms.ValidationError("Неверный формат данных: {}".format(e))
+        return data
 
 
 @admin.register(Group)
