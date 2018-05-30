@@ -8,17 +8,13 @@
 <div id="disqus_thread" class="g-mb-60"></div>
 <script>
     var disqus_config = function () {
-        {% if is_secure %}
-            this.page.url = 'https://{{ host }}{{ full_path }}';
-        {% else %}
-            this.page.url = '//{{ host }}{{ full_path }}';
-        {% endif %}
+        this.page.url = 'https://{{ host }}{{ full_path }}';
         this.page.identifier = '{{ identifier }}-{{ identifier_id }}';
     };
 
-    (function () {
+    (function() {
         var d = document, s = d.createElement('script');
-        s.src = '{% settings_value "DISQUS_URL" %}';
+        s.src = 'https://afl15-ru.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
