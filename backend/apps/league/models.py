@@ -122,15 +122,20 @@ class Tournament(models.Model):
         """Возвращает список штрафников турнира (жёлтые карточки)."""
         return Player.objects.filter(
             event__match__match_round__tournament=self,
-            event__event_type=2
-        ).annotate(num_yellow_cards=Count('event')).order_by('-num_yellow_cards').all()[:10]
+            event__event_type=2,
+            team__isnull=False
+        ).annotate(num_yellow_cards=Count('event')).order_by('-num_yellow_cards').values(
+            'pk', 'name', 'team__pk', 'team__title', 'num_yellow_cards'
+        ).all()
 
     def get_red_cards(self):
         """Возвращает список штрафников турнира (красные карточки)."""
         return Player.objects.filter(
             event__match__match_round__tournament=self,
             event__event_type=3
-        ).annotate(num_red_cards=Count('event')).order_by('-num_red_cards').all()[:10]
+        ).annotate(num_red_cards=Count('event')).order_by('-num_red_cards').values(
+            'pk', 'name', 'team__pk', 'team__title', 'num_red_cards'
+        ).all()
 
     def __str__(self):
         return self.title

@@ -6,7 +6,7 @@
     <div class="col-lg-6">
         <h3 class="h4">Желтые карточки</h3>
 
-        {% if tournament.get_yellow_cards.count > 0 %}
+        {% if yellow_cards|length > 0 %}
             <!-- Basic Table -->
             <div class="table-responsive g-mb-30">
                 <table class="table table-bordered table-striped">
@@ -20,11 +20,11 @@
                     </thead>
 
                     <tbody>
-                    {% for player in tournament.get_yellow_cards %}
+                    {% for player in yellow_cards %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
-                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></td>
+                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
+                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a></td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_yellow_cards }}
                             </td>
@@ -42,7 +42,7 @@
     <div class="col-lg-6">
         <h3 class="h4">Красные карточки</h3>
 
-        {% if tournament.get_red_cards.count > 0 %}
+        {% if red_cards|length > 0 %}
             <!-- Basic Table -->
             <div class="table-responsive g-mb-30">
                 <table class="table table-bordered table-striped">
@@ -56,11 +56,11 @@
                     </thead>
 
                     <tbody>
-                    {% for player in tournament.get_red_cards %}
+                    {% for player in red_cards %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a></td>
-                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team }}</a></td>
+                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
+                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a></td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_red_cards }}
                             </td>

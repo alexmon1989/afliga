@@ -17,6 +17,8 @@ class TournamentDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['bombardiers'] = self.object.get_bombardiers()
+        context['yellow_cards'] = self.object.get_yellow_cards()
+        context['red_cards'] = self.object.get_red_cards()
         return context
 
 
