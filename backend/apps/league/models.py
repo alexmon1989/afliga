@@ -108,7 +108,7 @@ class Tournament(models.Model):
             event__event_type=1,
             team__isnull=False
         ).annotate(num_goals=Count('event')).order_by('-num_goals').values(
-            'pk', 'name', 'team__pk', 'team__title', 'num_goals'
+            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_goals'
         ).all()
 
     def get_assistants(self):
@@ -116,7 +116,9 @@ class Tournament(models.Model):
         return Player.objects.filter(
             event__match__match_round__tournament=self,
             event__event_type=6
-        ).annotate(num_assistants=Count('event')).order_by('-num_assistants').all()[:10]
+        ).annotate(num_assistants=Count('event')).order_by('-num_assistants').values(
+            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_assistants'
+        ).all()[:10]
 
     def get_yellow_cards(self):
         """Возвращает список штрафников турнира (жёлтые карточки)."""
@@ -125,7 +127,7 @@ class Tournament(models.Model):
             event__event_type=2,
             team__isnull=False
         ).annotate(num_yellow_cards=Count('event')).order_by('-num_yellow_cards').values(
-            'pk', 'name', 'team__pk', 'team__title', 'num_yellow_cards'
+            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_yellow_cards'
         ).all()
 
     def get_red_cards(self):
@@ -134,7 +136,7 @@ class Tournament(models.Model):
             event__match__match_round__tournament=self,
             event__event_type=3
         ).annotate(num_red_cards=Count('event')).order_by('-num_red_cards').values(
-            'pk', 'name', 'team__pk', 'team__title', 'num_red_cards'
+            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_red_cards'
         ).all()
 
     def __str__(self):
@@ -183,7 +185,7 @@ class Group(models.Model):
         return Round.objects.filter(
             tournament=self.tournament,
             match__group=self
-        ).distinct().all()
+        ).order_by('created_at').distinct().all()
 
     def get_last_rounds(self):
         """Возвращает список туров группы, в которых есть сыгранные матчи."""
@@ -245,6 +247,15 @@ class Round(models.Model):
         """Возвращает матчи тура в конкретной группе."""
         return self.match_set.filter(
             group=group
+        ).values(
+            'pk',
+            'match_date',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
         ).all()
 
     def get_last_matches_in_group(self, group):
@@ -252,6 +263,15 @@ class Round(models.Model):
         return self.match_set.filter(
             match_date__lte=timezone.now(),
             group=group
+        ).values(
+            'pk',
+            'match_date',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
         ).all()
 
     def get_future_matches_in_group(self, group):
@@ -259,18 +279,45 @@ class Round(models.Model):
         return self.match_set.filter(
             match_date__gte=timezone.now(),
             group=group
+        ).values(
+            'pk',
+            'match_date',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
         ).all()
 
     def get_last_matches(self):
         """Возвращает сыгранные матчи тура."""
         return self.match_set.filter(
             match_date__lte=timezone.now()
+        ).values(
+            'pk',
+            'match_date',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
         ).all()
 
     def get_future_matches(self):
         """Возвращает несыгранные матчи тура."""
         return self.match_set.filter(
             match_date__gte=timezone.now()
+        ).values(
+            'pk',
+            'match_date',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
         ).all()
 
     class Meta:

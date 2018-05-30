@@ -9,7 +9,7 @@
             <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
             <div class="g-mb-30">
-                {% if tournament.tournament.get_assistants.count > 0 %}
+                {% if tournament.tournament.get_assistants|length > 0 %}
                     <table class="table table-sm table-bombardiers">
                         <tbody>
                         {% for player in tournament.tournament.get_assistants|slice:":3" %}
@@ -27,8 +27,8 @@
                                     </a>
                                 </td>
                                 <td class="g-py-7">
-                                    <a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a>
-                                    <br><span>({{ player.team }})</span>
+                                    <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
+                                    <br><span>({{ player.team__title }})</span>
                                 </td>
                                 <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_assistants }}</td>
                             </tr>

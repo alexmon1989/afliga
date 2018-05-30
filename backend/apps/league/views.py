@@ -19,6 +19,10 @@ class TournamentDetailView(DetailView):
         context['bombardiers'] = self.object.get_bombardiers()
         context['yellow_cards'] = self.object.get_yellow_cards()
         context['red_cards'] = self.object.get_red_cards()
+        context['playoff_rounds'] = self.object.get_playoff_rounds()
+        context['groups'] = self.object.group_set.all()
+        context['playoff_last_rounds'] = self.object.get_playoff_last_rounds()
+        context['playoff_future_rounds'] = self.object.get_playoff_future_rounds()
         return context
 
 

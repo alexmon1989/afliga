@@ -1,5 +1,5 @@
 from django import template
-from apps.league.models import Team
+from apps.league.models import Team, Match
 
 register = template.Library()
 
@@ -34,3 +34,9 @@ def get_matches_in_group(round, group):
 @register.inclusion_tag('league/tournaments/detail/_partial/match_tr.html')
 def match_tr(match):
     return {'match': match}
+
+
+@register.simple_tag
+def get_match_score(pk):
+    """Возвращает счёт матча."""
+    return Match.objects.filter(pk=pk).first().get_score()

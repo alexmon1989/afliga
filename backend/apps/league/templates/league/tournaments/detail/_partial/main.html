@@ -10,16 +10,16 @@
 {% endif %}
 
 <div class="row">
-    {% if tournament.group_set.count > 0 %}
+    {% if groups|length > 0 %}
         <div class="col-lg-4">
-            {% if tournament.group_set.count == 1 %}
+            {% if groups|length == 1 %}
                 <h2 class="h3">Таблица</h2>
             {% else %}
                 <h2 class="h3">Таблицы</h2>
             {% endif %}
 
-            {% for group in tournament.group_set.all %}
-                {% if tournament.group_set.count > 1 %}
+            {% for group in groups %}
+                {% if groups|length > 1 %}
                     <h3 class="h4 g-mt-20 g-mb-30">{{ group.title }}</h3>
                 {% endif %}
 
@@ -60,12 +60,12 @@
     {% endif %}
     <div class="row">
         <div class="col-lg-12">
-            {% if tournament.get_playoff_last_rounds.count > 0 %}
+            {% if playoff_last_rounds|length > 0 %}
                 <h2 class="h3">Последние матчи</h2>
 
                 <table class="table table-sm g-mt-20 g-mb-30">
                     <tbody>
-                    {% for round in tournament.get_playoff_last_rounds %}
+                    {% for round in playoff_last_rounds %}
                         <tr class="thead-default">
                             <th colspan="4">{{ round.title }}</th>
                         </tr>
@@ -76,15 +76,15 @@
                     </tbody>
                 </table>
             {% else %}
-                {% if tournament.group_set.count > 0 %}
+                {% if groups|length > 0 %}
                     <h2 class="h3">Последние матчи</h2>
                 {% endif %}
 
                 {% for group in tournament.group_set.all %}
 
-                    {% if group.get_last_rounds.count > 0 %}
+                    {% if group.get_last_rounds|length > 0 %}
 
-                        {% if tournament.group_set.count > 1 %}
+                        {% if groups|length > 1 %}
                             <h3 class="h4 g-mt-20">{{ group.title }}</h3>
                         {% endif %}
 
@@ -109,12 +109,12 @@
         </div>
 
         <div class="col-lg-12">
-            {% if tournament.get_playoff_future_rounds.count > 0 %}
+            {% if playoff_future_rounds|length > 0 %}
                 <h2 class="h3">Ближайшие матчи</h2>
 
                 <table class="table table-sm g-mt-20 g-mb-30">
                     <tbody>
-                    {% for round in tournament.get_playoff_future_rounds %}
+                    {% for round in playoff_future_rounds %}
                         <tr class="thead-default">
                             <th colspan="4">{{ round.title }}</th>
                         </tr>
@@ -125,14 +125,14 @@
                     </tbody>
                 </table>
             {% else %}
-                {% if tournament.group_set.count > 0 %}
+                {% if groups|length > 0 %}
                     <h2 class="h3">Ближайшие матчи</h2>
                 {% endif %}
 
-                {% for group in tournament.group_set.all %}
-                    {% if group.get_future_rounds.count > 0 %}
+                {% for group in groups %}
+                    {% if group.get_future_rounds|length > 0 %}
 
-                        {% if tournament.group_set.count > 1 %}
+                        {% if groups|length > 1 %}
                             <h3 class="h4 g-mt-20">{{ group.title }}</h3>
                         {% endif %}
 

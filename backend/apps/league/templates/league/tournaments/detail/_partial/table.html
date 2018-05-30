@@ -3,15 +3,15 @@
 
 <div class="row">
     <div class="col-lg-12 g-mb-30">
-        {% if tournament.group_set.count == 1 %}
+        {% if groups|length == 1 %}
             <h2 class="h3">Турнирная таблица</h2>
         {% else %}
             <h2 class="h3">Турнирные таблицы</h2>
         {% endif %}
 
         <div class="row">
-            {% for group in tournament.group_set.all %}
-                {% if tournament.group_set.count > 1 %}
+            {% for group in groups %}
+                {% if groups|length > 1 %}
                     <div class="col-lg-6">
                         <h3 class="h4 g-mt-20">{{ group.title }}</h3>
                 {% else %}

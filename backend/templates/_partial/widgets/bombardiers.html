@@ -27,8 +27,8 @@
                                     </a>
                                 </td>
                                 <td class="g-py-7">
-                                    <a href="{% url 'player_detail' pk=player.pk %}">{{ player }}</a>
-                                    <br><span>({{ player.team }})</span>
+                                    <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
+                                    <br><span>({{ player.team__title }})</span>
                                 </td>
                                 <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_goals }}</td>
                             </tr>
