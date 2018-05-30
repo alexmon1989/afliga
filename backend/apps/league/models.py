@@ -109,7 +109,7 @@ class Tournament(models.Model):
             team__isnull=False
         ).annotate(num_goals=Count('event')).order_by('-num_goals').values(
             'pk', 'name', 'team__pk', 'team__title', 'num_goals'
-        ).all()[:10]
+        ).all()
 
     def get_assistants(self):
         """Возвращает список бомбардиров турнира."""
