@@ -105,8 +105,11 @@ class Tournament(models.Model):
         """Возвращает список бомбардиров турнира."""
         return Player.objects.filter(
             event__match__match_round__tournament=self,
-            event__event_type=1
-        ).annotate(num_goals=Count('event')).order_by('-num_goals').all()[:10]
+            event__event_type=1,
+            team__isnull=False
+        ).annotate(num_goals=Count('event')).order_by('-num_goals').values(
+            'pk', 'name', 'team__pk', 'team__title', 'num_goals'
+        ).all()[:10]
 
     def get_assistants(self):
         """Возвращает список бомбардиров турнира."""

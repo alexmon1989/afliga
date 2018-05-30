@@ -14,6 +14,11 @@ class TournamentDetailView(DetailView):
     model = Tournament
     template_name = 'league/tournaments/detail/detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bombardiers'] = self.object.get_bombardiers()
+        return context
+
 
 class TeamDetailView(DetailView):
     """Отображает страницу с деталями команды."""
