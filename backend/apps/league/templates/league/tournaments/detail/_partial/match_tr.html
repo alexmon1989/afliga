@@ -2,7 +2,7 @@
 {% load league_extras %}
 
 <tr>
-    <td class="text-center" width="20%">{{ match.match_date }}</td>
+    <td class="text-center" width="20%">{{ match.match_date|date:"SHORT_DATE_FORMAT" }} {{ match.match_date|time:"H:i" }}</td>
     <td class="text-right" width="35%">
         <div class="row no-gutters">
             <div class="col-10">
