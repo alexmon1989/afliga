@@ -13,7 +13,7 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='E-Mail', max_length=100)
     phone = forms.CharField(label='Телефон', max_length=100)
     message = forms.CharField(label='Сообщение', max_length=1000, widget=forms.Textarea)
-    captcha = CaptchaField(label='Введите текст с картинки')
+    captcha = CaptchaField(label='Решите простой пример')
 
     def __init__(self, *args, **kwargs):
         super(ContactForm, self).__init__(*args, **kwargs)
