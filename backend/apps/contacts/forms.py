@@ -11,16 +11,28 @@ class ContactForm(forms.Form):
     first_name = forms.CharField(label='Имя', max_length=100)
     last_name = forms.CharField(label='Фамилия', max_length=100)
     email = forms.EmailField(label='E-Mail', max_length=100)
-    phone = forms.CharField(label='Телефон', max_length=100)
+    phone = forms.CharField(label='Телефон', max_length=100, required=False)
     message = forms.CharField(label='Сообщение', max_length=1000, widget=forms.Textarea)
     captcha = CaptchaField(label='Решите простой пример')
+    hidden = forms.CharField(max_length=32, widget=forms.HiddenInput())
+    hidden_changed = forms.BooleanField(widget=forms.HiddenInput())
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super(ContactForm, self).__init__(*args, **kwargs)
         self.fields['captcha'].widget.attrs['class'] = 'form-control g-width-auto g-color-black ' \
                                                        'g-bg-white g-bg-white--focus g-brd-primary--focus rounded-3 ' \
                                                        'g-py-13 g-px-15'
         self.fields['captcha'].widget.attrs['style'] = 'display: inline'
+
+    def clean_hidden(self):
+        """Антиспам-проверка"""
+        data = self.cleaned_data['hidden']
+
+        if data != self.request.session['antispam']:
+            raise forms.ValidationError("You're bot!")
+
+        return data
 
     def send_email(self):
         """Отправляет данные формы на E-Mail."""

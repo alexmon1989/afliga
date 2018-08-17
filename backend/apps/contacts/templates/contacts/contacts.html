@@ -74,3 +74,17 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        $(function () {
+            var $id_hidden_changed = $("#id_hidden_changed");
+            if ($id_hidden_changed.val() === '') {
+                var $id_hidden = $("#id_hidden");
+                var v = $("#id_hidden").val();
+                $id_hidden.val(v.split("").reverse().join(""));
+                $id_hidden_changed.val(1);
+            }
+        });
+    </script>
+{% endblock %}
