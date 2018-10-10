@@ -1,5 +1,7 @@
 from django.views.generic import ListView, DetailView
+from django.http import HttpResponse
 from apps.league.models import Tournament, Team, Player, Match
+import json
 
 
 class TournamentListView(ListView):
@@ -48,3 +50,9 @@ class MatchDetailView(DetailView):
     """Отображает страницу с деталями матча."""
     model = Match
     template_name = 'league/match/detail.html'
+
+
+def get_players(request, team_id):
+    """Возвращает JSON с игроками команды."""
+    result = list(Player.objects.filter(team_id=int(team_id)).values('id', 'name'))
+    return HttpResponse(json.dumps(result), content_type="application/json")

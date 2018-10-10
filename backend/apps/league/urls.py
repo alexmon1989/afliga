@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from apps.league.views import (TournamentListView, TournamentDetailView, TeamDetailView, PlayerDetailView,
-                               MatchDetailView)
+                               MatchDetailView, get_players)
 
 urlpatterns = [
     url(r'^$', TournamentListView.as_view(), name='tournaments_list'),
@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^team/(?P<pk>\d+)$', TeamDetailView.as_view(), name='team_detail'),
     url(r'^player/(?P<pk>\d+)$', PlayerDetailView.as_view(), name='player_detail'),
     url(r'^match/(?P<pk>\d+)$', MatchDetailView.as_view(), name='match_detail'),
+    url(r'^get-players/(?P<team_id>\d+)$', get_players, name='get_players'),
 ]
