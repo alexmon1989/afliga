@@ -5,13 +5,14 @@
 
     <script type="text/javascript" charset="utf-8">
         django.jQuery(function () {
+            // Фильтрация игроков при смене команды
             django.jQuery(document).on('change', ".field-team select", function () {
-
-                var $playersSelect = django.jQuery("#id_event_set-0-team").parent().parent().parent().find(".field-player select");
+                var $this = django.jQuery(this);
+                var $playersSelect = $this.parent().parent().parent().find(".field-player select");
 
                 $playersSelect.prop("disabled", "disabled");
 
-                django.jQuery.getJSON("/league/get-players/" + django.jQuery(this).val(), function (data) {
+                django.jQuery.getJSON("/league/get-players/" + $this.val(), function (data) {
                     var options = '<option value="">---------</option>';
                     for (var i = 0; i < data.length; i++) {
                         options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
@@ -20,7 +21,6 @@
                     $playersSelect.html(options);
                     $playersSelect.prop("disabled", false);
                 });
-
             });
         });
     </script>
