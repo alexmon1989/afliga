@@ -24,7 +24,7 @@
     <td class="text-left" width="35%">
         <div class="row no-gutters">
             <div class="col-2">
-                {% if match.team_2.logo %}
+                {% if match.team_2__logo %}
                     <a href="{% url 'team_detail' pk=match.team_2__pk %}"><img
                             src="{{ match.team_2__logo|thumbnail_url:'team_extra_small' }}"
                             alt="{{ match.team_2__title }}"></a>
