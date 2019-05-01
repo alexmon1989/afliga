@@ -240,3 +240,16 @@ COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.CSSMinFilter'
 ]
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}

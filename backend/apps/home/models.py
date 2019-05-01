@@ -1,4 +1,7 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.core.cache import cache
 from apps.league.models import Tournament
 
 
@@ -44,3 +47,9 @@ class WidgetsSettings(models.Model):
     class Meta:
         verbose_name = 'Виджеты'
         verbose_name_plural = 'Виджеты'
+
+
+@receiver(post_save)
+def clear_the_cache(**kwargs):
+    """Очистка кеша при сохранении моделей."""
+    cache.clear()

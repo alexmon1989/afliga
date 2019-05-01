@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from apps.league.models import Tournament, Team, Player, Match
 import json
@@ -27,6 +29,10 @@ class TournamentDetailView(DetailView):
         context['playoff_last_rounds'] = self.object.get_playoff_last_rounds()
         context['playoff_future_rounds'] = self.object.get_playoff_future_rounds()
         return context
+
+    @method_decorator(cache_page(None))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class TeamDetailView(DetailView):

@@ -1,5 +1,6 @@
 database
 media
 static
+cache
 docker-compose.yml
 Dockerfile
