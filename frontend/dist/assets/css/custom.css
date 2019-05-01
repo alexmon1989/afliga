@@ -111,3 +111,7 @@ img[src$="/maxresdefault.jpg"] + iframe {
   border: solid rgba(0, 0, 0, 0.3);
   border-width: 5vh 5vw;
 }
+
+.results-table-main .slick-slide img, .table-bombardiers  .slick-slide img {
+    display: inherit;
+}

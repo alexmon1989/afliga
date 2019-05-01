@@ -2,94 +2,110 @@
 
 {% if tournaments %}
     <div class="col-lg-12">
-        <h2 class="text-uppercase h3 g-mb-0">Штрафники</h2>
+        <div class="d-flex justify-content-between">
+            <h2 class="text-uppercase h3 g-mb-0">Штрафники</h2>
+            <div class="penalties-arrows align-self-center"></div>
+        </div>
 
-        {% for tournament in tournaments %}
-            <small>{{ tournament.tournament.title }}</small>
-            <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
+        <div class="js-carousel"
+             data-infinite="true"
+             data-adaptive-height="true"
+             data-append-arrows=".penalties-arrows"
+             data-arrows-classes="u-arrow-v1 g-width-30 g-height-25 g-font-size-25 g-color-gray g-bg-white g-color-primary--hover"
+             data-arrow-left-classes="fa fa-angle-left"
+             data-arrow-right-classes="fa fa-angle-right">
 
-            <!-- Nav tabs -->
-            <ul class="nav justify-content-center u-nav-v1-1 u-nav-rounded-3" role="tablist"
-                data-target="nav-1-1-primary-hor-center" data-tabs-mobile-type="slide-up-down"
-                data-btn-classes="btn btn-md btn-block u-btn-outline-primary g-mb-20">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#nav-1-1-primary-hor-center--1-{{ tournament.pk }}" role="tab"><abbr
-                            title="Жёлтые карточки">ЖК</abbr></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#nav-1-1-primary-hor-center--2-{{ tournament.pk }}" role="tab"><abbr
-                            title="Красные карточки">КК</abbr></a>
-                </li>
-            </ul>
-            <!-- End Nav tabs -->
+            {% for tournament in tournaments %}
+                <div class="js-slide">
+                    <small>{{ tournament.tournament.title }}</small>
+                    <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
-            <!-- Tab panes -->
-            <div id="nav-1-1-primary-hor-center" class="tab-content g-mb-30">
-                <div class="tab-pane fade show active" id="nav-1-1-primary-hor-center--1-{{ tournament.pk }}" role="tabpanel">
-                    {% if tournament.tournament.get_yellow_cards.count > 0 %}
-                        <table class="table table-sm table-bombardiers">
-                            <tbody>
-                            {% for player in tournament.tournament.get_yellow_cards|slice:":3" %}
-                                <tr>
-                                    <td class="g-py-7 g-valign-middle" width="20%">
-                                        <a href="{% url 'player_detail' pk=player.pk %}">
-                                            {% if player.photo %}
-                                                <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
-                                                     alt="{{ player.name }}"
-                                                     title="{{ player.name }}">
-                                            {% else %}
-                                                <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
-                                                     alt="Фото отсутствует">
-                                            {% endif %}
-                                        </a>
-                                    </td>
-                                    <td class="g-py-7">
-                                        <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
-                                        <br><span>({{ player.team__title }})</span>
-                                    </td>
-                                    <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_yellow_cards }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        <p>Нет данных.</p>
-                    {% endif %}
+                    <!-- Nav tabs -->
+                    <ul class="nav justify-content-center u-nav-v1-1 u-nav-rounded-3" role="tablist"
+                        data-target="nav-1-1-primary-hor-center" data-tabs-mobile-type="slide-up-down"
+                        data-btn-classes="btn btn-md btn-block u-btn-outline-primary g-mb-20">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#nav-1-1-primary-hor-center--1-{{ tournament.pk }}" role="tab"><abbr
+                                    title="Жёлтые карточки">ЖК</abbr></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#nav-1-1-primary-hor-center--2-{{ tournament.pk }}" role="tab"><abbr
+                                    title="Красные карточки">КК</abbr></a>
+                        </li>
+                    </ul>
+                    <!-- End Nav tabs -->
+
+                    <!-- Tab panes -->
+                    <div id="nav-1-1-primary-hor-center" class="tab-content g-mb-30">
+                        <div class="tab-pane fade show active" id="nav-1-1-primary-hor-center--1-{{ tournament.pk }}" role="tabpanel">
+                            {% if tournament.tournament.get_yellow_cards.count > 0 %}
+                                <table class="table table-sm table-bombardiers">
+                                    <tbody>
+                                    {% for player in tournament.tournament.get_yellow_cards|slice:":3" %}
+                                        <tr>
+                                            <td class="g-py-7 g-valign-middle" width="20%">
+                                                <a href="{% url 'player_detail' pk=player.pk %}">
+                                                    {% if player.photo %}
+                                                        <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
+                                                             alt="{{ player.name }}"
+                                                             title="{{ player.name }}">
+                                                    {% else %}
+                                                        <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
+                                                             alt="Фото отсутствует">
+                                                    {% endif %}
+                                                </a>
+                                            </td>
+                                            <td class="g-py-7">
+                                                <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
+                                                <br><span>({{ player.team__title }})</span>
+                                            </td>
+                                            <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_yellow_cards }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <p>Нет данных.</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-1-1-primary-hor-center--2-{{ tournament.pk }}" role="tabpanel">
+                            {% if tournament.tournament.get_red_cards.count > 0 %}
+                                <table class="table table-sm table-bombardiers">
+                                    <tbody>
+                                    {% for player in tournament.tournament.get_red_cards|slice:":3" %}
+                                        <tr>
+                                            <td class="g-py-7 g-valign-middle" width="20%">
+                                                <a href="{% url 'player_detail' pk=player.pk %}">
+                                                    {% if player.photo %}
+                                                        <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
+                                                             alt="{{ player.name }}"
+                                                             title="{{ player.name }}">
+                                                    {% else %}
+                                                        <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
+                                                             alt="Фото отсутствует">
+                                                    {% endif %}
+                                                </a>
+                                            </td>
+                                            <td class="g-py-7">
+                                                <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
+                                                <br><span>({{ player.team__title }})</span>
+                                            </td>
+                                            <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_red_cards }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <p>Нет данных.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- End Tab panes -->
                 </div>
+            {% endfor %}
+        </div>
 
-                <div class="tab-pane fade" id="nav-1-1-primary-hor-center--2-{{ tournament.pk }}" role="tabpanel">
-                    {% if tournament.tournament.get_red_cards.count > 0 %}
-                        <table class="table table-sm table-bombardiers">
-                            <tbody>
-                            {% for player in tournament.tournament.get_red_cards|slice:":3" %}
-                                <tr>
-                                    <td class="g-py-7 g-valign-middle" width="20%">
-                                        <a href="{% url 'player_detail' pk=player.pk %}">
-                                            {% if player.photo %}
-                                                <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
-                                                     alt="{{ player.name }}"
-                                                     title="{{ player.name }}">
-                                            {% else %}
-                                                <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
-                                                     alt="Фото отсутствует">
-                                            {% endif %}
-                                        </a>
-                                    </td>
-                                    <td class="g-py-7">
-                                        <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
-                                        <br><span>({{ player.team__title }})</span>
-                                    </td>
-                                    <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_red_cards }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        <p>Нет данных.</p>
-                    {% endif %}
-                </div>
-            </div>
-            <!-- End Tab panes -->
-        {% endfor %}
+
     </div>
 {% endif %}

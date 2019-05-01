@@ -67,6 +67,9 @@
           //Markup elements
           target = $this.data('nav-for'),
           isThumb = $this.data('is-thumbs'),
+		  adaptiveHeight = $this.data('adaptive-height'),
+		  appendArrows = $this.data('append-arrows'),
+		  appendDots = $this.data('append-dots'),
           arrowsClasses = $this.data('arrows-classes'),
           arrowLeftClasses = $this.data('arrow-left-classes'),
           arrowRightClasses = $this.data('arrow-right-classes'),
@@ -143,6 +146,7 @@
         });
 
         $this.slick({
+          adaptiveHeight: adaptiveHeight ? true : false,
           autoplay: setAutoplay ? true : false,
           autoplaySpeed: setSpeed ? setSpeed : 3000,
 
@@ -166,6 +170,8 @@
           lazyLoad: setLazyLoad ? setLazyLoad : false,
 
           asNavFor: target ? target : false,
+		  appendArrows: appendArrows ? $(appendArrows) : $this,
+		  appendDots: appendDots ? $(appendDots) : $this,
           prevArrow: arrowsClasses ? $prevMarkup : false,
           nextArrow: arrowsClasses ? $nextMarkup : false,
           dots: pagiClasses ? true : false,

@@ -34,6 +34,7 @@
         <link rel="stylesheet" href="{% static 'assets/vendor/icon-line-pro/style.css' %}">
         <link rel="stylesheet" href="{% static 'assets/vendor/icon-line/css/simple-line-icons.css' %}">
         <link rel="stylesheet" href="{% static 'assets/vendor/icon-etlinefont/style.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/vendor/slick-carousel/slick/slick.css' %}">
 
         <link rel="stylesheet" href="{% static 'assets/vendor/hamburgers/hamburgers.min.css' %}">
         <link rel="stylesheet" href="{% static 'assets/vendor/hs-megamenu/src/hs.megamenu.css' %}">
@@ -89,7 +90,7 @@
                         {% banner pk=2 as banner_2 %}
                         {% if banner_2 %}
                             <!-- Banner -->
-                            <div class="col-lg-12 g-mb-30" id="banner_2">
+                            <div class="col-lg-12 g-mb-40" id="banner_2">
                                 {% if banner_2.link %}
                                     <a href="{{ banner_2.link }}" target="_blank"><img src="{{ banner_2.image.url }}"
                                                                                        class="img-fluid" alt=""></a>
@@ -152,6 +153,7 @@
     <script src="{% static 'assets/vendor/bootstrap/offcanvas.js' %}"></script>
     <script src="{% static 'assets/vendor/youtube/youtube.js' %}"></script>
     <script src="{% static 'assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/slick-carousel/slick/slick.js' %}"></script>
 
     <!-- JS Unify -->
     <script src="{% static 'assets/js/hs.core.js' %}"></script>
@@ -161,6 +163,7 @@
     <script src="{% static 'assets/js/components/hs.go-to.js' %}"></script>
     <script src="{% static 'assets/js/components/hs.scrollbar.js' %}"></script>
     <script src="{% static 'assets/js/components/hs.tabs.js' %}"></script>
+    <script src="{% static 'assets/js/components/hs.carousel.js' %}"></script>
     <script src="{% static 'assets/vendor/hs-megamenu/src/hs.megamenu.js' %}"></script>
     <script src="{% static 'assets/vendor/fancybox/jquery.fancybox.min.js' %}"></script>
 
@@ -176,6 +179,8 @@
             // initialization of HSScrollBar component
             $.HSCore.components.HSScrollBar.init($('.matches'), {'theme': 'rounded-dark'});
             $.HSCore.components.HSPopup.init('.js-fancybox');
+            // initialization of carousel
+            $.HSCore.components.HSCarousel.init('.js-carousel');
         });
 
         $(window).on('load', function () {
