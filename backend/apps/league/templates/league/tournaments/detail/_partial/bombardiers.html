@@ -1,11 +1,12 @@
 <div class="row">
     <div class="col-lg-12 g-mb-30">
-        <h2 class="h3">Бомбардиры турнира</h2>
+
+        <h2 class="h5 g-mb-20">Бомбардиры турнира</h2>
 
         {% if bombardiers|length > 0 %}
             <!-- Basic Table -->
             <div class="table-responsive g-mb-30">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-sm">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -19,8 +20,14 @@
                     {% for player in bombardiers %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
-                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a></td>
+                            <td class="text-center">
+                                <a class="g-color-blue-dark-v1"
+                                   href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
+                            </td>
+                            <td class="text-center">
+                                <a class="g-color-blue-dark-v1"
+                                   href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                            </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_goals }}
                             </td>

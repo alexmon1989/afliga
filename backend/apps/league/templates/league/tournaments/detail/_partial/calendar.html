@@ -3,17 +3,19 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="h3">Календарь игр</h2>
+        <h2 class="h5">Календарь игр</h2>
     </div>
 
     {% if playoff_rounds|length > 0 or groups|length > 0 %}
         {% for group in groups %}
-            <div class="col-lg-12 g-mt-20">
-                <h3 class="h4">{{ group.title }}</h3>
-            </div>
+            {% if groups|length > 1 %}
+                <div class="col-lg-12 g-mt-20">
+                    <h3 class="h4">{{ group.title }}</h3>
+                </div>
+            {% endif %}
 
             {% for round in group.get_rounds %}
-                <div class="col-lg-6">
+                <div class="{% if group.get_rounds|length > 1 %}col-lg-6{% else %}col-lg-12{% endif %}">
                     <table class="table table-sm g-mt-20 g-mb-20">
                         <tbody>
                         <tr class="thead-default">
@@ -41,7 +43,8 @@
                     <tr class="thead-default">
                         <th colspan="4">{{ round.title }}</th>
                     </tr>
-                    {% for match in round.match_set.all %}
+                    {% get_matches round as matches %}
+                    {% for match in matches %}
                         {% match_tr match=match %}
                     {% endfor %}
                     </tbody>

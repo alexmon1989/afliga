@@ -31,6 +31,12 @@ def get_matches_in_group(round, group):
     return round.get_matches_in_group(group)
 
 
+@register.simple_tag
+def get_matches(round):
+    """Возвращает матчи тура."""
+    return round.get_matches()
+
+
 @register.inclusion_tag('league/tournaments/detail/_partial/match_tr.html')
 def match_tr(match):
     return {'match': match}

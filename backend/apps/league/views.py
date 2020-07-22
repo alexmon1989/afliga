@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
-from apps.league.models import Tournament, Team, Player, Match
+from apps.league.models import Tournament, Team, Player, Match, TournamentTeamApplication, Group, Round
 import json
 
 
@@ -62,3 +62,60 @@ def get_players(request, team_id):
     """Возвращает JSON с игроками команды."""
     result = list(Player.objects.filter(team_id=int(team_id)).values('id', 'name'))
     return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+def get_players_group(request):
+    """Возвращает JSON с игроками команды определённой группы (если она была передана в запросе)."""
+    team_id = request.GET.get('team_id')
+    group_id = request.GET.get('group_id')
+
+    if not team_id and not group_id:
+        result = []
+    else:
+        qs = TournamentTeamApplication.objects.all()
+        if team_id:
+            qs = qs.filter(team_id=team_id)
+        if group_id:
+            group = Group.objects.get(pk=group_id)
+            qs = qs.filter(tournament_id=group.tournament_id)
+        result = list(qs.first().players.all().values('id', 'name'))
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+def get_rounds(request, tournament_id=None):
+    """Возвращает JSON с турами турнира."""
+    res = []
+    if tournament_id:
+        rounds = Round.objects.filter(tournament_id=tournament_id).values('id', 'title')
+        if rounds.count() > 0:
+            res = list(rounds)
+    return HttpResponse(json.dumps(res), content_type="application/json")
+
+
+def get_groups(request, tournament_id=None):
+    """Возвращает JSON с группами турнира."""
+    res = []
+    if tournament_id:
+        groups = Group.objects.filter(tournament_id=tournament_id).values('id', 'title')
+        if groups.count() > 0:
+            res = list(groups)
+    return HttpResponse(json.dumps(res), content_type="application/json")
+
+
+def get_teams(request):
+    """Возвращает JSON с коммандами турнира или группы."""
+    tournament_id = request.GET.get('tournament_id')
+    group_id = request.GET.get('group_id')
+    res = []
+    if group_id:
+        group = Group.objects.get(pk=group_id)
+        for team in group.teams.all():
+            res.append({'id': team.id, 'title': team.title})
+    elif tournament_id:
+        tournament = Tournament.objects.get(pk=tournament_id)
+        applications = tournament.tournamentteamapplication_set.all()
+        for app in applications:
+            res.append({'id': app.team.id, 'title': app.team.title})
+    if res:
+        res = list(res)
+    return HttpResponse(json.dumps(res), content_type="application/json")

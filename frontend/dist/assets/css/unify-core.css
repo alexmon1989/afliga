@@ -20,13 +20,13 @@ body {
 }
 
 a {
-  color: #111;
+  color: #175a88 ;
   outline: none;
 }
 
 a:focus,
 a:hover {
-  color: #040404;
+  color: #0b4f84;
 }
 
 .nav-link {
@@ -61,27 +61,4 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 3rem;
   font-weight: 300;
   line-height: 1.1;
-}
-
-/*------------------------------------
-  Highlight Color
-------------------------------------*/
-::-moz-selection {
-  color: #fff;
-  background-color: #111;
-}
-
-::selection {
-  color: #fff;
-  background-color: #111;
-}
-
-.g-bg-primary ::-moz-selection {
-  color: #111;
-  background-color: #fff;
-}
-
-.g-bg-primary ::selection {
-  color: #111;
-  background-color: #fff;
 }

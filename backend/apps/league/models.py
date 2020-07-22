@@ -62,6 +62,8 @@ class Player(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     def __str__(self):
+        if self.team:
+            return f"{self.name} ({self.team.title})"
         return self.name
 
     def get_absolute_url(self):
@@ -79,7 +81,6 @@ class Tournament(models.Model):
     description = RichTextUploadingField('Описание', null=True, blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
-    players = models.ManyToManyField(Player, through='TournamentPlayer', blank=True)
 
     def get_playoff_rounds(self):
         """Возвращает список туров турнира."""
@@ -103,43 +104,67 @@ class Tournament(models.Model):
 
     def get_bombardiers(self):
         """Возвращает список бомбардиров турнира."""
-        return Player.objects.filter(
-            event__match__match_round__tournament=self,
-            event__event_type=1,
-            team__isnull=False
-        ).annotate(num_goals=Count('event')).order_by('-num_goals').values(
-            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_goals'
-        ).all()
+        return Event.objects.filter(
+            match__match_round__tournament=self,
+            event_type=1
+        ).values(
+            'player'
+        ).annotate(
+            num_goals=Count('player')
+        ).order_by(
+            '-num_goals',
+            'player__name'
+        ).values(
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_goals'
+        )
 
     def get_assistants(self):
         """Возвращает список бомбардиров турнира."""
-        return Player.objects.filter(
-            event__match__match_round__tournament=self,
-            event__event_type=6,
-            team__isnull=False
-        ).annotate(num_assistants=Count('event')).order_by('-num_assistants').values(
-            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_assistants'
-        ).all()
+        return Event.objects.filter(
+            match__match_round__tournament=self,
+            event_type=6
+        ).values(
+            'player'
+        ).annotate(
+            num_assistants=Count('player')
+        ).order_by(
+            '-num_assistants',
+            'player__name'
+        ).values(
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_assistants'
+        )
 
     def get_yellow_cards(self):
         """Возвращает список штрафников турнира (жёлтые карточки)."""
-        return Player.objects.filter(
-            event__match__match_round__tournament=self,
-            event__event_type=2,
-            team__isnull=False
-        ).annotate(num_yellow_cards=Count('event')).order_by('-num_yellow_cards').values(
-            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_yellow_cards'
-        ).all()
+        return Event.objects.filter(
+            match__match_round__tournament=self,
+            event_type=2
+        ).values(
+            'player'
+        ).annotate(
+            num_yellow_cards=Count('player')
+        ).order_by(
+            '-num_yellow_cards',
+            'player__name'
+        ).values(
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_yellow_cards'
+        )
 
     def get_red_cards(self):
         """Возвращает список штрафников турнира (красные карточки)."""
-        return Player.objects.filter(
-            event__match__match_round__tournament=self,
-            event__event_type=3,
-            team__isnull=False
-        ).annotate(num_red_cards=Count('event')).order_by('-num_red_cards').values(
-            'pk', 'name', 'team__pk', 'photo', 'team__title', 'num_red_cards'
-        ).all()
+        return Event.objects.filter(
+            match__match_round__tournament=self,
+            event_type=3
+        ).values(
+            'player'
+        ).annotate(
+            num_red_cards=Count('player')
+        ).order_by(
+            '-num_red_cards',
+            'player__name'
+        ).values(
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_red_cards'
+        )
 
     def __str__(self):
         return self.title
@@ -150,16 +175,17 @@ class Tournament(models.Model):
     class Meta:
         verbose_name = 'Турнир'
         verbose_name_plural = 'Турниры'
+        ordering = ('-pk',)
 
 
-class TournamentPlayer(models.Model):
-    """Модель игрока турнира. Используется для определения какая команда каких игроков заявила на турнир."""
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, verbose_name='Игрок')
-    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, verbose_name='Турнир')
+class TournamentTeamApplication(models.Model):
+    """Модель заявки команды игроков на турнир."""
     team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда')
+    players = models.ManyToManyField(Player, blank=True, verbose_name='Игрок')
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, verbose_name='Турнир')
 
     def __str__(self):
-        return self.player.name
+        return self.team.title
 
     class Meta:
         verbose_name = 'Заявка команды на турнир'
@@ -176,7 +202,8 @@ class Group(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     def __str__(self):
-        return f"{self.title} в {self.tournament.title}"
+        # return f"{self.title} в {self.tournament.title}"
+        return self.title
 
     def get_sorted_table(self):
         """Возвращает отсортированную по очкам таблицу."""
@@ -244,6 +271,19 @@ class Round(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_matches(self):
+        """Возвращает матчи тура."""
+        return self.match_set.values(
+            'pk',
+            'match_date',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
+        ).all()
 
     def get_matches_in_group(self, group):
         """Возвращает матчи тура в конкретной группе."""
@@ -329,13 +369,14 @@ class Round(models.Model):
 
 class Match(models.Model):
     """Модель матча."""
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, verbose_name='Турнир', null=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
+    match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
+    match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
     team_1 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда хозяев', related_name='team_1')
     team_2 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда гостей', related_name='team_2')
     goals_team_1 = models.PositiveIntegerField('Голов забила команда хозяев', null=True, blank=True, default=None)
     goals_team_2 = models.PositiveIntegerField('Голов забила команда гостей', null=True, blank=True, default=None)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
-    match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
-    match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
     protocol = RichTextUploadingField('Протокол', blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
@@ -348,29 +389,29 @@ class Match(models.Model):
         return f"{self.get_goals_team_1()}:{self.get_goals_team_2()}"
 
     def get_goals_team_1(self):
-        """Возвращает количество голов, которые забила команда хозяев."""
-        if self.match_date and self.match_date > timezone.now():
-            return '-'
+        # """Возвращает количество голов, которые забила команда хозяев."""
+        # if self.match_date and self.match_date > timezone.now():
+        #     return '-'
         if self.goals_team_1:
             return self.goals_team_1
         goals = 0
-        goals_events = self.event_set.filter(event_type_id=1).all()
-        for goal_event in goals_events:
-            if goal_event.team == self.team_1:
-                goals += 1
+        # goals_events = self.event_set.filter(event_type_id=1).all()
+        # for goal_event in goals_events:
+        #     if goal_event.team == self.team_1:
+        #         goals += 1
         return goals
 
     def get_goals_team_2(self):
         """Возвращает количество голов, которые забила команда гостей."""
-        if self.match_date and self.match_date > timezone.now():
-            return '-'
+        # if self.match_date and self.match_date > timezone.now():
+        #     return '-'
         if self.goals_team_2:
             return self.goals_team_2
         goals = 0
-        goals_events = self.event_set.filter(event_type_id=1).all()
-        for goal_event in goals_events:
-            if goal_event.team == self.team_2:
-                goals += 1
+        # goals_events = self.event_set.filter(event_type_id=1).all()
+        # for goal_event in goals_events:
+        #     if goal_event.team == self.team_2:
+        #         goals += 1
         return goals
 
     def get_absolute_url(self):
@@ -397,9 +438,9 @@ class Event(models.Model):
     """Модель события матча."""
     event_type = models.ForeignKey(EventType, on_delete=models.CASCADE, verbose_name='Тип события')
     match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч')
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, verbose_name='Игрок')
     team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда')
-    event_time = models.IntegerField('Минута', validators=[MinValueValidator(1), MaxValueValidator(100)], blank=True,
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, verbose_name='Игрок')
+    event_time = models.IntegerField('Минута', validators=[MinValueValidator(1), MaxValueValidator(120)], blank=True,
                                      null=True, default=None)
 
     def __str__(self):

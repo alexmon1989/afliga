@@ -1,21 +1,18 @@
 <div class="row">
-    <div class="col-lg-12 g-mb-20">
-        <h2 class="h3">Штрафники турнира</h2>
-    </div>
 
     <div class="col-lg-6">
-        <h3 class="h4">Желтые карточки</h3>
+        <h3 class="h5 g-mb-20">Желтые карточки <span class="u-label g-bg-yellow g-mr-10">&nbsp;</span></h3>
 
         {% if yellow_cards|length > 0 %}
             <!-- Basic Table -->
             <div class="table-responsive g-mb-30">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-sm">
                     <thead>
                     <tr>
                         <th>#</th>
                         <th class="text-center">ФИО игрока</th>
                         <th class="text-center">Команда</th>
-                        <th class="text-center">Количество жёлтых карточек</th>
+                        <th class="text-center">Количество</th>
                     </tr>
                     </thead>
 
@@ -23,8 +20,14 @@
                     {% for player in yellow_cards %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
-                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a></td>
+                            <td class="text-center">
+                                <a class="g-color-blue-dark-v1"
+                                   href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
+                            </td>
+                            <td class="text-center">
+                                <a class="g-color-blue-dark-v1"
+                                   href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                            </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_yellow_cards }}
                             </td>
@@ -40,18 +43,18 @@
     </div>
 
     <div class="col-lg-6">
-        <h3 class="h4">Красные карточки</h3>
+        <h3 class="h5 g-mb-20">Красные карточки <span class="u-label g-bg-red-opacity-0_8 g-mr-10">&nbsp;</span></h3>
 
         {% if red_cards|length > 0 %}
             <!-- Basic Table -->
-            <div class="table-responsive g-mb-30">
+            <div class="table-responsive g-mb-30 table-sm">
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>#</th>
                         <th class="text-center">ФИО игрока</th>
                         <th class="text-center">Команда</th>
-                        <th class="text-center">Количество красных карточек</th>
+                        <th class="text-center">Количество</th>
                     </tr>
                     </thead>
 
@@ -59,8 +62,14 @@
                     {% for player in red_cards %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
-                            <td class="text-center"><a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a></td>
+                            <td class="text-center">
+                                <a class="g-color-blue-dark-v1"
+                                   href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
+                            </td>
+                            <td class="text-center">
+                                <a class="g-color-blue-dark-v1"
+                                   href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                            </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_red_cards }}
                             </td>
