@@ -1,6 +1,4 @@
 from django.views.generic import ListView, DetailView
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from apps.league.models import Tournament, Team, Player, Match, TournamentTeamApplication, Group, Round
 import json
@@ -13,26 +11,135 @@ class TournamentListView(ListView):
     queryset = Tournament.objects.order_by('-created_at')
 
 
-class TournamentDetailView(DetailView):
-    """Отображает страницу с деталями турнира."""
+class TournamentMainView(DetailView):
+    """Отображает главную страницу турнира."""
     model = Tournament
-    template_name = 'league/tournaments/detail/detail.html'
+    template_name = 'league/tournaments/main/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['bombardiers'] = self.object.get_bombardiers()
-        context['assistants'] = self.object.get_assistants()
-        context['yellow_cards'] = self.object.get_yellow_cards()
-        context['red_cards'] = self.object.get_red_cards()
         context['playoff_rounds'] = self.object.get_playoff_rounds()
         context['groups'] = self.object.group_set.all()
         context['playoff_last_rounds'] = self.object.get_playoff_last_rounds()
         context['playoff_future_rounds'] = self.object.get_playoff_future_rounds()
         return context
 
-    @method_decorator(cache_page(None))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+
+class TournamentTableView(DetailView):
+    """Отображает страницу таблицы турнира."""
+    model = Tournament
+    template_name = 'league/tournaments/table/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['groups'] = self.object.group_set.all()
+        return context
+
+
+class TournamentCalendarView(DetailView):
+    """Отображает страницу календаря турнира."""
+    model = Tournament
+    template_name = 'league/tournaments/calendar/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        matches = Match.objects.filter(tournament=self.object).values(
+            'pk',
+            'match_date',
+            'goals_team_1',
+            'goals_team_2',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__logo',
+            'group__title',
+            'match_round__title',
+        )
+
+        res = {
+            'playoff': [],
+            'groups': []
+        }
+
+        for match in matches:
+            # Групповые матчи
+            if match['group__title']:
+                # Индекс группы в списке (None, если отсутствует)
+                group_index = next((i for i, item in enumerate(res['groups']) if item['title'] == match['group__title']),
+                                   None)
+                if group_index is None:
+                    res['groups'].append({
+                        'title': match['group__title'],
+                        'rounds': []
+                    })
+                    group_index = len(res['groups']) - 1
+
+                # Индекс утра в группе (None, если отсутствует)
+                round_index = next((i for i, item in enumerate(res['groups'][group_index]['rounds']) if
+                                    item['title'] == match['match_round__title']), None)
+                if round_index is None:
+                    res['groups'][group_index]['rounds'].append({
+                        'title': match['match_round__title'],
+                        'matches': []
+                    })
+                    round_index = len(res['groups'][group_index]['rounds']) - 1
+
+                res['groups'][group_index]['rounds'][round_index]['matches'].append(match)
+
+            # Матчи плей-офф
+            else:
+                round_index = next(
+                    (i for i, item in enumerate(res['playoff_rounds']) if item['title'] == match['match_round__title']),
+                    None)
+                if round_index is None:
+                    res['playoff_rounds'].append({
+                        'title': match['match_round__title'],
+                        'matches': []
+                    })
+                    round_index = len(res['playoff_rounds']) - 1
+
+                res['playoff_rounds'][round_index]['matches'].append(match)
+
+        context['res'] = res
+
+        return context
+
+
+class TournamentBombardiersView(DetailView):
+    """Отображает страницу бомбардиров турнира."""
+    model = Tournament
+    template_name = 'league/tournaments/bombardiers/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bombardiers'] = self.object.get_bombardiers()
+        return context
+
+
+class TournamentAssistantsView(DetailView):
+    """Отображает страницу ассистентов турнира."""
+    model = Tournament
+    template_name = 'league/tournaments/assistants/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['assistants'] = self.object.get_assistants()
+        return context
+
+
+class TournamentCardsView(DetailView):
+    """Отображает страницу карточек турнира."""
+    model = Tournament
+    template_name = 'league/tournaments/cards/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['yellow_cards'] = self.object.get_yellow_cards()
+        context['red_cards'] = self.object.get_red_cards()
+        return context
 
 
 class TeamDetailView(DetailView):

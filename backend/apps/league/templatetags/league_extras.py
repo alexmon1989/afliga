@@ -37,12 +37,18 @@ def get_matches(round):
     return round.get_matches()
 
 
-@register.inclusion_tag('league/tournaments/detail/_partial/match_tr.html')
+@register.inclusion_tag('league/tournaments/templatetags/match_tr.html')
 def match_tr(match):
     return {'match': match}
 
 
 @register.simple_tag
-def get_match_score(pk):
+def get_match_score(match):
     """Возвращает счёт матча."""
-    return Match.objects.filter(pk=pk).first().get_score()
+    team_1_goals = 0
+    if match['goals_team_1']:
+        team_1_goals = match['goals_team_1']
+    team_2_goals = 0
+    if match['goals_team_2']:
+        team_2_goals = match['goals_team_2']
+    return f"{team_1_goals}:{team_2_goals}"

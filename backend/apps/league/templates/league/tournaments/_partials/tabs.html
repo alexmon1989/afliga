@@ -1,0 +1,35 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs u-nav-v4-1 u-nav-dark">
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'tournament_main' %}active{% endif %}"
+           href="{% url 'tournament_main' pk=tournament.pk %}">Главная</a>
+    </li>
+
+    {% if tournament.group_set.count > 0 %}
+        <li class="nav-item">
+            <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'tournament_table' %}active{% endif %}"
+               href="{% url 'tournament_table' pk=tournament.pk %}">Таблица</a>
+        </li>
+    {% endif %}
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'tournament_calendar' %}active{% endif %}"
+           href="{% url 'tournament_calendar' pk=tournament.pk %}">Календарь</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'tournament_bombardiers' %}active{% endif %}"
+           href="{% url 'tournament_bombardiers' pk=tournament.pk %}">Бомбардиры</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'tournament_assistants' %}active{% endif %}"
+           href="{% url 'tournament_assistants' pk=tournament.pk %}">Ассистенты</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'tournament_cards' %}active{% endif %}"
+           href="{% url 'tournament_cards' pk=tournament.pk %}">Карточки</a>
+    </li>
+</ul>
+<!-- End Nav tabs -->

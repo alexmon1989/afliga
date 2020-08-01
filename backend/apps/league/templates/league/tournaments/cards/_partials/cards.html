@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <div class="row">
 
     <div class="col-lg-6">
@@ -20,14 +22,20 @@
                     {% for player in yellow_cards %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center">
+                            <td>
                                 <a class="g-color-blue-dark-v1"
                                    href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
                             </td>
-                            <td class="text-center">
-                                <a class="g-color-blue-dark-v1"
-                                   href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
-                            </td>
+                            <td>
+                                {% if player.team__logo %}
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img
+                                            src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
+                                            alt="{{ player.team__title }}"></a>
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                                {% else %}
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
+                                                     alt=""></a>
+                                {% endif %}
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_yellow_cards }}
                             </td>
@@ -62,13 +70,20 @@
                     {% for player in red_cards %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td class="text-center">
+                            <td>
                                 <a class="g-color-blue-dark-v1"
                                    href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
                             </td>
-                            <td class="text-center">
-                                <a class="g-color-blue-dark-v1"
-                                   href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                            <td>
+                                {% if player.team__logo %}
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img
+                                            src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
+                                            alt="{{ player.team__title }}"></a>
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                                {% else %}
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
+                                                     alt=""></a>
+                                {% endif %}
                             </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_red_cards }}

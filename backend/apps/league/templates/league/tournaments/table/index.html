@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load project_tags %}
+
+{% block title %}{{ tournament }}. Таблица / {{ block.super }}{% endblock %}
+{% block description %}Таблица турнира {{ tournament }}.{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'league/tournaments/table/_partials/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        {% include 'league/tournaments/_partials/tabs.html' %}
+
+        <!-- Tab panes -->
+        <div class="g-pt-20 g-min-height-200">
+            {% include 'league/tournaments/table/_partials/table.html' %}
+        </div>
+        <!-- End Tab panes -->
+    </div>
+
+    <div class="col-lg-12">
+        {% comments_widget identifier='tournaments_table' identifier_id=tournament.pk %}
+    </div>
+{% endblock %}

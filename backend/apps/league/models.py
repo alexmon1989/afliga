@@ -115,7 +115,7 @@ class Tournament(models.Model):
             '-num_goals',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_goals'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_goals'
         )
 
     def get_assistants(self):
@@ -131,7 +131,7 @@ class Tournament(models.Model):
             '-num_assistants',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_assistants'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_assistants'
         )
 
     def get_yellow_cards(self):
@@ -147,7 +147,7 @@ class Tournament(models.Model):
             '-num_yellow_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_yellow_cards'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_yellow_cards'
         )
 
     def get_red_cards(self):
@@ -163,7 +163,7 @@ class Tournament(models.Model):
             '-num_red_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'num_red_cards'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_red_cards'
         )
 
     def __str__(self):
@@ -207,7 +207,14 @@ class Group(models.Model):
 
     def get_sorted_table(self):
         """Возвращает отсортированную по очкам таблицу."""
-        return sorted(json.loads(self.table), key=lambda x: (-x['score'], -(x['goals_scored'] - x['goals_missed'])))
+        teams = dict()
+        for team in self.teams.all().values('pk', 'logo'):
+            teams[team['pk']] = team['logo']
+
+        table = sorted(json.loads(self.table), key=lambda x: (-x['score'], -(x['goals_scored'] - x['goals_missed'])))
+        for item in table:
+            item['logo'] = teams[item['id']]
+        return table
 
     def get_rounds(self):
         """Возвращает список туров группы."""
@@ -277,6 +284,8 @@ class Round(models.Model):
         return self.match_set.values(
             'pk',
             'match_date',
+            'goals_team_1',
+            'goals_team_2',
             'team_1__pk',
             'team_1__title',
             'team_1__logo',
@@ -292,6 +301,8 @@ class Round(models.Model):
         ).values(
             'pk',
             'match_date',
+            'goals_team_1',
+            'goals_team_2',
             'team_1__pk',
             'team_1__title',
             'team_1__logo',
@@ -308,6 +319,8 @@ class Round(models.Model):
         ).values(
             'pk',
             'match_date',
+            'goals_team_1',
+            'goals_team_2',
             'team_1__pk',
             'team_1__title',
             'team_1__logo',
@@ -324,6 +337,8 @@ class Round(models.Model):
         ).values(
             'pk',
             'match_date',
+            'goals_team_1',
+            'goals_team_2',
             'team_1__pk',
             'team_1__title',
             'team_1__logo',
@@ -339,6 +354,8 @@ class Round(models.Model):
         ).values(
             'pk',
             'match_date',
+            'goals_team_1',
+            'goals_team_2',
             'team_1__pk',
             'team_1__title',
             'team_1__logo',
@@ -354,6 +371,8 @@ class Round(models.Model):
         ).values(
             'pk',
             'match_date',
+            'goals_team_1',
+            'goals_team_2',
             'team_1__pk',
             'team_1__title',
             'team_1__logo',

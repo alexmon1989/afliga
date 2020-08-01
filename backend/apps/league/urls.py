@@ -1,11 +1,20 @@
 from django.conf.urls import url
 from django.urls import path
-from apps.league.views import (TournamentListView, TournamentDetailView, TeamDetailView, PlayerDetailView,
-                               MatchDetailView, get_players, get_players_group, get_rounds, get_groups, get_teams)
+from apps.league.views import (TournamentListView, TeamDetailView, PlayerDetailView,  MatchDetailView, get_players,
+                               get_players_group, get_rounds, get_groups, get_teams, TournamentMainView,
+                               TournamentTableView, TournamentCalendarView, TournamentBombardiersView,
+                               TournamentAssistantsView, TournamentCardsView)
 
 urlpatterns = [
     url(r'^$', TournamentListView.as_view(), name='tournaments_list'),
-    url(r'^tournament/(?P<pk>\d+)$', TournamentDetailView.as_view(), name='tournament_detail'),
+
+    path('tournament/<int:pk>/', TournamentMainView.as_view(), name='tournament_main'),
+    path('tournament/<int:pk>/table/', TournamentTableView.as_view(), name='tournament_table'),
+    path('tournament/<int:pk>/calendar/', TournamentCalendarView.as_view(), name='tournament_calendar'),
+    path('tournament/<int:pk>/bombardiers/', TournamentBombardiersView.as_view(), name='tournament_bombardiers'),
+    path('tournament/<int:pk>/assistants/', TournamentAssistantsView.as_view(), name='tournament_assistants'),
+    path('tournament/<int:pk>/cards/', TournamentCardsView.as_view(), name='tournament_cards'),
+
     url(r'^team/(?P<pk>\d+)$', TeamDetailView.as_view(), name='team_detail'),
     url(r'^player/(?P<pk>\d+)$', PlayerDetailView.as_view(), name='player_detail'),
     url(r'^match/(?P<pk>\d+)$', MatchDetailView.as_view(), name='match_detail'),

@@ -69,7 +69,7 @@
 
     <div class="container mt-3">
         <div class="row">
-            {% if not request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail,team_detail,player_detail,match_detail' %}
+            {% if not request.resolver_match.url_name|in_list:'tournaments_list,team_detail,player_detail,match_detail,tournament_main,tournament_table,tournament_calendar,tournament_bombardiers,tournament_assistants,tournament_cards' %}
             <div class="col-lg-9">
             {% else %}
             <div class="col-lg-12">
@@ -80,7 +80,7 @@
                     {% endblock %}
                 </div>
             </div>
-            {% if not request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail,team_detail,player_detail,match_detail' %}
+            {% if not request.resolver_match.url_name|in_list:'tournaments_list,team_detail,player_detail,match_detail,tournament_main,tournament_table,tournament_calendar,tournament_bombardiers,tournament_assistants,tournament_cards' %}
                 <div class="col-lg-3">
                     <div class="row">
                         <!-- Tournament table -->

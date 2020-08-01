@@ -6,23 +6,22 @@
         <h2 class="h5">Календарь игр</h2>
     </div>
 
-    {% if playoff_rounds|length > 0 or groups|length > 0 %}
-        {% for group in groups %}
-            {% if groups|length > 1 %}
+    {% if res.playoff_rounds|length > 0 or res.groups|length > 0 %}
+        {% for group in res.groups %}
+            {% if res.groups|length > 1 %}
                 <div class="col-lg-12 g-mt-20">
                     <h3 class="h4">{{ group.title }}</h3>
                 </div>
             {% endif %}
 
-            {% for round in group.get_rounds %}
-                <div class="{% if group.get_rounds|length > 1 %}col-lg-6{% else %}col-lg-12{% endif %}">
+            {% for round in group.rounds %}
+                <div class="{% if group.rounds|length > 1 %}col-lg-6{% else %}col-lg-12{% endif %}">
                     <table class="table table-sm g-mt-20 g-mb-20">
                         <tbody>
                         <tr class="thead-default">
                             <th colspan="4">{{ round.title }}</th>
                         </tr>
-                        {% get_matches_in_group round group as matches %}
-                        {% for match in matches %}
+                        {% for match in round.matches %}
                             {% match_tr match=match %}
                         {% endfor %}
                         </tbody>
@@ -31,20 +30,19 @@
             {% endfor %}
         {% endfor %}
 
-        {% if playoff_rounds|length > 0 and groups|length > 0 %}
+        {% if res.playoff_rounds|length > 0 %}
             <div class="col-lg-12">
                 <h3 class="h4">Плейофф</h3>
             </div>
         {% endif %}
-        {% for round in playoff_rounds %}
+        {% for round in res.playoff_rounds %}
             <div class="col-lg-12">
                 <table class="table table-sm g-mt-20 g-mb-20">
                     <tbody>
                     <tr class="thead-default">
                         <th colspan="4">{{ round.title }}</th>
                     </tr>
-                    {% get_matches round as matches %}
-                    {% for match in matches %}
+                    {% for match in round.matches %}
                         {% match_tr match=match %}
                     {% endfor %}
                     </tbody>
