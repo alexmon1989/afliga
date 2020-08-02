@@ -12,6 +12,7 @@ import json
 class Team(models.Model):
     """Модель команды."""
     title = models.CharField('Название', max_length=255)
+    city = models.CharField('Город', max_length=255, null=True, blank=True)
     description = RichTextUploadingField('Описание', null=True, blank=True)
     logo = models.ImageField('Логотип', upload_to='teams', null=True, blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
@@ -81,6 +82,81 @@ class Tournament(models.Model):
     description = RichTextUploadingField('Описание', null=True, blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    def get_matches_sorted(self):
+        """Возвращает матчи турнира, разбитые на группы и плей-офф"""
+        matches = Match.objects.filter(tournament=self).values(
+            'pk',
+            'match_date',
+            'goals_team_1',
+            'goals_team_2',
+            'team_1__pk',
+            'team_1__title',
+            'team_1__city',
+            'team_1__logo',
+            'team_2__pk',
+            'team_2__title',
+            'team_2__city',
+            'team_2__logo',
+            'group__title',
+            'match_round__title',
+            'match_round__created_at',
+        )
+
+        res = {
+            'playoff_rounds': [],
+            'groups': []
+        }
+
+        for match in matches:
+            # Групповые матчи
+            if match['group__title']:
+                # Индекс группы в списке (None, если отсутствует)
+                group_index = next(
+                    (i for i, item in enumerate(res['groups']) if item['title'] == match['group__title']),
+                    None)
+                if group_index is None:
+                    res['groups'].append({
+                        'title': match['group__title'],
+                        'rounds': []
+                    })
+                    group_index = len(res['groups']) - 1
+
+                # Индекс утра в группе (None, если отсутствует)
+                round_index = next((i for i, item in enumerate(res['groups'][group_index]['rounds']) if
+                                    item['title'] == match['match_round__title']), None)
+                if round_index is None:
+                    res['groups'][group_index]['rounds'].append({
+                        'title': match['match_round__title'],
+                        'created_at': match['match_round__created_at'],
+                        'matches': []
+                    })
+                    round_index = len(res['groups'][group_index]['rounds']) - 1
+
+                res['groups'][group_index]['rounds'][round_index]['matches'].append(match)
+
+            # Матчи плей-офф
+            else:
+                round_index = next(
+                    (i for i, item in enumerate(res['playoff_rounds']) if item['title'] == match['match_round__title']),
+                    None)
+                if round_index is None:
+                    res['playoff_rounds'].append({
+                        'title': match['match_round__title'],
+                        'created_at': match['match_round__created_at'],
+                        'matches': []
+                    })
+                    round_index = len(res['playoff_rounds']) - 1
+
+                res['playoff_rounds'][round_index]['matches'].append(match)
+
+        # Сортировка
+        res['playoff_rounds'] = sorted(res['playoff_rounds'], key=lambda x: x['title'])
+        res['groups'] = sorted(res['groups'], key=lambda x: x['title'])
+        for group in res['groups']:
+            group['rounds'] = sorted(group['rounds'], key=lambda x: x['created_at'])
+
+        return res
 
     def get_playoff_rounds(self):
         """Возвращает список туров турнира."""
@@ -288,9 +364,11 @@ class Round(models.Model):
             'goals_team_2',
             'team_1__pk',
             'team_1__title',
+            'team_1__city',
             'team_1__logo',
             'team_2__pk',
             'team_2__title',
+            'team_2__city',
             'team_2__logo',
         ).all()
 
@@ -305,9 +383,11 @@ class Round(models.Model):
             'goals_team_2',
             'team_1__pk',
             'team_1__title',
+            'team_1__city',
             'team_1__logo',
             'team_2__pk',
             'team_2__title',
+            'team_2__city',
             'team_2__logo',
         ).all()
 
@@ -324,8 +404,10 @@ class Round(models.Model):
             'team_1__pk',
             'team_1__title',
             'team_1__logo',
+            'team_1__city',
             'team_2__pk',
             'team_2__title',
+            'team_2__city',
             'team_2__logo',
         ).all()
 
@@ -341,9 +423,11 @@ class Round(models.Model):
             'goals_team_2',
             'team_1__pk',
             'team_1__title',
+            'team_1__city',
             'team_1__logo',
             'team_2__pk',
             'team_2__title',
+            'team_2__city',
             'team_2__logo',
         ).all()
 
@@ -358,9 +442,11 @@ class Round(models.Model):
             'goals_team_2',
             'team_1__pk',
             'team_1__title',
+            'team_1__city',
             'team_1__logo',
             'team_2__pk',
             'team_2__title',
+            'team_2__city',
             'team_2__logo',
         ).all()
 
@@ -375,9 +461,11 @@ class Round(models.Model):
             'goals_team_2',
             'team_1__pk',
             'team_1__title',
+            'team_1__city',
             'team_1__logo',
             'team_2__pk',
             'team_2__title',
+            'team_2__city',
             'team_2__logo',
         ).all()
 

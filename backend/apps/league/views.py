@@ -43,68 +43,7 @@ class TournamentCalendarView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        matches = Match.objects.filter(tournament=self.object).values(
-            'pk',
-            'match_date',
-            'goals_team_1',
-            'goals_team_2',
-            'team_1__pk',
-            'team_1__title',
-            'team_1__logo',
-            'team_2__pk',
-            'team_2__title',
-            'team_2__logo',
-            'group__title',
-            'match_round__title',
-        )
-
-        res = {
-            'playoff': [],
-            'groups': []
-        }
-
-        for match in matches:
-            # Групповые матчи
-            if match['group__title']:
-                # Индекс группы в списке (None, если отсутствует)
-                group_index = next((i for i, item in enumerate(res['groups']) if item['title'] == match['group__title']),
-                                   None)
-                if group_index is None:
-                    res['groups'].append({
-                        'title': match['group__title'],
-                        'rounds': []
-                    })
-                    group_index = len(res['groups']) - 1
-
-                # Индекс утра в группе (None, если отсутствует)
-                round_index = next((i for i, item in enumerate(res['groups'][group_index]['rounds']) if
-                                    item['title'] == match['match_round__title']), None)
-                if round_index is None:
-                    res['groups'][group_index]['rounds'].append({
-                        'title': match['match_round__title'],
-                        'matches': []
-                    })
-                    round_index = len(res['groups'][group_index]['rounds']) - 1
-
-                res['groups'][group_index]['rounds'][round_index]['matches'].append(match)
-
-            # Матчи плей-офф
-            else:
-                round_index = next(
-                    (i for i, item in enumerate(res['playoff_rounds']) if item['title'] == match['match_round__title']),
-                    None)
-                if round_index is None:
-                    res['playoff_rounds'].append({
-                        'title': match['match_round__title'],
-                        'matches': []
-                    })
-                    round_index = len(res['playoff_rounds']) - 1
-
-                res['playoff_rounds'][round_index]['matches'].append(match)
-
-        context['res'] = res
-
+        context['res'] = self.object.get_matches_sorted()
         return context
 
 

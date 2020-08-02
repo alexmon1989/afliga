@@ -2,13 +2,13 @@
 {% load league_extras %}
 
 <tr>
-    <td class="text-center nowrap">{{ match.match_date|date:"SHORT_DATE_FORMAT" }} {{ match.match_date|time:"H:i" }}</td>
-    <td class="text-right" width="30%">
-        <div class="row no-gutters">
+    <td class="text-right g-line-height-1_2" width="40%">
+        <div class="row no-gutters d-flex align-items-center justify-content-start">
             <div class="col-10">
-                <a href="{% url 'team_detail' pk=match.team_1__pk %}">{{ match.team_1__title }}</a>
+                <a href="{% url 'team_detail' pk=match.team_1__pk %}">{{ match.team_1__title }}</a><br>
+                <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_1__city }}</span>
             </div>
-            <div class="col-2">
+            <div class="col-2 d-flex justify-content-end">
                 {% if match.team_1__logo %}
                     <a href="{% url 'team_detail' pk=match.team_1__pk %}"><img
                             src="{{ match.team_1__logo|thumbnail_url:'team_extra_small' }}"
@@ -20,9 +20,14 @@
             </div>
         </div>
     </td>
-    <td class="text-center" width="10%"><a href="{% url 'match_detail' pk=match.pk %}">{% get_match_score match %}</a></td>
-    <td class="text-left" width="30%">
-        <div class="row no-gutters">
+
+    <td class="text-center g-line-height-1_2">
+        <a class="g-font-weight-600" href="{% url 'match_detail' pk=match.pk %}">{% get_match_score match %}</a><br>
+        <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.match_date|date:"SHORT_DATE_FORMAT" }} {{ match.match_date|time:"H:i" }}</span>
+    </td>
+
+    <td class="text-left g-line-height-1_2" width="40%">
+        <div class="row no-gutters d-flex align-items-center justify-content-start">
             <div class="col-2">
                 {% if match.team_2__logo %}
                     <a href="{% url 'team_detail' pk=match.team_2__pk %}"><img
@@ -34,7 +39,8 @@
                 {% endif %}
             </div>
             <div class="col-10">
-                <a href="{% url 'team_detail' pk=match.team_2__pk %}">{{ match.team_2__title }}</a>
+                <a href="{% url 'team_detail' pk=match.team_2__pk %}">{{ match.team_2__title }}</a><br>
+                <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_2__city }}</span>
             </div>
         </div>
     </td>
