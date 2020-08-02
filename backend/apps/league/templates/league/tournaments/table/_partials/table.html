@@ -4,16 +4,16 @@
 <div class="row">
     <div class="col-lg-12 g-mb-30">
         {% if groups|length == 1 %}
-            <h2 class="h5">Турнирная таблица</h2>
+            <h2 class="h5 g-color-black g-font-weight-600">Турнирная таблица</h2>
         {% else %}
-            <h2 class="h5">Турнирные таблицы</h2>
+            <h2 class="h5 g-color-black g-font-weight-600">Турнирные таблицы</h2>
         {% endif %}
 
         <div class="row">
             {% for group in groups %}
                 {% if groups|length > 1 %}
                     <div class="col-lg-6">
-                        <h3 class="h5 g-mt-20">{{ group.title }}</h3>
+                        <h3 class="h5 g-mt-20 g-color-black">{{ group.title }}</h3>
                 {% else %}
                     <div class="col-lg-12">
                 {% endif %}
