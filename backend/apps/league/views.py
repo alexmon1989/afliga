@@ -19,7 +19,7 @@ class TournamentMainView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['playoff_rounds'] = self.object.get_playoff_rounds()
-        context['groups'] = self.object.group_set.all()
+        context['groups'] = self.object.group_set.all().order_by('title')
         context['playoff_last_rounds'] = self.object.get_playoff_last_rounds()
         context['playoff_future_rounds'] = self.object.get_playoff_future_rounds()
         return context

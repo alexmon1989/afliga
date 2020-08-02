@@ -3,7 +3,7 @@
 <div class="row">
 
     <div class="col-lg-6">
-        <h3 class="h5 g-mb-20">Желтые карточки <span class="u-label g-bg-yellow g-mr-10">&nbsp;</span></h3>
+        <h3 class="h5 g-mb-20 g-color-black g-font-weight-600">Желтые карточки <span class="u-label g-bg-yellow g-mr-10">&nbsp;</span></h3>
 
         {% if yellow_cards|length > 0 %}
             <!-- Basic Table -->
@@ -31,11 +31,11 @@
                                     <a href="{% url 'team_detail' pk=player.team__pk %}"><img
                                             src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
                                             alt="{{ player.team__title }}"></a>
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
                                 {% else %}
                                     <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
                                                      alt=""></a>
                                 {% endif %}
+                                <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_yellow_cards }}
                             </td>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="col-lg-6">
-        <h3 class="h5 g-mb-20">Красные карточки <span class="u-label g-bg-red-opacity-0_8 g-mr-10">&nbsp;</span></h3>
+        <h3 class="h5 g-mb-20 g-color-black g-font-weight-600">Красные карточки <span class="u-label g-bg-red-opacity-0_8 g-mr-10">&nbsp;</span></h3>
 
         {% if red_cards|length > 0 %}
             <!-- Basic Table -->
@@ -79,11 +79,11 @@
                                     <a href="{% url 'team_detail' pk=player.team__pk %}"><img
                                             src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
                                             alt="{{ player.team__title }}"></a>
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
                                 {% else %}
                                     <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
                                                      alt=""></a>
                                 {% endif %}
+                                <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
                             </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_red_cards }}

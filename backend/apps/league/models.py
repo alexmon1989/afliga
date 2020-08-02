@@ -191,7 +191,7 @@ class Tournament(models.Model):
             '-num_goals',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_goals'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_goals'
         )
 
     def get_assistants(self):
@@ -207,7 +207,7 @@ class Tournament(models.Model):
             '-num_assistants',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_assistants'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_assistants'
         )
 
     def get_yellow_cards(self):
@@ -223,7 +223,7 @@ class Tournament(models.Model):
             '-num_yellow_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_yellow_cards'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_yellow_cards'
         )
 
     def get_red_cards(self):
@@ -239,7 +239,7 @@ class Tournament(models.Model):
             '-num_red_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__logo', 'num_red_cards'
+            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_red_cards'
         )
 
     def __str__(self):

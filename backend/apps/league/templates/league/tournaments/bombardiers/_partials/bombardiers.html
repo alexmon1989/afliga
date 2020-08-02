@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-lg-12 g-mb-30">
 
-        <h2 class="h5 g-mb-20">Бомбардиры турнира</h2>
+        <h2 class="h5 g-mb-20 g-color-black g-font-weight-600">Бомбардиры турнира</h2>
 
         {% if bombardiers|length > 0 %}
             <!-- Basic Table -->
@@ -31,7 +31,7 @@
                                     <a href="{% url 'team_detail' pk=player.team__pk %}"><img
                                             src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
                                             alt="{{ player.team__title }}"></a>
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                                    <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }} <span class="g-color-gray-dark-v3 g-font-size-13">{{ player.team__city }}</span></a>
                                 {% else %}
                                     <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
                                                      alt=""></a>

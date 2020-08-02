@@ -13,14 +13,14 @@
     {% if groups|length > 0 %}
         <div class="col-lg-4">
             {% if groups|length == 1 %}
-                <h2 class="h5 g-color-black">Таблица</h2>
+                <h2 class="h5 g-color-black g-font-weight-600">Таблица</h2>
             {% else %}
-                <h2 class="h5 g-color-black">Таблицы</h2>
+                <h2 class="h5 g-color-black g-font-weight-600">Таблицы</h2>
             {% endif %}
 
             {% for group in groups %}
                 {% if groups|length > 1 %}
-                    <h3 class="h5 g-mt-20">{{ group.title }}</h3>
+                    <h3 class="h5 g-mt-20 g-color-black">{{ group.title }}</h3>
                 {% endif %}
 
                 <table class="table table-sm table-bordered g-mt-10 g-mb-30">
@@ -59,7 +59,7 @@
     {% endif %}
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="h5 g-color-black g-mb-20">Последние матчи</h2>
+            <h2 class="h5 g-color-black g-mb-20 g-font-weight-600">Последние матчи</h2>
 
             {% if playoff_last_rounds|length > 0 %}
                 <table class="table table-sm g-mt-10 g-mb-30">
@@ -79,7 +79,7 @@
             {% for group in groups %}
                 {% if group.get_last_rounds|length > 0 %}
                     {% if groups|length > 1 %}
-                        <h3 class="h5 g-mt-10">{{ group.title }}</h3>
+                        <h3 class="h5 g-mt-10 g-color-black">{{ group.title }}</h3>
                     {% endif %}
 
                     <table class="table table-sm g-my-10">
@@ -97,51 +97,54 @@
                         </tbody>
                     </table>
                 {% endif %}
+
+                {% if not forloop.last %}<hr>{% endif %}
             {% endfor %}
         </div>
 
-        <div class="col-lg-12">
-            <h2 class="h5 g-color-black g-mb-20 g-mt-20">Ближайшие матчи</h2>
+        {% if playoff_future_rounds|length > 0 %}
+            <div class="col-lg-12">
+                <h2 class="h5 g-color-black g-mb-20 g-mt-20">Ближайшие матчи</h2>
 
-            {% if playoff_future_rounds|length > 0 %}
-                <table class="table table-sm g-mt-20 g-mb-30">
-                    <tbody>
-                    {% for round in playoff_future_rounds %}
-                        <tr class="thead-default">
-                            <th colspan="4">{{ round.title }}</th>
-                        </tr>
-                        {% for match in round.get_future_matches %}
-                            {% match_tr match=match %}
-                        {% endfor %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-
-            {% for group in groups %}
-                {% if group.get_future_rounds|length > 0 %}
-
-                    {% if groups|length > 1 %}
-                        <h3 class="h5 g-mt-20">{{ group.title }}</h3>
-                    {% endif %}
 
                     <table class="table table-sm g-mt-20 g-mb-30">
                         <tbody>
-                        {% for round in group.get_future_rounds %}
+                        {% for round in playoff_future_rounds %}
                             <tr class="thead-default">
                                 <th colspan="4">{{ round.title }}</th>
                             </tr>
-
-                            {% get_future_matches_in_group round group as future_matches %}
-                            {% for match in future_matches %}
+                            {% for match in round.get_future_matches %}
                                 {% match_tr match=match %}
                             {% endfor %}
                         {% endfor %}
                         </tbody>
                     </table>
-                {% endif %}
-            {% endfor %}
-        </div>
+
+                {% for group in groups %}
+                    {% if group.get_future_rounds|length > 0 %}
+
+                        {% if groups|length > 1 %}
+                            <h3 class="h5 g-mt-20 g-color-black">{{ group.title }}</h3>
+                        {% endif %}
+
+                        <table class="table table-sm g-mt-20 g-mb-30">
+                            <tbody>
+                            {% for round in group.get_future_rounds %}
+                                <tr class="thead-default">
+                                    <th colspan="4">{{ round.title }}</th>
+                                </tr>
+
+                                {% get_future_matches_in_group round group as future_matches %}
+                                {% for match in future_matches %}
+                                    {% match_tr match=match %}
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
     </div>
 </div>

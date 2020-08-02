@@ -3,15 +3,15 @@
 
 <tr>
     <td class="text-right g-line-height-1_2" width="40%">
-        <div class="row no-gutters d-flex align-items-center justify-content-start">
-            <div class="col-10">
+        <div class="d-flex align-items-center justify-content-end">
+            <div>
                 <a href="{% url 'team_detail' pk=match.team_1__pk %}">{{ match.team_1__title }}</a><br>
                 <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_1__city }}</span>
             </div>
-            <div class="col-2 d-flex justify-content-end">
+            <div class="g-px-7">
                 {% if match.team_1__logo %}
                     <a href="{% url 'team_detail' pk=match.team_1__pk %}"><img
-                            src="{{ match.team_1__logo|thumbnail_url:'team_extra_small' }}"
+                            src="{{ match.team_1__logo|thumbnail_url:'team_smaller' }}"
                             alt="{{ match.team_1__title }}"></a>
                 {% else %}
                     <a href="{% url 'team_detail' pk=match.team_1__pk %}"><img src="//via.placeholder.com/18?text=No+image"
@@ -27,18 +27,18 @@
     </td>
 
     <td class="text-left g-line-height-1_2" width="40%">
-        <div class="row no-gutters d-flex align-items-center justify-content-start">
-            <div class="col-2">
+        <div class="d-flex align-items-center justify-content-start">
+            <div class="g-px-7">
                 {% if match.team_2__logo %}
                     <a href="{% url 'team_detail' pk=match.team_2__pk %}"><img
-                            src="{{ match.team_2__logo|thumbnail_url:'team_extra_small' }}"
+                            src="{{ match.team_2__logo|thumbnail_url:'team_smaller' }}"
                             alt="{{ match.team_2__title }}"></a>
                 {% else %}
                     <a href="{% url 'team_detail' pk=match.team_2__pk %}"><img src="//via.placeholder.com/18?text=No+image"
                                      alt=""></a>
                 {% endif %}
             </div>
-            <div class="col-10">
+            <div>
                 <a href="{% url 'team_detail' pk=match.team_2__pk %}">{{ match.team_2__title }}</a><br>
                 <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_2__city }}</span>
             </div>
