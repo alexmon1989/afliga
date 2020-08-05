@@ -30,7 +30,7 @@
             {% endfor %}
         {% endfor %}
 
-        {% if res.playoff_rounds|length > 0 %}
+        {% if res.playoff_rounds|length > 0 and res.groups|length > 0 %}
             <div class="col-lg-12">
                 <h3 class="h5 g-color-black">Плейофф</h3>
             </div>
