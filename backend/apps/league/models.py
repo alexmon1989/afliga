@@ -19,7 +19,9 @@ class Team(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     def __str__(self):
-        return f"{self.title} {self.city}"
+        if self.city:
+            return f"{self.title} {self.city}"
+        return self.title
 
     def get_absolute_url(self):
         return reverse('team_detail', args=[self.pk])
