@@ -278,6 +278,7 @@ class MatchesAdmin(AdminWithSelectRelated):
     inlines = (EventInline,)
     list_filter = ('team_1', 'team_2', 'tournament')
     list_select_related = (
+        'tournament',
         'group__tournament',
         'match_round__tournament',
         'team_1',
@@ -315,7 +316,7 @@ class MatchesAdmin(AdminWithSelectRelated):
             match_id = int(re_res.group(0))
 
         teams = Team.objects.all()
-        players = Player.objects.all()
+        players = Player.objects.select_related('team').all()
         if match_id:
             # Получение команд и игроков только турнира этого матча
             match = Match.objects.get(pk=match_id)

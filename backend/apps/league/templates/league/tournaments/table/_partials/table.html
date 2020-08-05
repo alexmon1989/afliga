@@ -42,7 +42,7 @@
                                 {% else %}
                                     <a href="{% url 'team_detail' pk=team.id %}"><img src="//via.placeholder.com/45?text=No+image" alt=""></a>
                                 {% endif %}
-                                &nbsp;<a href="{% url 'team_detail' pk=team.id %}" class="g-font-weight-600">{{ team.title }}</a>
+                                &nbsp;<a href="{% url 'team_detail' pk=team.id %}" class="g-font-weight-600">{{ team.title }} <span class="g-color-gray-dark-v4 g-font-size-12">{{ team.city|default_if_none:"" }}</span></a>
                             </td>
                             <td class="text-center">{{ team.games }}</td>
                             <td class="text-center">{{ team.wins }}</td>

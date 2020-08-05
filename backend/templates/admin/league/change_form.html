@@ -182,7 +182,7 @@
 
                     if (playerVal) {
                         // Поле команды
-                        var $teamSelect = $playersSelect.parent().parent().parent().find(".field-team select");
+                        var $teamSelect = $playersSelect.parent().parent().parent().parent().find(".field-team select");
 
                         var param = "?team_id=" + $teamSelect.val() ;
                         var idGroupValue = $("#id_group").val();
@@ -209,7 +209,8 @@
                 // Фильтрация игроков при смене команды в inline
                 $(document).on('change', ".field-team select", function () {
                     var $this = $(this);
-                    var $playersSelect = $this.parent().parent().parent().find(".field-player select");
+                    var $playersSelect = $this.parent().parent().parent().parent().find(".field-player select");
+                    console.log($playersSelect)
 
                     $playersSelect.prop("disabled", "disabled");
 

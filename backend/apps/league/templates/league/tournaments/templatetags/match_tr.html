@@ -6,7 +6,7 @@
         <div class="d-flex align-items-center justify-content-end">
             <div>
                 <a href="{% url 'team_detail' pk=match.team_1__pk %}">{{ match.team_1__title }}</a><br>
-                <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_1__city }}</span>
+                <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_1__city|default_if_none:"" }}</span>
             </div>
             <div class="g-px-7">
                 {% if match.team_1__logo %}
@@ -14,7 +14,7 @@
                             src="{{ match.team_1__logo|thumbnail_url:'team_smaller' }}"
                             alt="{{ match.team_1__title }}"></a>
                 {% else %}
-                    <a href="{% url 'team_detail' pk=match.team_1__pk %}"><img src="//via.placeholder.com/18?text=No+image"
+                    <a href="{% url 'team_detail' pk=match.team_1__pk %}"><img src="//via.placeholder.com/22?text=No+image"
                                      alt=""></a>
                 {% endif %}
             </div>
@@ -34,13 +34,13 @@
                             src="{{ match.team_2__logo|thumbnail_url:'team_smaller' }}"
                             alt="{{ match.team_2__title }}"></a>
                 {% else %}
-                    <a href="{% url 'team_detail' pk=match.team_2__pk %}"><img src="//via.placeholder.com/18?text=No+image"
+                    <a href="{% url 'team_detail' pk=match.team_2__pk %}"><img src="//via.placeholder.com/22?text=No+image"
                                      alt=""></a>
                 {% endif %}
             </div>
             <div>
                 <a href="{% url 'team_detail' pk=match.team_2__pk %}">{{ match.team_2__title }}</a><br>
-                <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_2__city }}</span>
+                <span class="g-color-gray-dark-v4 g-font-size-12">{{ match.team_2__city|default_if_none:"" }}</span>
             </div>
         </div>
     </td>

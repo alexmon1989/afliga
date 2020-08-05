@@ -15,7 +15,7 @@
     <div class="col-lg-12 g-min-height-200">
         <div class="row">
             <div class="col-lg-12 text-center g-font-weight-600 lead">
-                <a href="{% url 'tournament_detail' pk=match.match_round.tournament.pk %}">{{ match.match_round.tournament }}</a>
+                <a href="{% url 'tournament_main' pk=match.match_round.tournament.pk %}">{{ match.match_round.tournament }}</a>
             </div>
 
             <div class="col-lg-12 text-center lead">
@@ -89,7 +89,7 @@
                                             &nbsp;
                                         {% endif %}
                                     </td>
-                                    <td><a href="{% url 'player_detail' pk=event.player.pk %}">{{ event.player }}</a>
+                                    <td><a href="{% url 'player_detail' pk=event.player.pk %}">{{ event.player.name }}</a>
                                     </td>
                                     <td>{{ event.event_type }}</td>
                                 </tr>
@@ -113,7 +113,7 @@
                                             &nbsp;
                                         {% endif %}
                                     </td>
-                                    <td><a href="{% url 'player_detail' pk=event.player.pk %}">{{ event.player }}</a>
+                                    <td><a href="{% url 'player_detail' pk=event.player.pk %}">{{ event.player.name }}</a>
                                     </td>
                                     <td>{{ event.event_type }}</td>
                                 </tr>

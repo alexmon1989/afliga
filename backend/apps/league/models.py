@@ -19,7 +19,7 @@ class Team(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.title} {self.city}"
 
     def get_absolute_url(self):
         return reverse('team_detail', args=[self.pk])
