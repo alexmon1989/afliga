@@ -35,7 +35,7 @@
             <dd class="col-sm-9">{{ player.birth_date|default_if_none:"Нет данных" }}</dd>
 
             <dt class="col-sm-3">Текущая команда</dt>
-            <dd class="col-sm-9">{% if player.team %}<a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team.title }} {{ player.team.city }}</a>{% else %}-{% endif %}</dd>
+            <dd class="col-sm-9">{% if player.team %}<a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team.title }} {{ player.team.city|default_if_none:"" }}</a>{% else %}-{% endif %}</dd>
         </dl>
 
         {{ player.biography|safe }}

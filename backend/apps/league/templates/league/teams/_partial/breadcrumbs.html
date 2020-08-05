@@ -3,7 +3,7 @@
         <div class="d-sm-flex text-center">
             <div class="align-self-center">
                 <h1 class="h2 g-font-weight-300 w-100 g-mb-10 g-mb-0--md">
-                    {{ team.title }} {{ team.city }}
+                    {{ team.title }} {{ team.city|default_if_none:"" }}
                 </h1>
             </div>
 
@@ -14,7 +14,7 @@
                         <i class="g-color-gray-light-v2 g-ml-5">/</i>
                     </li>
                     <li class="list-inline-item g-color-primary">
-                        <span>{{ team.title }} {{ team.city }}</span>
+                        <span>{{ team.title }} {{ team.city|default_if_none:"" }}</span>
                     </li>
                 </ul>
             </div>
