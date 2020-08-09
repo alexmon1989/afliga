@@ -9,7 +9,7 @@
                 var $ = django.jQuery;
 
                 // Получение туров
-                var getRounds = function() {
+                var getRounds = function(onSuccess=false) {
                     var $idMatchRound = $("#id_match_round");
                     var tournamentId = $("#id_tournament").val();
                     var roundId = $idMatchRound.val();
@@ -30,12 +30,16 @@
                             if (roundId) {
                                 $idMatchRound.val(roundId)
                             }
+
+                            if (onSuccess) {
+                                onSuccess();
+                            }
                         });
                     }
                 }
 
                 // Получение групп
-                var getGroups = function() {
+                var getGroups = function(onSuccess=false) {
                     var $idGroup = $("#id_group");
                     var groupId = $idGroup.val();
                     var tournamentId = $("#id_tournament").val();
@@ -56,12 +60,16 @@
                             if (groupId) {
                                 $idGroup.val(groupId)
                             }
+
+                            if (onSuccess) {
+                                onSuccess();
+                            }
                         });
                     }
                 }
 
                 // Получение комманд
-                var getTeams = function() {
+                var getTeams = function(onSuccess=false) {
                     var tournamentId = $("#id_tournament").val();
                     var groupId = $("#id_group").val();
                     var $idTeam1 = $("#id_team_1");
@@ -106,11 +114,19 @@
                                 $teamSelect.prop("disabled", false);
                             });
                             setTeamsInline();
+
+                            if (onSuccess) {
+                                onSuccess();
+                            }
                         });
                     } else {
                         $idTeam1.html(options);
                         $idTeam2.html(options);
                         setTeamsInline();
+
+                        if (onSuccess) {
+                            onSuccess();
+                        }
                     }
                 }
 
@@ -152,9 +168,15 @@
 
                 // Обработчик события изменения значения тура
                 $(document).on('change', "#id_tournament", function () {
-                    getRounds();
-                    getGroups();
-                    getTeams();
+                    getRounds(
+                        function () {
+                            getGroups(
+                                function () {
+                                    getTeams();
+                                }
+                            );
+                        }
+                    );
                 });
 
                 // Обработчик события изменения значения группы
@@ -210,7 +232,6 @@
                 $(document).on('change', ".field-team select", function () {
                     var $this = $(this);
                     var $playersSelect = $this.parent().parent().parent().parent().find(".field-player select");
-                    console.log($playersSelect)
 
                     $playersSelect.prop("disabled", "disabled");
 
@@ -237,9 +258,15 @@
                 });
 
                 // Начальная инициализация списков
-                getRounds();
-                getGroups();
-                getTeams();
+                getRounds(
+                    function () {
+                        getGroups(
+                            function () {
+                                getTeams();
+                            }
+                        );
+                    }
+                );
             });
         </script>
     {% endif %}

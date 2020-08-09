@@ -200,6 +200,12 @@ class EventInline(AdminInlineWithSelectRelated):
             field.choices = self.cached_players
         return field
 
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super(EventInline, self).formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name in ('team', 'player'):
+            formfield.widget.can_add_related = False
+        return formfield
+
 
 class MatchForm(forms.ModelForm):
     """Класс формы для редактирования матча."""
@@ -334,6 +340,12 @@ class MatchesAdmin(AdminWithSelectRelated):
             inline.cached_players = [(i.pk, str(i)) for i in players]
             inline.cached_players.insert(0, ("", "---------"))
             yield inline.get_formset(request, obj), inline
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super(MatchesAdmin, self).formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name in ('team_1', 'team_2'):
+            formfield.widget.can_add_related = False
+        return formfield
 
 
 @admin.register(EventType)
