@@ -115,16 +115,18 @@ def get_players_group(request):
     team_id = request.GET.get('team_id')
     group_id = request.GET.get('group_id')
 
-    if not team_id and not group_id:
-        result = []
-    else:
+    result = []
+    if team_id or group_id:
         qs = TournamentTeamApplication.objects.all()
+
         if team_id:
             qs = qs.filter(team_id=team_id)
         if group_id:
             group = Group.objects.get(pk=group_id)
             qs = qs.filter(tournament_id=group.tournament_id)
-        result = list(qs.first().players.all().values('id', 'name'))
+            
+        if qs.count():
+            result = list(qs.first().players.all().values('id', 'name'))
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 
