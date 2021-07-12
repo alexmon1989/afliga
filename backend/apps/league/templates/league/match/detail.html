@@ -48,6 +48,9 @@
                 <span class="u-label g-rounded-20 g-px-15 g-bg-bluegray g-font-size-30">{{ match.get_goals_team_1 }}</span>
                 <span class="g-font-size-30 g-font-color-bluegray">:</span>
                 <span class="u-label g-rounded-20 g-px-15 g-bg-bluegray g-font-size-30">{{ match.get_goals_team_2 }}</span>
+
+
+                {% if match.is_technical_defeat %}<br><span class="g-color-darkred g-font-size-12">Техническое поражение</span>{% endif %}
             </div>
 
             <div class="col-lg-5 col-md-4 g-my-20">
@@ -128,6 +131,13 @@
                     <h2 class="h3">Протокол</h2>
 
                     {{ match.protocol|safe }}
+                </div>
+            {% endif %}
+
+            {% if match.youtube_id %}
+                <div class="col-lg-12 g-mb-30">
+                    <h3 class="h3">Видео матча</h3>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ match.youtube_id }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             {% endif %}
         </div>

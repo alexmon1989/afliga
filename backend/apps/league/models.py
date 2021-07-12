@@ -259,6 +259,7 @@ class Round(models.Model):
             'team_2__title',
             'team_2__logo',
             'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_last_matches_in_group(self, group):
@@ -276,6 +277,7 @@ class Round(models.Model):
             'team_2__title',
             'team_2__logo',
             'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_future_matches_in_group(self, group):
@@ -293,6 +295,7 @@ class Round(models.Model):
             'team_2__title',
             'team_2__logo',
             'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_last_matches(self):
@@ -309,6 +312,7 @@ class Round(models.Model):
             'team_2__title',
             'team_2__logo',
             'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_future_matches(self):
@@ -325,6 +329,7 @@ class Round(models.Model):
             'team_2__title',
             'team_2__logo',
             'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     class Meta:
@@ -343,6 +348,7 @@ class Match(models.Model):
     match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
     match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
     protocol = RichTextUploadingField('Протокол', blank=True)
+    youtube_id = models.CharField('Id видео на Youtube', null=True, blank=True, default=None, max_length=255)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 

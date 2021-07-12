@@ -3,7 +3,7 @@
 
 <tr>
     <td class="text-center" width="20%">{{ match.match_date|date:"SHORT_DATE_FORMAT" }} {{ match.match_date|time:"H:i" }}</td>
-    <td class="text-right" width="35%">
+    <td class="text-right" width="33%">
         <div class="row no-gutters">
             <div class="col-10">
                 <a href="{% url 'team_detail' pk=match.team_1__pk %}">{{ match.team_1__title }}</a>
@@ -23,15 +23,13 @@
 
     <td class="text-center" width="10%">
         {% if match.is_technical_defeat %}
-            <a href="{% url 'match_detail' pk=match.pk %}" class="g-color-darkred">
-                <abbr title="Техническое поражение">{% get_match_score match.pk %}</abbr>
-            </a>
+            <a href="{% url 'match_detail' pk=match.pk %}" class="g-color-darkred" title="Техническое поражение">{% get_match_score match.pk %}</a>
         {% else %}
             <a href="{% url 'match_detail' pk=match.pk %}">{% get_match_score match.pk %}</a>
         {% endif %}
     </td>
 
-    <td class="text-left" width="35%">
+    <td class="text-left" width="33%">
         <div class="row no-gutters">
             <div class="col-2">
                 {% if match.team_2__logo %}
@@ -47,5 +45,11 @@
                 <a href="{% url 'team_detail' pk=match.team_2__pk %}">{{ match.team_2__title }}</a>
             </div>
         </div>
+    </td>
+
+    <td width="4%">
+        {% if match.youtube_id %}
+            <a href="https://www.youtube.com/watch?v={{ match.youtube_id }}" title="Матч на Youtube" target="_blank"><i class="fa fa-youtube-play g-color-red g-font-size-16"></i></a>
+        {% endif %}
     </td>
 </tr>

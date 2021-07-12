@@ -16,7 +16,7 @@
                     <tbody>
                     {% for round in tournament.get_playoff_last_rounds %}
                         <tr>
-                            <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                            <th colspan="5" class="g-brd-top-none">{{ round.title }}</th>
                         </tr>
                         {% for match in round.get_last_matches %}
                             {% match_tr match=match %}
@@ -37,7 +37,7 @@
                             <tbody>
                             {% for round in group.get_last_rounds %}
                                 <tr>
-                                    <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                                    <th colspan="5" class="g-brd-top-none">{{ round.title }}</th>
                                 </tr>
 
                                 {% get_last_matches_in_group round group as last_matches %}
@@ -62,7 +62,7 @@
                     <tbody>
                     {% for round in tournament.get_playoff_future_rounds %}
                         <tr>
-                            <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                            <th colspan="5" class="g-brd-top-none">{{ round.title }}</th>
                         </tr>
                         {% for match in round.get_future_matches %}
                             {% match_tr match=match %}
@@ -83,7 +83,7 @@
                             <tbody>
                             {% for round in group.get_future_rounds %}
                                 <tr>
-                                    <th colspan="4" class="g-brd-top-none">{{ round.title }}</th>
+                                    <th colspan="5" class="g-brd-top-none">{{ round.title }}</th>
                                 </tr>
 
                                 {% get_future_matches_in_group round group as future_matches %}
