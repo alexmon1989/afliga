@@ -258,6 +258,7 @@ class Round(models.Model):
             'team_2__pk',
             'team_2__title',
             'team_2__logo',
+            'is_technical_defeat',
         ).all()
 
     def get_last_matches_in_group(self, group):
@@ -274,6 +275,7 @@ class Round(models.Model):
             'team_2__pk',
             'team_2__title',
             'team_2__logo',
+            'is_technical_defeat',
         ).all()
 
     def get_future_matches_in_group(self, group):
@@ -290,6 +292,7 @@ class Round(models.Model):
             'team_2__pk',
             'team_2__title',
             'team_2__logo',
+            'is_technical_defeat',
         ).all()
 
     def get_last_matches(self):
@@ -305,6 +308,7 @@ class Round(models.Model):
             'team_2__pk',
             'team_2__title',
             'team_2__logo',
+            'is_technical_defeat',
         ).all()
 
     def get_future_matches(self):
@@ -320,6 +324,7 @@ class Round(models.Model):
             'team_2__pk',
             'team_2__title',
             'team_2__logo',
+            'is_technical_defeat',
         ).all()
 
     class Meta:
@@ -333,6 +338,7 @@ class Match(models.Model):
     team_2 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда гостей', related_name='team_2')
     goals_team_1 = models.PositiveIntegerField('Голов забила команда хозяев', null=True, blank=True, default=None)
     goals_team_2 = models.PositiveIntegerField('Голов забила команда гостей', null=True, blank=True, default=None)
+    is_technical_defeat = models.BooleanField('Техническое поражение', default=False)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
     match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
     match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
@@ -349,29 +355,33 @@ class Match(models.Model):
 
     def get_goals_team_1(self):
         """Возвращает количество голов, которые забила команда хозяев."""
-        if self.match_date and self.match_date > timezone.now():
-            return '-'
-        if self.goals_team_1:
+        #if self.match_date and self.match_date > timezone.now():
+        #    return '-'
+        if isinstance(self.goals_team_1, int):
             return self.goals_team_1
-        goals = 0
         goals_events = self.event_set.filter(event_type_id=1).all()
-        for goal_event in goals_events:
-            if goal_event.team == self.team_1:
-                goals += 1
-        return goals
+        if goals_events:
+            goals = 0
+            for goal_event in goals_events:
+                if goal_event.team == self.team_1:
+                    goals += 1
+            return goals            
+        return '-'
 
     def get_goals_team_2(self):
         """Возвращает количество голов, которые забила команда гостей."""
-        if self.match_date and self.match_date > timezone.now():
-            return '-'
-        if self.goals_team_2:
+        #if self.match_date and self.match_date > timezone.now():
+        #    return '-'
+        if isinstance(self.goals_team_2, int):
             return self.goals_team_2
-        goals = 0
         goals_events = self.event_set.filter(event_type_id=1).all()
-        for goal_event in goals_events:
-            if goal_event.team == self.team_2:
-                goals += 1
-        return goals
+        if goals_events:
+            goals = 0
+            for goal_event in goals_events:
+                if goal_event.team == self.team_2:
+                    goals += 1
+            return goals            
+        return '-'
 
     def get_absolute_url(self):
         return reverse('match_detail', args=[self.pk])
