@@ -24,7 +24,7 @@ from apps.team import urls as team_urls
 from apps.photogallery import urls as photogallery_urls
 from apps.videogallery import urls as videogallery_urls
 from apps.league import urls as league_urls
-from afliga.sitemap import (StaticSitemap, NewsSitemap, GallerySitemap, TournamentSitemap, TeamSitemap, PlayerSitemap,
+from afliga.sitemap import (StaticSitemap, NewsSitemap, GallerySitemap, CompetitionSitemap, TeamSitemap, PlayerSitemap,
                             MatchSitemap)
 from django.contrib.sitemaps.views import sitemap
 
@@ -33,7 +33,7 @@ sitemaps = {
     'static': StaticSitemap,
     'news': NewsSitemap,
     'photogalleries': GallerySitemap,
-    'tournaments': TournamentSitemap,
+    'competitions': CompetitionSitemap,
     'teams': TeamSitemap,
     'players': PlayerSitemap,
     'matches': MatchSitemap,

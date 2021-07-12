@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django import forms
 import json
-from apps.league.models import (Team, Player, Position, Tournament, Group, Match, Event, EventType, Round,
-                                TournamentTeamApplication)
+from apps.league.models import (Team, Player, Position, Competition, Group, Match, Event, EventType, Round,
+                                CompetitionTeamApplication)
 from json import JSONDecodeError
 from django.contrib.admin.options import BaseModelAdmin
 from django.db.models.constants import LOOKUP_SEP
@@ -90,13 +90,24 @@ class TeamsAdmin(admin.ModelAdmin):
 @admin.register(Player)
 class PlayersAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования игроков."""
-    list_display = ('name', 'team', 'position', 'birth_date', 'created_at', 'updated_at')
+    list_display = ('name', 'get_teams', 'position', 'birth_date', 'created_at', 'updated_at')
     search_fields = ('name',)
-    list_filter = ('team', 'position')
+    list_filter = ('position',)
+    list_select_related = ('position',)
+    autocomplete_fields = ['teams']
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('teams')
+
+    def get_teams(self, obj):
+        return ", ".join([str(t) for t in obj.teams.all()])
+
+    get_teams.short_description = 'Текущие команды'
 
 
-class TournamentTeamApplicationInline(AdminInlineWithSelectRelated):
-    model = TournamentTeamApplication
+class CompetitionTeamApplicationInline(AdminInlineWithSelectRelated):
+    model = CompetitionTeamApplication
     extra = 0
     filter_horizontal = ('players',)
     list_prefetch_related = (
@@ -104,13 +115,13 @@ class TournamentTeamApplicationInline(AdminInlineWithSelectRelated):
     )
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        field = super(TournamentTeamApplicationInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        field = super(CompetitionTeamApplicationInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "team" and hasattr(self, "cached_teams"):
             field.choices = self.cached_teams
         return field
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
-        field = super(TournamentTeamApplicationInline, self).formfield_for_manytomany(db_field, request, **kwargs)
+        field = super(CompetitionTeamApplicationInline, self).formfield_for_manytomany(db_field, request, **kwargs)
         if db_field.name == "players" and hasattr(self, "cached_players"):
             field.choices = self.cached_players
         return field
@@ -129,17 +140,17 @@ class GroupInline(AdminInlineWithSelectRelated):
         return field
 
 
-@admin.register(Tournament)
-class TournamentsAdmin(admin.ModelAdmin):
-    """Класс для описания интерфейса администрирования турниров."""
+@admin.register(Competition)
+class CompetitionsAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования соревнований."""
     list_display = ('title', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title',)
-    inlines = (GroupInline, TournamentTeamApplicationInline)
+    inlines = (GroupInline, CompetitionTeamApplicationInline)
 
     def get_formsets_with_inlines(self, request, obj=None):
         teams = Team.objects.all()
-        players = Player.objects.prefetch_related('team')
+        players = Player.objects.prefetch_related('teams')
 
         # "Кеширование" элементов для ускорения
         for inline in self.get_inline_instances(request, obj):
@@ -174,10 +185,10 @@ class GroupForm(forms.ModelForm):
 class GroupsAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования групп."""
     form = GroupForm
-    list_display = ('title', 'tournament', 'created_at', 'updated_at')
+    list_display = ('title', 'competition', 'created_at', 'updated_at')
     ordering = ('-created_at',)
-    search_fields = ('title', 'tournament')
-    list_filter = ('tournament',)
+    search_fields = ('title', 'competition')
+    list_filter = ('competition',)
 
 
 class EventInline(AdminInlineWithSelectRelated):
@@ -220,7 +231,7 @@ class MatchForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MatchForm, self).__init__(*args, **kwargs)
         try:
-            self.fields['tournament'].initial = self.instance.group.tournament
+            self.fields['competition'].initial = self.instance.group.competition
         except:
             pass
 
@@ -279,21 +290,21 @@ class MatchForm(forms.ModelForm):
 class MatchesAdmin(AdminWithSelectRelated):
     """Класс для описания интерфейса администрирования матчей."""
     form = MatchForm
-    list_display = ('teams', 'score', 'match_round', 'tournament', 'group', 'match_date', 'created_at', 'updated_at')
+    list_display = ('teams', 'score', 'match_round', 'competition', 'group', 'match_date', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     inlines = (EventInline,)
-    list_filter = ('team_1', 'team_2', 'tournament')
+    list_filter = ('team_1', 'team_2', 'competition')
     list_select_related = (
-        'tournament',
-        'group__tournament',
-        'match_round__tournament',
+        'competition',
+        'group__competition',
+        'match_round__competition',
         'team_1',
         'team_2',
     )
     fieldsets = (
         (None, {
             'fields': (
-                'tournament',
+                'competition',
                 'match_round',
                 'group',
                 'team_1',
@@ -327,10 +338,10 @@ class MatchesAdmin(AdminWithSelectRelated):
             # Получение команд и игроков только турнира этого матча
             match = Match.objects.get(pk=match_id)
             teams = teams.filter(
-                tournamentteamapplication__tournament=match.match_round.tournament
+                competitionteamapplication__competition=match.match_round.competition
             ).distinct()
             players = players.filter(
-                tournamentteamapplication__tournament=match.match_round.tournament
+                competitionteamapplication__competition=match.match_round.competition
             ).distinct()
 
         # "Кеширование" элементов для ускорения
@@ -357,7 +368,7 @@ class EventTypeAdmin(admin.ModelAdmin):
 @admin.register(Round)
 class RoundAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования туров."""
-    list_display = ('title', 'tournament', 'created_at', 'updated_at')
+    list_display = ('title', 'competition', 'created_at', 'updated_at')
     ordering = ('-created_at',)
-    list_filter = ('tournament',)
-    search_fields = ('title', 'tournament')
+    list_filter = ('competition',)
+    search_fields = ('title', 'competition')

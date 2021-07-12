@@ -1,19 +1,19 @@
 from django.views.generic import ListView, DetailView
 from django.http import HttpResponse
-from apps.league.models import Tournament, Team, Player, Match, TournamentTeamApplication, Group, Round
+from apps.league.models import Competition, Team, Player, Match, CompetitionTeamApplication, Group, Round
 import json
 
 
 class TournamentListView(ListView):
     """Отображает страницу со списком турниров."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/list/list.html'
-    queryset = Tournament.objects.order_by('-created_at')
+    queryset = Competition.objects.order_by('-created_at')
 
 
 class TournamentMainView(DetailView):
     """Отображает главную страницу турнира."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/main/index.html'
 
     def get_context_data(self, **kwargs):
@@ -27,7 +27,7 @@ class TournamentMainView(DetailView):
 
 class TournamentTableView(DetailView):
     """Отображает страницу таблицы турнира."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/table/index.html'
 
     def get_context_data(self, **kwargs):
@@ -38,7 +38,7 @@ class TournamentTableView(DetailView):
 
 class TournamentCalendarView(DetailView):
     """Отображает страницу календаря турнира."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/calendar/index.html'
 
     def get_context_data(self, **kwargs):
@@ -49,7 +49,7 @@ class TournamentCalendarView(DetailView):
 
 class TournamentBombardiersView(DetailView):
     """Отображает страницу бомбардиров турнира."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/bombardiers/index.html'
 
     def get_context_data(self, **kwargs):
@@ -60,7 +60,7 @@ class TournamentBombardiersView(DetailView):
 
 class TournamentAssistantsView(DetailView):
     """Отображает страницу ассистентов турнира."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/assistants/index.html'
 
     def get_context_data(self, **kwargs):
@@ -71,7 +71,7 @@ class TournamentAssistantsView(DetailView):
 
 class TournamentCardsView(DetailView):
     """Отображает страницу карточек турнира."""
-    model = Tournament
+    model = Competition
     template_name = 'league/tournaments/cards/index.html'
 
     def get_context_data(self, **kwargs):
@@ -117,13 +117,13 @@ def get_players_group(request):
 
     result = []
     if team_id or group_id:
-        qs = TournamentTeamApplication.objects.all()
+        qs = CompetitionTeamApplication.objects.all()
 
         if team_id:
             qs = qs.filter(team_id=team_id)
         if group_id:
             group = Group.objects.get(pk=group_id)
-            qs = qs.filter(tournament_id=group.tournament_id)
+            qs = qs.filter(competition_id=group.tournament_id)
             
         if qs.count():
             result = list(qs.first().players.all().values('id', 'name'))
@@ -134,7 +134,7 @@ def get_rounds(request, tournament_id=None):
     """Возвращает JSON с турами турнира."""
     res = []
     if tournament_id:
-        rounds = Round.objects.filter(tournament_id=tournament_id).values('id', 'title')
+        rounds = Round.objects.filter(competition_id=tournament_id).values('id', 'title')
         if rounds.count() > 0:
             res = list(rounds)
     return HttpResponse(json.dumps(res), content_type="application/json")
@@ -144,7 +144,7 @@ def get_groups(request, tournament_id=None):
     """Возвращает JSON с группами турнира."""
     res = []
     if tournament_id:
-        groups = Group.objects.filter(tournament_id=tournament_id).values('id', 'title')
+        groups = Group.objects.filter(competition_id=tournament_id).values('id', 'title')
         if groups.count() > 0:
             res = list(groups)
     return HttpResponse(json.dumps(res), content_type="application/json")
@@ -160,7 +160,7 @@ def get_teams(request):
         for team in group.teams.all():
             res.append({'id': team.id, 'title': team.title})
     elif tournament_id:
-        tournament = Tournament.objects.get(pk=tournament_id)
+        tournament = Competition.objects.get(pk=tournament_id)
         applications = tournament.tournamentteamapplication_set.all()
         for app in applications:
             res.append({'id': app.team.id, 'title': app.team.title})

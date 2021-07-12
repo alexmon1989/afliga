@@ -2,7 +2,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from apps.news.models import News
 from apps.photogallery.models import Gallery
-from apps.league.models import Tournament, Team, Player, Match
+from apps.league.models import Competition, Team, Player, Match
 
 
 class StaticSitemap(Sitemap):
@@ -34,9 +34,9 @@ class GallerySitemap(Sitemap):
         return obj.updated_at
 
 
-class TournamentSitemap(Sitemap):
+class CompetitionSitemap(Sitemap):
     def items(self):
-        return Tournament.objects.all()
+        return Competition.objects.all()
 
     def lastmod(self, obj):
         return obj.updated_at

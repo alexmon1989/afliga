@@ -8,12 +8,12 @@ from apps.league.views import (TournamentListView, TeamDetailView, PlayerDetailV
 urlpatterns = [
     url(r'^$', TournamentListView.as_view(), name='tournaments_list'),
 
-    path('tournament/<int:pk>/', TournamentMainView.as_view(), name='tournament_main'),
-    path('tournament/<int:pk>/table/', TournamentTableView.as_view(), name='tournament_table'),
-    path('tournament/<int:pk>/calendar/', TournamentCalendarView.as_view(), name='tournament_calendar'),
-    path('tournament/<int:pk>/bombardiers/', TournamentBombardiersView.as_view(), name='tournament_bombardiers'),
-    path('tournament/<int:pk>/assistants/', TournamentAssistantsView.as_view(), name='tournament_assistants'),
-    path('tournament/<int:pk>/cards/', TournamentCardsView.as_view(), name='tournament_cards'),
+    path('competition/<int:pk>/', TournamentMainView.as_view(), name='competition_main'),
+    path('competition/<int:pk>/table/', TournamentTableView.as_view(), name='competition_table'),
+    path('competition/<int:pk>/calendar/', TournamentCalendarView.as_view(), name='competition_calendar'),
+    path('competition/<int:pk>/bombardiers/', TournamentBombardiersView.as_view(), name='competition_bombardiers'),
+    path('competition/<int:pk>/assistants/', TournamentAssistantsView.as_view(), name='competition_assistants'),
+    path('competition/<int:pk>/cards/', TournamentCardsView.as_view(), name='competition_cards'),
 
     url(r'^team/(?P<pk>\d+)$', TeamDetailView.as_view(), name='team_detail'),
     url(r'^player/(?P<pk>\d+)$', PlayerDetailView.as_view(), name='player_detail'),

@@ -2,7 +2,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.cache import cache
-from apps.league.models import Tournament
+from apps.league.models import Competition
 
 
 class Carousel(models.Model):
@@ -23,9 +23,10 @@ class Carousel(models.Model):
         verbose_name_plural = 'Слайдер'
 
 
-class LastTournament(models.Model):
+class LastCompetition(models.Model):
     """Модель блока последнего турнира."""
-    tournament = models.ForeignKey(Tournament, blank=True, null=True, verbose_name='Турнир', on_delete=models.CASCADE)
+    competition = models.ForeignKey(Competition, blank=True, null=True, verbose_name='Соревнование',
+                                    on_delete=models.CASCADE)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
@@ -36,7 +37,7 @@ class LastTournament(models.Model):
 
 class WidgetsSettings(models.Model):
     """Модель настроек блоков "Бомабардиры", "Ассистенты", "Штрафники" и "Таблица"."""
-    tournament = models.ForeignKey(Tournament, verbose_name='Турнир', on_delete=models.CASCADE)
+    competition = models.ForeignKey(Competition, verbose_name='Соревнование', on_delete=models.CASCADE, null=True)
     show_table = models.BooleanField('Показывать турнирную таблицу', default=True)
     show_bombardiers = models.BooleanField('Показывать бомбардиров', default=True)
     show_penalties = models.BooleanField('Показывать штрафников', default=True)
