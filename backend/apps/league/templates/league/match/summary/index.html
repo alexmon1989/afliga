@@ -1,0 +1,46 @@
+{% extends 'league/base.html' %}
+
+{% load project_tags %}
+
+{% block title %}{{ match }} / Обзор матча / {{ block.super }}{% endblock %}
+{% block description %}Матч {{ match }} ({{ match.get_score }}). {{ match.match_date }}, {{ match.match_round }}. {{ match.match_round.competition }}.{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'league/match/_partial/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12 g-min-height-200">
+        <div class="row">
+            {% include 'league/match/_partial/match_header.html' %}
+
+            {% include 'league/match/_partial/tabs.html' %}
+
+            {% if match_main_events %}
+                <div class="col-12">
+                    {% include 'league/match/summary/_partial/events.html' %}
+                </div>
+            {% endif %}
+
+            {% if match_best_players_team_1 or match_best_players_team_2 %}
+                <div class="col-12">
+                    {% include 'league/match/summary/_partial/best_players.html' %}
+                </div>
+            {% endif %}
+
+            {% if match.protocol %}
+                <div class="col-12 g-mt-15">
+                    <div class="g-bg-gray-light-v2 g-pl-10 g-font-weight-600 g-color-black g-mt-5 text-center g-mb-10 g-py-4">
+                        Информация о матче
+                    </div>
+
+                    {{ match.protocol|safe }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        {% comments_widget identifier='matches' identifier_id=match.pk %}
+    </div>
+{% endblock %}

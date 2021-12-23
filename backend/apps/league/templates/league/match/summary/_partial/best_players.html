@@ -1,0 +1,41 @@
+{% load league_extras %}
+
+<div class="g-bg-gray-light-v2 g-pl-10 g-font-weight-600 g-color-black g-mt-5 g-py-4">Лучшие игроки</div>
+
+<div class="row">
+    <div class="col-6">
+        {% for event in match_best_players_team_1 %}
+            <div class="d-flex">
+                
+
+                <div class="g-pa-5">
+                    <a class="g-color-primary"
+                       href="{% url 'player_detail' pk=event.player_id %}">{{ event.player__name|shorten_name }}</a>
+                </div>
+
+                {% if event.note %}
+                    <div class="g-pa-5 g-color-gray-dark-v5">
+                        ({{ event.note }})
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-6">
+        {% for event in match_best_players_team_2 %}
+            <div class="d-flex flex-row-reverse">
+                <div class="g-pa-5 text-right">
+                    <a class="g-color-primary"
+                       href="{% url 'player_detail' pk=event.player_id %}">{{ event.player__name|shorten_name }}</a>
+                </div>
+
+                {% if event.note %}
+                    <div class="g-pa-5 g-color-gray-dark-v5 text-right">
+                        ({{ event.note }})
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>

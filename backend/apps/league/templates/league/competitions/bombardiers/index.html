@@ -1,0 +1,26 @@
+{% extends 'league/base.html' %}
+
+{% load project_tags %}
+
+{% block title %}{{ competition }}. Бомбардиры / {{ block.super }}{% endblock %}
+{% block description %}Бомбардиры соревнования {{ competition }}.{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'league/competitions/bombardiers/_partials/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        {% include 'league/competitions/_partials/tabs.html' %}
+
+        <!-- Tab panes -->
+        <div class="g-pt-20 g-min-height-200">
+            {% include 'league/competitions/bombardiers/_partials/bombardiers.html' %}
+        </div>
+        <!-- End Tab panes -->
+    </div>
+
+    <div class="col-lg-12">
+        {% comments_widget identifier='competition_bombardiers' identifier_id=competition.pk %}
+    </div>
+{% endblock %}

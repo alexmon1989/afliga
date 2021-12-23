@@ -17,17 +17,17 @@ def person_widget():
 
 @register.inclusion_tag('_partial/widgets/bombardiers.html')
 def bombardiers_widget():
-    return {'tournaments': WidgetsSettings.objects.filter(show_bombardiers=True).order_by('-created_at').all()}
+    return {'competitions': WidgetsSettings.objects.filter(show_bombardiers=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/assistants.html')
 def assistants_widget():
-    return {'tournaments': WidgetsSettings.objects.filter(show_assistants=True).order_by('-created_at').all()}
+    return {'competitions': WidgetsSettings.objects.filter(show_assistants=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/penalties.html')
 def penalties_widget():
-    return {'tournaments': WidgetsSettings.objects.filter(show_penalties=True).order_by('-created_at').all()}
+    return {'competitions': WidgetsSettings.objects.filter(show_penalties=True).order_by('-created_at').all()}
 
 
 @register.inclusion_tag('_partial/widgets/table.html')
@@ -36,8 +36,8 @@ def table_widget():
 
 
 @register.inclusion_tag('home/_partial/matches.html')
-def matches_block(tournament):
-    return {'tournament': tournament.tournament}
+def matches_block(competition):
+    return {'competition': competition.competition}
 
 
 @register.simple_tag

@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'league/base.html' %}
 
 {% load thumbnail %}
-{% load staticfiles %}
+{% load static %}
 {% load project_tags %}
 
 {% block title %}{{ player }} / {% if player.team %}{{ player.team }} /{% endif %} {{ block.super }}{% endblock %}

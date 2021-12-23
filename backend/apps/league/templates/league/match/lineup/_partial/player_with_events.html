@@ -1,0 +1,55 @@
+{% load league_extras %}
+
+<div class="d-flex align-items-center flex-wrap {% if team == 'team_2' %}flex-row-reverse{% endif %}">
+    <div class="g-pa-5">
+        <a class="g-color-primary"
+           href="{% url 'player_detail' pk=player.player_id %}">{{ player.player__name|shorten_name }}</a>
+    </div>
+
+    {% for event in player.events %}
+        <div class="g-px-5">
+            {% if event.event_type__title == 'Жёлтая карточка' %}
+                <span class="u-label g-bg-yellow g-px-5 g-py-2"
+                      data-toggle="tooltip"
+                      title="{% if event.event_time %}{{ event.event_time }}'{% endif %}
+                             {% if event.note %}({{ event.note }}){% endif %}"
+                >&nbsp;</span>
+
+            {% elif event.event_type__title == 'Красная карточка' %}
+                <span class="u-label g-bg-red g-px-5 g-py-2"
+                      data-toggle="tooltip"
+                      title="{% if event.event_time %}{{ event.event_time }}'{% endif %}
+                             {% if event.note %}({{ event.note }}){% endif %}"
+                >&nbsp;</span>
+
+            {% elif event.event_type__title == 'Гол' %}
+                <i class="fa fa-futbol-o"
+                   data-toggle="tooltip"
+                   title="{{ event.event_type__title }}
+                          {% if event.event_time %}{{ event.event_time }}'{% endif %}
+                          {% if event.player_assigned__name %}({{ event.player_assigned__name|shorten_name }}){% endif %}
+                          {% if event.note %}({{ event.note }}){% endif %}"></i>
+
+            {% elif event.event_type__title == 'Автогол' %}
+                <i class="fa fa-futbol-o g-color-red"
+                   data-toggle="tooltip"
+                   title="{{ event.event_type__title }}
+                          {% if event.event_time %}{{ event.event_time }}'{% endif %}
+                          {% if event.note %}({{ event.note }}){% endif %}"></i>
+
+            {% elif event.event_type__title == 'Замена' %}
+                <div class="d-flex align-items-center {% if team == 'team_2' %}flex-row-reverse{% endif %}">
+                    <i class="fa {% if player.start %}fa-arrow-down g-color-red{% else %}fa-arrow-up g-color-green{% endif %}"
+                       data-toggle="tooltip"
+                       title="{% if event.event_time %}{{ event.event_time }}'{% endif %}
+                              {% if event.note %}({{ event.note }}){% endif %}"></i>
+                    {% if player.start and event.player__name %}
+                        <span class="g-color-gray-dark-v5 g-px-5">({{ event.player__name|shorten_name }})</span>
+                    {% elif event.player_assigned__name %}
+                        <span class="g-color-gray-dark-v5 g-px-5">({{ event.player_assigned__name|shorten_name }})</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

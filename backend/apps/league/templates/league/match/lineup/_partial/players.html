@@ -1,0 +1,69 @@
+{% if match_lineup_start_team_1 or match_lineup_start_team_2 %}
+    <div class="col-12 g-mt-15">
+        <div class="g-bg-gray-light-v2 g-pl-10 g-font-weight-600 g-color-black g-mt-5 text-center g-mb-10 g-py-4">Стартовые составы</div>
+
+        <div class="row">
+            <div class="col-6 g-pr-0">
+                {% if match_lineup_start_team_1 %}
+                    <ul class="list-unstyled">
+                        {% for player in match_lineup_start_team_1 %}
+                            <li class="g-mb-6 g-mb-0--sm">
+                                {% with team='team_1' %}
+                                    {% include 'league/match/lineup/_partial/player_with_events.html' %}
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="col-6 d-flex flex-row-reverse g-pl-0">
+                {% if match_lineup_start_team_2 %}
+                    <ul class="list-unstyled">
+                        {% for player in match_lineup_start_team_2 %}
+                            <li class="g-mb-6 g-mb-0--sm">
+                                {% with team='team_2' %}
+                                    {% include 'league/match/lineup/_partial/player_with_events.html' %}
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if match_lineup_reserve_team_1 or match_lineup_reserve_team_2 %}
+    <div class="col-12 g-mt-15">
+        <div class="g-bg-gray-light-v2 g-pl-10 g-font-weight-600 g-color-black g-mt-5 text-center g-mb-10 g-py-4">Замены</div>
+
+        <div class="row">
+            <div class="col-6">
+                {% if match_lineup_reserve_team_1 %}
+                    <ul class="list-unstyled">
+                        {% for player in match_lineup_reserve_team_1 %}
+                            <li class="g-mb-6 g-mb-0--sm">
+                                {% with team='team_1' %}
+                                    {% include 'league/match/lineup/_partial/player_with_events.html' %}
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="col-6">
+                {% if match_lineup_reserve_team_2 %}
+                    <ul class="list-unstyled">
+                        {% for player in match_lineup_reserve_team_2 %}
+                            <li class="g-mb-6 g-mb-0--sm">
+                                {% with team='team_2' %}
+                                    {% include 'league/match/lineup/_partial/player_with_events.html' %}
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

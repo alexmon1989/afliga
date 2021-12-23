@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}Фотогалереи {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
 {% block description %}Фотогалереи Аланской футбольной лиги. Фотографии событий, матчей, игроков, команд.{% endblock %}

@@ -1,0 +1,16 @@
+{% load league_extras %}
+
+{% if match.coach_team_1 or match.coach_team_2 %}
+    <div class="col-12 g-mt-15">
+        <div class="g-bg-gray-light-v2 g-pl-10 g-font-weight-600 g-color-black g-mt-5 text-center g-mb-10 g-py-4">Тренеры</div>
+
+        <div class="row">
+            <div class="col-6 g-pr-0">
+                {{ match.coach_team_1.name|shorten_name }}
+            </div>
+            <div class="col-6 d-flex flex-row-reverse g-pl-0">
+                {{ match.coach_team_2.name|shorten_name }}
+            </div>
+        </div>
+    </div>
+{% endif %}

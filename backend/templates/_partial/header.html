@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 {% load project_tags %}
 
 <header id="js-header" class="u-header u-header--toggle-section u-header--change-appearance"
@@ -70,8 +70,8 @@
                             <a href="{% url 'team_list' %}" class="nav-link px-4 py-3">Руководство</a>
                         </li>
 
-                        <li class="nav-item {% if request.resolver_match.url_name|in_list:'tournaments_list,tournament_detail,team_detail,player_detail,match_detail' %}active{% endif %}">
-                            <a href="{% url 'tournaments_list' %}" class="nav-link px-4 py-3">Турниры</a>
+                        <li class="nav-item {% if '/league/' in request.path %}active{% endif %}">
+                            <a href="{% url 'competitions_list' %}" class="nav-link px-4 py-3">Соревнования</a>
                         </li>
 
                         <li class="nav-item {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">

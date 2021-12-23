@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 {% load home_extras %}
 {% load project_tags %}
 
@@ -28,11 +28,11 @@
         <!-- End Banner -->
     {% endif %}
 
-    {% for tournament in tournaments %}
+    {% for competition in competitions %}
         <!-- Matches -->
         <div class="col-lg-12 {% if forloop.counter0 == 0 %}g-mt-40{% else %}g-my-30{% endif %}"
              id="matches_latest_tournament">
-            {% matches_block tournament=tournament %}
+            {% matches_block competition=competition %}
         </div>
         <!-- End Matches -->
     {% endfor %}

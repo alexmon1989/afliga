@@ -1,6 +1,6 @@
 {% load thumbnail %}
 
-{% if tournaments %}
+{% if competitions %}
     <div class="col-lg-12 g-mb-20">
 
         <div class="d-flex justify-content-between">
@@ -16,23 +16,23 @@
              data-arrow-left-classes="fa fa-angle-left"
              data-arrow-right-classes="fa fa-angle-right">
 
-            {% for tournament in tournaments %}
+            {% for competition in competitions %}
                 <div class="js-slide">
-                    <small>{{ tournament.tournament.title }}</small>
+                    <small>{{ competition.competition.title }}</small>
                     <hr class="g-mt-0 g-mb-1 g-brd-black-top u-mb-025">
 
                     <div class="g-mb-30">
-                        {% if tournament.tournament.get_bombardiers.count > 0 %}
+                        {% if competition.competition.get_bombardiers.count > 0 %}
                             <table class="table table-sm table-bombardiers">
                                 <tbody>
-                                {% for player in tournament.tournament.get_bombardiers|slice:":3" %}
+                                {% for player in competition.competition.get_bombardiers|slice:":3" %}
                                     <tr>
                                         <td class="g-py-7 g-valign-middle" width="20%">
-                                            <a href="{% url 'player_detail' pk=player.pk %}">
-                                                {% if player.photo %}
-                                                    <img src="{{ player.photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
-                                                         alt="{{ player.name }}"
-                                                         title="{{ player.name }}">
+                                            <a href="{% url 'player_detail' pk=player.player__pk %}">
+                                                {% if player.player__photo %}
+                                                    <img src="{{ player.player__photo|thumbnail_url:'avatar_extra_small' }}" class="w-100"
+                                                         alt="{{ player.player__name }}"
+                                                         title="{{ player.player__name }}">
                                                 {% else %}
                                                     <img src="//via.placeholder.com/45?text=No+Photo" class="w-100"
                                                          alt="Фото отсутствует">
@@ -40,7 +40,7 @@
                                             </a>
                                         </td>
                                         <td class="g-py-7">
-                                            <a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a>
+                                            <a href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
                                             <br><span>({{ player.team__title }})</span>
                                         </td>
                                         <td class="g-py-7 g-font-size-16 g-valign-middle">{{ player.num_goals }}</td>

@@ -1,0 +1,65 @@
+{% load league_extras %}
+
+{% for period in match_main_events %}
+    {% if period.period %}
+        <div class="g-bg-gray-light-v2 g-pl-10 g-font-weight-600 g-color-black g-mt-5 g-py-4">{{ period.period }}</div>
+    {% endif %}
+
+    {% for event in period.items %}
+        <div class="d-flex {% if event.team_id == match.team_1_id %}flex-row{% else %}flex-row-reverse{% endif %}">
+            {% if event.event_time %}
+                <div class="g-width-30 g-pa-5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                    {{ event.event_time }}'
+                </div>
+            {% endif %}
+
+            <div class="g-pa-5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                {% if event.event_type__title == 'Жёлтая карточка' %}
+                    <span class="u-label g-bg-yellow g-px-5 g-py-2">&nbsp;</span>
+                {% elif event.event_type__title == 'Красная карточка' %}
+                    <span class="u-label g-bg-red g-px-5 g-py-2">&nbsp;</span>
+                {% elif event.event_type__title == 'Гол' %}
+                    <i class="fa fa-futbol-o" title="Гол" data-toggle="tooltip"></i>
+                {% elif event.event_type__title == 'Автогол' %}
+                    <i class="fa fa-futbol-o g-color-red" title="Автогол" data-toggle="tooltip"></i>
+                {% elif event.event_type__title == 'Замена' %}
+                    <i class="fa fa-arrow-up g-color-green"></i>
+                {% else %}
+                    {{ event.event_type__title }}
+                {% endif %}
+            </div>
+
+            <div class="g-pa-5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                <a class="g-color-primary"
+                   href="{% url 'player_detail' pk=event.player_id %}">{{ event.player__name|shorten_name }}</a>
+            </div>
+
+            {% if event.player_assigned__name %}
+                {% if event.event_type__title == 'Замена' %}
+                    <div class="g-pa-5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                        <i class="fa fa-arrow-down g-color-red"></i>
+                    </div>
+                {% endif %}
+
+                <div class="g-pa-5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                    <a class="g-color-gray-dark-v5"
+                       href="{% url 'player_detail' pk=event.player_assigned_id %}">
+                        {% if event.event_type__title != 'Замена' %}({% endif %}{{ event.player_assigned__name|shorten_name }}{% if event.event_type__title != 'Замена' %}){% endif %}
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if event.note %}
+                <div class="g-pa-5 g-color-gray-dark-v5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                    ({{ event.note }})
+                </div>
+            {% endif %}
+
+            {% if event.event_type__title == 'Автогол' %}
+                <div class="g-pa-5 g-color-gray-dark-v5{% if event.team_id == match.team_2_id %} text-right{% endif %}">
+                    (Автогол)
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endfor %}

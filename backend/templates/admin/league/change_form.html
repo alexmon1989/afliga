@@ -1,272 +1,245 @@
 {% extends "admin/change_form.html" %}
 
+{% block form_top %}
+    {% if not change %}
+        <p>Сначала введите основные данные. Затем вы сможете ввести больше информации об объекте.</p>
+    {% endif %}
+{% endblock %}
+
 {% block extrahead %}
     {{ block.super }}
 
     {%  if 'match' in request.get_full_path %}
         <script type="text/javascript" charset="utf-8">
             django.jQuery(function () {
-                var $ = django.jQuery;
+                const $ = django.jQuery;
 
-                // Получение туров
-                var getRounds = function(onSuccess=false) {
-                    var $idMatchRound = $("#id_match_round");
-                    var tournamentId = $("#id_tournament").val();
-                    var roundId = $idMatchRound.val();
+                {% if change %}
+                    {# Изменение матча #}
 
-                    $idMatchRound.html('<option value="">---------</option>');
-                    $idMatchRound.prop("disabled", true);
+                    // "Кеш" заявок команд
+                    let teamAppsCache = {};
 
-                    if (tournamentId) {
-                        $.getJSON("/league/get-rounds/" + tournamentId, function (data) {
-                            var options = '<option value="">---------</option>';
-                            for (var i = 0; i < data.length; i++) {
-                                options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
-                            }
+                    // Заполнение элемента игроками выбранной команды
+                    async function setPlayers($playersSelect) {
+                        $playersSelect.prop("disabled", "disabled");
 
-                            $idMatchRound.html(options);
-                            $idMatchRound.prop("disabled", false);
+                        // Текущее значение поля игрока
+                        const playerVal = $playersSelect.val();
 
-                            if (roundId) {
-                                $idMatchRound.val(roundId)
-                            }
-
-                            if (onSuccess) {
-                                onSuccess();
-                            }
-                        });
-                    }
-                }
-
-                // Получение групп
-                var getGroups = function(onSuccess=false) {
-                    var $idGroup = $("#id_group");
-                    var groupId = $idGroup.val();
-                    var tournamentId = $("#id_tournament").val();
-
-                    $idGroup.html('<option value="">---------</option>');
-                    $idGroup.prop("disabled", true);
-
-                    if (tournamentId) {
-                        $.getJSON("/league/get-groups/" + tournamentId, function (data) {
-                            var options = '<option value="">---------</option>';
-                            for (var i = 0; i < data.length; i++) {
-                                options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
-                            }
-
-                            $idGroup.html(options);
-                            $idGroup.prop("disabled", false);
-
-                            if (groupId) {
-                                $idGroup.val(groupId)
-                            }
-
-                            if (onSuccess) {
-                                onSuccess();
-                            }
-                        });
-                    }
-                }
-
-                // Получение комманд
-                var getTeams = function(onSuccess=false) {
-                    var tournamentId = $("#id_tournament").val();
-                    var groupId = $("#id_group").val();
-                    var $idTeam1 = $("#id_team_1");
-                    var $idTeam2 = $("#id_team_2");
-                    var idTeam1Value = $idTeam1.val();
-                    var idTeam2Value = $idTeam2.val();
-                    var param = "";
-
-                    if (groupId) {
-                        param = "?group_id=" + groupId;
-                    } else if (tournamentId) {
-                        param = "?tournament_id=" + tournamentId;
-                    }
-
-                    var options = '<option value="">---------</option>';
-                    if (param) {
-                        $idTeam1.prop("disabled", true);
-                        $idTeam2.prop("disabled", true);
-                        $.getJSON("/league/get-teams/" + param, function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
-                            }
-
-                            $idTeam1.html(options);
-                            $idTeam1.prop("disabled", false);
-                            $idTeam1.val(idTeam1Value);
-
-                            $idTeam2.html(options);
-                            $idTeam2.prop("disabled", false);
-                            $idTeam2.val(idTeam2Value);
-
-                            // Обновить списки команд в блоке "События в матче"
-                            $.each($(".field-team select"), function (key, obj) {
-                                var $teamSelect = $(obj);
-                                $teamSelect.prop("disabled", "disabled");
-
-                                // Текущее значение поля команды
-                                var teamSelectVal = $teamSelect.val();
-
-                                $teamSelect.html(options);
-                                $teamSelect.val(teamSelectVal);
-                                $teamSelect.prop("disabled", false);
-                            });
-                            setTeamsInline();
-
-                            if (onSuccess) {
-                                onSuccess();
-                            }
-                        });
-                    } else {
-                        $idTeam1.html(options);
-                        $idTeam2.html(options);
-                        setTeamsInline();
-
-                        if (onSuccess) {
-                            onSuccess();
-                        }
-                    }
-                }
-
-                // Оставляет в блоке "События в матче" только команды хозяев и гостей
-                var setTeamsInline = function() {
-                    // Значения команд хозяев и гостей
-                    var idTeam1Value = $("#id_team_1").val();
-                    var idTeam2Value = $("#id_team_2").val();
-
-                    // У каждого "события" остаются только команды хозяев и гостей для выбора
-                    $.each( $(".field-team select"), function( key, obj ) {
-                        var $teamSelect = $(obj);
-                        var teamSelectVal = $teamSelect.val();
-                        $teamSelect.prop("disabled", "disabled");
-
-                        // Цикл по вариантам выбора поля команды
-                        $teamSelect.find('option').each(function() {
-                            // Скрывает поле (кроме первого)
-                            if (this.value !== "") {
-                                $(this).hide();
-                            }
-
-                            // Если значение поля равно команде хозяев или гостей, то делает его видимым
-                            if (this.value === idTeam1Value || this.value === idTeam2Value) {
-                                $(this).show();
-                            }
-                        });
-
-                        // Если был сделан выбор до смены команды хозяев или гостей,
-                        // то возможно в событиях матча будут другие команды и надо сбросить выбор
-                        if (teamSelectVal !== idTeam1Value && teamSelectVal !== idTeam2Value) {
-                            $teamSelect.val("");
-                            $teamSelect.trigger("change");
-                        }
-
-                        $teamSelect.prop("disabled", false);
-                    });
-                }
-
-                // Обработчик события изменения значения тура
-                $(document).on('change', "#id_tournament", function () {
-                    getRounds(
-                        function () {
-                            getGroups(
-                                function () {
-                                    getTeams();
-                                }
-                            );
-                        }
-                    );
-                });
-
-                // Обработчик события изменения значения группы
-                $(document).on('change', "#id_group", function () {
-                    getTeams();
-                });
-
-                // Обработчик события изменения значения команд
-                $(document).on('change', "#id_team_1", function () {
-                    setTeamsInline();
-                });
-                $(document).on('change', "#id_team_2", function () {
-                    setTeamsInline();
-                });
-
-                // Начальная фильтрация игроков в блоке "События в матче"
-                $.each( $(".field-player select"), function( key, obj ) {
-                    var $playersSelect = $(obj);
-
-
-                    $playersSelect.prop("disabled", "disabled");
-
-                    // Текущее значение поля игрока
-                    var playerVal = $playersSelect.val();
-
-                    if (playerVal) {
                         // Поле команды
-                        var $teamSelect = $playersSelect.parent().parent().parent().parent().find(".field-team select");
+                        const $teamSelect = $playersSelect.parents(
+                            '.dynamic-matchlineup_set, .dynamic-event_set'
+                        ).find(".field-team select");
 
-                        var param = "?team_id=" + $teamSelect.val() ;
-                        var idGroupValue = $("#id_group").val();
-                        if (idGroupValue) {
-                            param = param + "&group_id=" + idGroupValue;
-                        }
+                        const teamId = $teamSelect.val();
 
-                        // Фильтрация поля
-                        $.getJSON("/league/get-players-group/" + param, function (data) {
-                            var options = '<option value="">---------</option>';
-                            for (var i = 0; i < data.length; i++) {
-                                options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                        if (teamId) {
+                            if (teamAppsCache[teamId] === undefined) {
+                                const param = "?team_id=" + teamId + "&competition_id=" + {{ original.competition.id }};
+
+                                // Получение игроков заявки команды на турнир
+                                await $.getJSON("/league/get-players-competition/" + param, function (data) {
+                                    let options = '<option value="">---------</option>';
+                                    for (let i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                                    }
+                                    // Добавление игроков команды в "кеш"
+                                    teamAppsCache[teamId] = options;
+                                });
                             }
 
-                            $playersSelect.html(options);
+                            $playersSelect.html(teamAppsCache[teamId]);
 
                             // Присваивание текущего значения игрока
-                            $playersSelect.val(playerVal);
+                            if (playerVal) {
+                                $playersSelect.val(playerVal);
+                            }
+
                             $playersSelect.prop("disabled", false);
-                        });
+                        }
                     }
-                });
 
-                // Фильтрация игроков при смене команды в inline
-                $(document).on('change', ".field-team select", function () {
-                    var $this = $(this);
-                    var $playersSelect = $this.parent().parent().parent().parent().find(".field-player select");
+                    // Начальная фильтрация игроков в inline блоках
+                    (async function initializePlayers() {
+                        for (const obj of $("#event_set-group .field-player select," +
+                            "#matchlineup_set-group .field-player select," +
+                            "#event_set-group .field-player_assigned select")) {
+                            const $playersSelect = $(obj);
+                            await setPlayers($playersSelect);
+                        }
+                    })();
 
-                    $playersSelect.prop("disabled", "disabled");
+                    // Фильтрация игроков при смене команды в inline
+                    $(document).on('change', ".field-team select", async function () {
+                        const $this = $(this);
+                        const $playersSelect = $this.parents(
+                            '.dynamic-matchlineup_set, .dynamic-event_set'
+                        ).find(".field-player select, .field-player_assigned select");
 
-                    var options = '<option value="">---------</option>';
+                        $playersSelect.prop("disabled", "disabled");
 
-                    if ($this.val()) {
-                        var param = "?team_id=" + $this.val() ;
-                        var idGroupValue = $("#id_group").val();
-                        if (idGroupValue) {
-                            param = param + "&group_id=" + idGroupValue;
+                        let options = '<option value="">---------</option>';
+
+                        const teamId = $this.val();
+
+                        if (teamId) {
+                            if (teamAppsCache[teamId] === undefined) {
+                                const param = "?team_id=" + teamId + "&competition_id=" + {{ original.competition.id }};
+
+                                await $.getJSON("/league/get-players-competition/" + param, function (data) {
+                                    for (let i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                                    }
+                                    teamAppsCache[teamId] = options;
+                                });
+                            }
+
+                            $playersSelect.html(teamAppsCache[teamId]);
+                        } else {
+                            $playersSelect.html(options);
+                        }
+                        $playersSelect.prop("disabled", false);
+                    });
+
+                {% else %}
+                    {# Создание матча #}
+
+                    // Получение туров
+                    const getRounds = async function() {
+                        const $idMatchRound = $("#id_match_round");
+                        const competitionId = $("#id_competition").val();
+                        const roundId = $idMatchRound.val();
+
+                        $idMatchRound.html('<option value="">---------</option>');
+                        $idMatchRound.prop("disabled", true);
+
+                        const $idGroup = $("#id_group");
+                        $idGroup.html('<option value="">---------</option>');
+                        $idGroup.prop("disabled", true);
+
+                        const $idTeam1 = $("#id_team_1");
+                        $idTeam1.html('<option value="">---------</option>');
+                        $idTeam1.prop("disabled", true);
+
+                        const $idTeam2 = $("#id_team_2");
+                        $idTeam2.html('<option value="">---------</option>');
+                        $idTeam2.prop("disabled", true);
+
+                        if (competitionId) {
+                            await $.getJSON("/league/get-rounds/" + competitionId, function (data) {
+                                let options = '<option value="">---------</option>';
+                                for (let i = 0; i < data.length; i++) {
+                                    options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+                                }
+
+                                $idMatchRound.html(options);
+                                $idMatchRound.prop("disabled", false);
+
+                                if (roundId) {
+                                    $idMatchRound.val(roundId)
+                                }
+                            });
+                        }
+                    }
+
+                    // Получение групп
+                    const getGroups = async function() {
+                        const $idGroup = $("#id_group");
+                        const groupId = $idGroup.val();
+                        const competitionId = $("#id_competition").val();
+
+                        $idGroup.html('<option value="">---------</option>');
+                        $idGroup.prop("disabled", true);
+
+                        if (competitionId) {
+                            await $.getJSON("/league/get-groups/" + competitionId, function (data) {
+                                let options = '<option value="">---------</option>';
+                                for (let i = 0; i < data.length; i++) {
+                                    options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+                                }
+
+                                $idGroup.html(options);
+                                $idGroup.prop("disabled", false);
+
+                                if (groupId) {
+                                    $idGroup.val(groupId)
+                                }
+                            });
+                        }
+                    }
+
+                    // Получение комманд
+                    const getTeams = async function() {
+                        const competitionId = $("#id_competition").val();
+                        const groupId = $("#id_group").val();
+                        const $idTeam1 = $("#id_team_1");
+                        const $idTeam2 = $("#id_team_2");
+                        const idTeam1Value = $idTeam1.val();
+                        const idTeam2Value = $idTeam2.val();
+                        let param = "";
+
+                        if (groupId) {
+                            param = "?group_id=" + groupId;
+                        } else if (competitionId) {
+                            param = "?competition_id=" + competitionId;
                         }
 
-                        $.getJSON("/league/get-players-group/" + param, function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-                            }
+                        let options = '<option value="">---------</option>';
+                        if (param) {
+                            $idTeam1.prop("disabled", true);
+                            $idTeam2.prop("disabled", true);
+                            await $.getJSON("/league/get-teams/" + param, function (data) {
+                                for (let i = 0; i < data.length; i++) {
+                                    options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+                                }
 
-                            $playersSelect.html(options);
-                            $playersSelect.prop("disabled", false);
-                        });
-                    } else {
-                        $playersSelect.html(options);
-                    }
-                });
+                                $idTeam1.html(options);
+                                $idTeam1.prop("disabled", false);
+                                $idTeam1.val(idTeam1Value);
 
-                // Начальная инициализация списков
-                getRounds(
-                    function () {
-                        getGroups(
-                            function () {
-                                getTeams();
-                            }
-                        );
+                                $idTeam2.html(options);
+                                $idTeam2.prop("disabled", false);
+                                $idTeam2.val(idTeam2Value);
+
+                                // Обновить списки команд в блоке "События в матче"
+                                $.each($(".field-team select"), function (key, obj) {
+                                    const $teamSelect = $(obj);
+                                    $teamSelect.prop("disabled", "disabled");
+
+                                    // Текущее значение поля команды
+                                    const teamSelectVal = $teamSelect.val();
+
+                                    $teamSelect.html(options);
+                                    $teamSelect.val(teamSelectVal);
+                                    $teamSelect.prop("disabled", false);
+                                });
+                            });
+                        } else {
+                            $idTeam1.html(options);
+                            $idTeam2.html(options);
+                        }
                     }
-                );
+
+                    // Обработчик события изменения значения соревнования
+                    $(document).on('change', "#id_competition", async function () {
+                        await getRounds();
+                        await getGroups();
+                        await getTeams();
+                    });
+
+                    // Обработчик события изменения значения группы
+                    $(document).on('change', "#id_group", function () {
+                        getTeams();
+                    });
+
+                    // Начальная инициализация списков
+                    (async function() {
+                        await getRounds();
+                        await getGroups();
+                        await getTeams();
+                    })();
+                {% endif %}
             });
         </script>
     {% endif %}

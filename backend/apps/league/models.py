@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 from django.dispatch import receiver
@@ -194,7 +195,7 @@ class Competition(models.Model):
             '-num_goals',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_goals'
+            'player__pk', 'player__name', 'player__photo', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_goals'
         )
 
     def get_assistants(self):
@@ -210,7 +211,7 @@ class Competition(models.Model):
             '-num_assistants',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_assistants'
+            'player__pk', 'player__name', 'player__photo', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_assistants'
         )
 
     def get_yellow_cards(self):
@@ -226,7 +227,7 @@ class Competition(models.Model):
             '-num_yellow_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_yellow_cards'
+            'player__pk', 'player__name', 'player__photo', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_yellow_cards'
         )
 
     def get_red_cards(self):
@@ -245,11 +246,26 @@ class Competition(models.Model):
             'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_red_cards'
         )
 
+    def get_teams_id_list(self):
+        return self.competitionteamapplication_set.all().values_list('team_id', flat=True)
+
+    @property
+    def has_matches(self):
+        return self.match_set.count() > 0
+
+    @property
+    def has_finished_matches(self):
+        return self.match_set.filter(match_date__lt=timezone.now()).count() > 0
+
+    @property
+    def has_future_matches(self):
+        return self.match_set.filter(match_date__gt=timezone.now()).count() > 0
+
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('competition_detail', args=[self.pk])
+        return reverse('competition_main', args=[self.pk])
 
     class Meta:
         verbose_name = 'Соревнование'
@@ -372,6 +388,8 @@ class Round(models.Model):
             'team_2__title',
             'team_2__city',
             'team_2__logo',
+            'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_matches_in_group(self, group):
@@ -391,6 +409,8 @@ class Round(models.Model):
             'team_2__title',
             'team_2__city',
             'team_2__logo',
+            'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_last_matches_in_group(self, group):
@@ -411,6 +431,8 @@ class Round(models.Model):
             'team_2__title',
             'team_2__city',
             'team_2__logo',
+            'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_future_matches_in_group(self, group):
@@ -431,6 +453,8 @@ class Round(models.Model):
             'team_2__title',
             'team_2__city',
             'team_2__logo',
+            'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_last_matches(self):
@@ -450,6 +474,8 @@ class Round(models.Model):
             'team_2__title',
             'team_2__city',
             'team_2__logo',
+            'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     def get_future_matches(self):
@@ -469,6 +495,8 @@ class Round(models.Model):
             'team_2__title',
             'team_2__city',
             'team_2__logo',
+            'is_technical_defeat',
+            'youtube_id',
         ).all()
 
     class Meta:
@@ -478,15 +506,46 @@ class Round(models.Model):
 
 class Match(models.Model):
     """Модель матча."""
+    is_finished = models.BooleanField('Матч окончен', default=False)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE, verbose_name='Соревнование', null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Группа', null=True, blank=True)
     match_round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='Тур')
     match_date = models.DateTimeField('Время начала матча', blank=True, null=True)
+    stadium = models.ForeignKey('Stadium', on_delete=models.SET_NULL, verbose_name='Стадион', null=True, blank=True)
+    main_referee = models.ForeignKey(
+        'Referee',
+        on_delete=models.SET_NULL,
+        verbose_name='Главный судья',
+        null=True,
+        blank=True,
+        related_name='main_referee'
+    )
+    other_referees = models.ManyToManyField(
+        'Referee', verbose_name='Помощники судьи', blank=True
+    )
     team_1 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда хозяев', related_name='team_1')
     team_2 = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда гостей', related_name='team_2')
+    coach_team_1 = models.ForeignKey(
+        'Coach',
+        on_delete=models.SET_NULL,
+        verbose_name='Тренер команды 1',
+        related_name='coach_team_1',
+        null=True,
+        blank=True,
+    )
+    coach_team_2 = models.ForeignKey(
+        'Coach',
+        on_delete=models.SET_NULL,
+        verbose_name='Тренер команды 2',
+        related_name='coach_team_2',
+        null=True,
+        blank=True,
+    )
     goals_team_1 = models.PositiveIntegerField('Голов забила команда хозяев', null=True, blank=True, default=None)
     goals_team_2 = models.PositiveIntegerField('Голов забила команда гостей', null=True, blank=True, default=None)
     protocol = RichTextUploadingField('Протокол', blank=True)
+    is_technical_defeat = models.BooleanField('Техническое поражение', default=False)
+    youtube_id = models.CharField('Id видео на Youtube', null=True, blank=True, default=None, max_length=255)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
@@ -498,33 +557,23 @@ class Match(models.Model):
         return f"{self.get_goals_team_1()}:{self.get_goals_team_2()}"
 
     def get_goals_team_1(self):
-        # """Возвращает количество голов, которые забила команда хозяев."""
-        # if self.match_date and self.match_date > timezone.now():
-        #     return '-'
+        """Возвращает количество голов, которые забила команда хозяев."""
+        if self.match_date and self.match_date > timezone.now():
+            return '-'
         if self.goals_team_1:
             return self.goals_team_1
-        goals = 0
-        # goals_events = self.event_set.filter(event_type_id=1).all()
-        # for goal_event in goals_events:
-        #     if goal_event.team == self.team_1:
-        #         goals += 1
-        return goals
+        return 0
 
     def get_goals_team_2(self):
         """Возвращает количество голов, которые забила команда гостей."""
-        # if self.match_date and self.match_date > timezone.now():
-        #     return '-'
+        if self.match_date and self.match_date > timezone.now():
+            return '-'
         if self.goals_team_2:
             return self.goals_team_2
-        goals = 0
-        # goals_events = self.event_set.filter(event_type_id=1).all()
-        # for goal_event in goals_events:
-        #     if goal_event.team == self.team_2:
-        #         goals += 1
-        return goals
+        return 0
 
     def get_absolute_url(self):
-        return reverse('match_detail', args=[self.pk])
+        return reverse('match_summary', args=[self.pk])
 
     class Meta:
         verbose_name = 'Матч'
@@ -543,14 +592,36 @@ class EventType(models.Model):
         verbose_name_plural = 'Типы событий в матчах'
 
 
+PERIODS_CHOICES = (
+    (1, '1-й тайм'),
+    (2, '2-й тайм'),
+    (3, 'Дополнительное время'),
+)
+
+
 class Event(models.Model):
     """Модель события матча."""
     event_type = models.ForeignKey(EventType, on_delete=models.CASCADE, verbose_name='Тип события')
     match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч')
     team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда')
     player = models.ForeignKey(Player, on_delete=models.CASCADE, verbose_name='Игрок')
-    event_time = models.IntegerField('Минута', validators=[MinValueValidator(1), MaxValueValidator(120)], blank=True,
-                                     null=True, default=None)
+    player_assigned = models.ForeignKey(
+        Player,
+        on_delete=models.CASCADE,
+        verbose_name='Связанный игрок',
+        related_name='player_assigned',
+        null=True,
+        blank=True,
+    )
+    period = models.IntegerField('Тайм', choices=PERIODS_CHOICES, null=True, blank=True)
+    event_time = models.IntegerField(
+        'Минута',
+        validators=[MinValueValidator(1)],
+        blank=True,
+        null=True,
+        default=None
+    )
+    note = models.CharField('Примечание', null=True, blank=True, max_length=255)
 
     def __str__(self):
         return f"{self.event_type} ({self.match})"
@@ -558,3 +629,60 @@ class Event(models.Model):
     class Meta:
         verbose_name = 'Событие'
         verbose_name_plural = 'События в матче'
+
+
+class MatchLineup(models.Model):
+    """Заявка на матч (протокол)."""
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Команда', null=True, blank=False)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, verbose_name='Игрок')
+    start = models.BooleanField('Стартовый состав', default=False)
+
+    def __str__(self):
+        return 'Игрок матча'
+
+    class Meta:
+        verbose_name = 'Заявка на матч, протокол'
+        verbose_name_plural = 'Заявка на матч, протокол'
+
+
+class Stadium(models.Model):
+    """Модель стадиона."""
+    title = models.CharField('Название', max_length=255)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Стадион'
+        verbose_name_plural = 'Стадионы'
+
+
+class Referee(models.Model):
+    """Модель футбольного судьи."""
+    name = models.CharField('ФИО судьи', max_length=255)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Судья'
+        verbose_name_plural = 'Судьи'
+
+
+class Coach(models.Model):
+    """Модель тренера."""
+    name = models.CharField('ФИО', max_length=255)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Тренер'
+        verbose_name_plural = 'Тренеры'

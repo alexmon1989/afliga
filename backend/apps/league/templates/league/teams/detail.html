@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'league/base.html' %}
 
 {% load thumbnail %}
-{% load staticfiles %}
+{% load static %}
 {% load project_tags %}
 
 {% block title %}Футбольная команда {{ team.title }}  {{ team.city|default_if_none:"" }}/ {{ block.super }}{% endblock %}

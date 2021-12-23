@@ -1,6 +1,5 @@
 {% load form_fields %}
 
-
 {% form name="contact" method="post" %}
     <div class="row">
         <div class="col-md-6 form-group g-mb-20 {% if form.first_name.errors %}has-danger{% endif %}">
@@ -81,7 +80,7 @@
     {{ form.hidden }}
     {{ form.hidden_changed }}
 
-    <div class="text-center">
+    <div class="g-mb-40 text-center">
         {% submit_button "Отправить" class="btn u-btn-indigo g-font-weight-600 g-font-size-13 text-uppercase rounded-3 g-py-12 g-px-35" %}
     </div>
 {% endform %}

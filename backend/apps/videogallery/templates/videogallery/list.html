@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}Видеогалерея {% if request.GET.page %}/ Страница {{ request.GET.page }} {% endif %}/ {{ block.super }}{% endblock %}
 {% block description %}Видео с Аланской футбольной лиги. Видеозаписи матчей, интервью игроков и т.д.{% endblock %}

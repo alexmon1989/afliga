@@ -2,11 +2,10 @@ from django.contrib import admin
 from django import forms
 import json
 from apps.league.models import (Team, Player, Position, Competition, Group, Match, Event, EventType, Round,
-                                CompetitionTeamApplication)
+                                CompetitionTeamApplication, MatchLineup, Stadium, Referee, Coach)
 from json import JSONDecodeError
 from django.contrib.admin.options import BaseModelAdmin
 from django.db.models.constants import LOOKUP_SEP
-import re
 
 
 class AdminBaseWithSelectRelated(BaseModelAdmin):
@@ -25,7 +24,10 @@ class AdminBaseWithSelectRelated(BaseModelAdmin):
             if len(splitted) > 1:
                 field = splitted[0]
                 related = LOOKUP_SEP.join(splitted[1:])
-                form.base_fields[field].queryset = form.base_fields[field].queryset.select_related(related)
+                try:
+                    form.base_fields[field].queryset = form.base_fields[field].queryset.select_related(related)
+                except KeyError:
+                    pass
 
     def form_apply_prefetch_related(self, form):
         for related_field in self.list_prefetch_related:
@@ -33,7 +35,10 @@ class AdminBaseWithSelectRelated(BaseModelAdmin):
             if len(splitted) > 1:
                 field = splitted[0]
                 related = LOOKUP_SEP.join(splitted[1:])
-                form.base_fields[field].queryset = form.base_fields[field].queryset.prefetch_related(related)
+                try:
+                    form.base_fields[field].queryset = form.base_fields[field].queryset.prefetch_related(related)
+                except KeyError:
+                    pass
 
 
 class AdminInlineWithSelectRelated(admin.StackedInline, AdminBaseWithSelectRelated):
@@ -43,6 +48,18 @@ class AdminInlineWithSelectRelated(admin.StackedInline, AdminBaseWithSelectRelat
 
     def get_formset(self, request, obj=None, **kwargs):
         formset = super(AdminInlineWithSelectRelated, self).get_formset(request, obj, **kwargs)
+        self.form_apply_select_related(formset.form)
+        self.form_apply_prefetch_related(formset.form)
+        return formset
+
+
+class AdminTabularInlineWithSelectRelated(admin.TabularInline, AdminBaseWithSelectRelated):
+    """
+    Admin Inline using list_select_related for get_queryset and get_formset related fields
+    """
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super(AdminTabularInlineWithSelectRelated, self).get_formset(request, obj, **kwargs)
         self.form_apply_select_related(formset.form)
         self.form_apply_prefetch_related(formset.form)
         return formset
@@ -133,11 +150,23 @@ class GroupInline(AdminInlineWithSelectRelated):
     exclude = ('table',)
     filter_horizontal = ('teams',)
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
         field = super(GroupInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
-        if db_field.name == "team" and hasattr(self, "cached_teams"):
-            field.choices = self.cached_teams
+        if db_field.name == "teams" and hasattr(self, "cached_teams_for_groups"):
+            field.choices = self.cached_teams_for_groups
         return field
+
+    def get_formset(self, request, obj=None, **kwargs):
+        """
+        Override the formset function in order to remove the add and change buttons beside the foreign key pull-down
+        menus in the inline.
+        """
+        formset = super().get_formset(request, obj, **kwargs)
+        form = formset.form
+        widget = form.base_fields['teams'].widget
+        widget.can_add_related = False
+        widget.can_change_related = False
+        return formset
 
 
 @admin.register(Competition)
@@ -146,17 +175,30 @@ class CompetitionsAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title',)
-    inlines = (GroupInline, CompetitionTeamApplicationInline)
+
+    def get_inline_instances(self, request, obj=None):
+        # Показывать GroupInline только если соревнование уже создано
+        if obj:
+            self.inlines = (GroupInline, CompetitionTeamApplicationInline)
+        else:
+            self.inlines = (CompetitionTeamApplicationInline,)
+
+        return super().get_inline_instances(request, obj)
 
     def get_formsets_with_inlines(self, request, obj=None):
-        teams = Team.objects.all()
+        if obj:
+            teams_for_groups = Team.objects.filter(pk__in=obj.get_teams_id_list())
+        teams_all = Team.objects.all()
         players = Player.objects.prefetch_related('teams')
 
         # "Кеширование" элементов для ускорения
         for inline in self.get_inline_instances(request, obj):
             inline.cached_players = [(i.pk, str(i)) for i in players]
-            inline.cached_teams = [(i.pk, str(i)) for i in teams]
+            inline.cached_teams = [(i.pk, str(i)) for i in teams_all]
             inline.cached_teams.insert(0, ("", "---------"))
+            if obj:
+                inline.cached_teams_for_groups = [(i.pk, str(i)) for i in teams_for_groups]
+                inline.cached_teams_for_groups.insert(0, ("", "---------"))
             yield inline.get_formset(request, obj), inline
 
 
@@ -198,6 +240,7 @@ class EventInline(AdminInlineWithSelectRelated):
     list_select_related = (
         'team',
         'player',
+        'player_assigned',
         'event_type',
         'match__team_1',
         'match__team_2',
@@ -207,12 +250,31 @@ class EventInline(AdminInlineWithSelectRelated):
         field = super(EventInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "team" and hasattr(self, "cached_teams"):
             field.choices = self.cached_teams
-        elif db_field.name == "player" and hasattr(self, "cached_players"):
+        elif (db_field.name == "player" or db_field.name == "player_assigned") and hasattr(self, "cached_players"):
             field.choices = self.cached_players
         return field
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         formfield = super(EventInline, self).formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name in ('team', 'player'):
+            formfield.widget.can_add_related = False
+        return formfield
+
+
+class LineupInline(AdminTabularInlineWithSelectRelated):
+    model = MatchLineup
+    extra = 0
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        field = super(LineupInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == "team" and hasattr(self, "cached_teams"):
+            field.choices = self.cached_teams
+        if db_field.name == "player" and hasattr(self, "cached_players"):
+            field.choices = self.cached_players
+        return field
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super(LineupInline, self).formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name in ('team', 'player'):
             formfield.widget.can_add_related = False
         return formfield
@@ -227,13 +289,6 @@ class MatchForm(forms.ModelForm):
                   'Также можно отредактировать вручную, '
                   'для этого необходимо перейти в интерфейс администрирования группы.'
     )
-
-    def __init__(self, *args, **kwargs):
-        super(MatchForm, self).__init__(*args, **kwargs)
-        try:
-            self.fields['competition'].initial = self.instance.group.competition
-        except:
-            pass
 
     def save(self, commit=True):
         """Сохранение данных формы."""
@@ -289,33 +344,79 @@ class MatchForm(forms.ModelForm):
 @admin.register(Match)
 class MatchesAdmin(AdminWithSelectRelated):
     """Класс для описания интерфейса администрирования матчей."""
+    autocomplete_fields = ('stadium', 'main_referee', 'other_referees', 'coach_team_1', 'coach_team_2',)
+    save_on_top = True
     form = MatchForm
     list_display = ('teams', 'score', 'match_round', 'competition', 'group', 'match_date', 'created_at', 'updated_at')
     ordering = ('-created_at',)
-    inlines = (EventInline,)
     list_filter = ('team_1', 'team_2', 'competition')
-    list_select_related = (
+    list_select_related = [
         'competition',
         'group__competition',
         'match_round__competition',
         'team_1',
         'team_2',
-    )
-    fieldsets = (
-        (None, {
+        'stadium',
+    ]
+
+    def get_inline_instances(self, request, obj=None):
+        if obj:
+            self.inlines = (
+                LineupInline,
+                EventInline,
+            )
+        return super().get_inline_instances(request, obj)
+
+    def get_fieldsets(self, request, obj=None):
+        if obj:
+            return (
+                ('Неизменяемые данные', {
+                    'fields': (
+                        'competition',
+                        'match_round',
+                        'group',
+                        'team_1',
+                        'team_2',
+                    )
+                }),
+                ('Детальная информация о матче', {
+                    'fields': (
+                        'is_finished',
+                        'match_date',
+                        'stadium',
+                        'main_referee',
+                        'other_referees',
+                        'coach_team_1',
+                        'coach_team_2',
+                        'goals_team_1',
+                        'goals_team_2',
+                        'youtube_id',
+                        'is_technical_defeat',
+                        'protocol',
+                    )
+                }),
+            )
+
+        return ((None, {
             'fields': (
                 'competition',
                 'match_round',
                 'group',
                 'team_1',
                 'team_2',
-                'match_date',
-                'goals_team_1',
-                'goals_team_2',
-                'protocol',
             )
-        }),
-    )
+        })),
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return [
+                'competition',
+                'match_round',
+                'group',
+                'team_1',
+                'team_2',
+            ]
+        return []
 
     def teams(self, obj):
         return f"{obj.team_1} - {obj.team_2}"
@@ -326,31 +427,19 @@ class MatchesAdmin(AdminWithSelectRelated):
     score.short_description = 'Счёт'
 
     def get_formsets_with_inlines(self, request, obj=None):
-        # Получение id редактируемого матча
-        match_id = None
-        re_res = re.search(r'\d+', request.path)
-        if re_res:
-            match_id = int(re_res.group(0))
+        if obj:
+            teams = Team.objects.filter(pk__in=[obj.team_1.pk, obj.team_2.pk, ])
+            players = Player.objects.filter(
+                competitionteamapplication__team_id__in=[obj.team_1.pk, obj.team_2.pk,]
+            ).prefetch_related('teams').all()
 
-        teams = Team.objects.all()
-        players = Player.objects.select_related('team').all()
-        if match_id:
-            # Получение команд и игроков только турнира этого матча
-            match = Match.objects.get(pk=match_id)
-            teams = teams.filter(
-                competitionteamapplication__competition=match.match_round.competition
-            ).distinct()
-            players = players.filter(
-                competitionteamapplication__competition=match.match_round.competition
-            ).distinct()
-
-        # "Кеширование" элементов для ускорения
-        for inline in self.get_inline_instances(request, obj):
-            inline.cached_teams = [(i.pk, str(i)) for i in teams]
-            inline.cached_teams.insert(0, ("", "---------"))
-            inline.cached_players = [(i.pk, str(i)) for i in players]
-            inline.cached_players.insert(0, ("", "---------"))
-            yield inline.get_formset(request, obj), inline
+            # "Кеширование" элементов для ускорения
+            for inline in self.get_inline_instances(request, obj):
+                inline.cached_teams = [(i.pk, str(i)) for i in teams]
+                inline.cached_teams.insert(0, ("", "---------"))
+                inline.cached_players = [(i.pk, str(i)) for i in players]
+                inline.cached_players.insert(0, ("", "---------"))
+                yield inline.get_formset(request, obj), inline
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         formfield = super(MatchesAdmin, self).formfield_for_dbfield(db_field, request, **kwargs)
@@ -372,3 +461,27 @@ class RoundAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     list_filter = ('competition',)
     search_fields = ('title', 'competition')
+
+
+@admin.register(Stadium)
+class StadiumAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования стадионов."""
+    list_display = ('title', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ('title',)
+
+
+@admin.register(Referee)
+class RefereeAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования судей."""
+    list_display = ('name', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ('name',)
+
+
+@admin.register(Coach)
+class CoachAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования тренеров."""
+    list_display = ('name', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ('name',)

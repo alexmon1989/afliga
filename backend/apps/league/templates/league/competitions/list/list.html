@@ -1,0 +1,18 @@
+{% extends 'league/base.html' %}
+
+{% block title %}Соревнования / {{ block.super }}{% endblock %}
+{% block description %}Список соревнований Аланской футбольной лиги.{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'league/competitions/list/_partial/breadcrumbs.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <ul class="list-unstyled g-mb-30 g-min-height-200">
+            {% for competition in competition_list %}
+                <li class="h3"><a href="{% url 'competition_main' pk=competition.pk %}">{{ competition }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

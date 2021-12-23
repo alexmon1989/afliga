@@ -18,12 +18,12 @@
 
             {% for table in tables %}
                 <div class="js-slide">
-                    <small>{{ table.tournament.title }}</small>
+                    <small>{{ table.competition.title }}</small>
                     <hr class="g-mt-0 g-mb-10 g-brd-black-top">
 
                     <div class="g-mb-20">
-                        {% for group in table.tournament.group_set.all %}
-                            {% if table.tournament.group_set.count > 1 %}
+                        {% for group in table.competition.group_set.all %}
+                            {% if table.competition.group_set.count > 1 %}
                                 <h3 class="h4">{{ group.title }}</h3>
                             {% endif %}
 
@@ -60,8 +60,8 @@
                             </table>
 
                             <div class="text-center g-mb-20">
-                                <a href="{% url 'tournament_detail' pk=table.tournament.pk %}"
-                                   class="btn btn-lg u-btn-outline-deeporange g-mt-10">Страница турнира</a>
+                                <a href="{% url 'competition_main' pk=table.competition.pk %}"
+                                   class="btn btn-lg u-btn-outline-deeporange g-mt-10">Страница соревнования</a>
                             </div>
                         {% endfor %}
                     </div>

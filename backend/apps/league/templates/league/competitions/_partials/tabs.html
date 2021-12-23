@@ -1,0 +1,35 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs u-nav-v4-1 u-nav-dark">
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'competition_main' %}active{% endif %}"
+           href="{% url 'competition_main' pk=competition.pk %}">Главная</a>
+    </li>
+
+    {% if competition.group_set.count > 0 %}
+        <li class="nav-item">
+            <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'competition_table' %}active{% endif %}"
+               href="{% url 'competition_table' pk=competition.pk %}">Таблица</a>
+        </li>
+    {% endif %}
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'competition_calendar' %}active{% endif %}"
+           href="{% url 'competition_calendar' pk=competition.pk %}">Календарь</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'competition_bombardiers' %}active{% endif %}"
+           href="{% url 'competition_bombardiers' pk=competition.pk %}">Бомбардиры</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'competition_assistants' %}active{% endif %}"
+           href="{% url 'competition_assistants' pk=competition.pk %}">Ассистенты</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link g-font-weight-600 {% if request.resolver_match.url_name == 'competition_cards' %}active{% endif %}"
+           href="{% url 'competition_cards' pk=competition.pk %}">Карточки</a>
+    </li>
+</ul>
+<!-- End Nav tabs -->
