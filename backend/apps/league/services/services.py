@@ -1,6 +1,5 @@
 from apps.league.models import Match, PERIODS_CHOICES
-from typing import List, Dict
-from itertools import groupby
+from typing import List
 
 
 def match_get_all_events(match: Match) -> List:
@@ -23,14 +22,16 @@ def match_get_all_events(match: Match) -> List:
         'period',
     )
 
+    periods = sorted(list(set([x['period'] for x in events])))
     res = []
-    for key, group_items in groupby(events, key=lambda x: x['period']):
+    for period in periods:
         item = {
-            'period': next((x[1] for x in PERIODS_CHOICES if x[0] == key), None),
+            'period': next((x[1] for x in PERIODS_CHOICES if x[0] == period), None),
             'items': [],
         }
-        for group_item in group_items:
-            item['items'].append(group_item)
+        for event in events:
+            if event['period'] == period:
+                item['items'].append(event)
         res.append(item)
 
     return res
