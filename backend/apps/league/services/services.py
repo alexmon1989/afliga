@@ -78,7 +78,9 @@ def match_get_lineup(match: Match, match_events: List) -> List:
                 player['events'].append(event)
 
         # Сортировка - замены в конце списка
-        player['events'].sort(key=lambda x: (float('inf') if x['event_type_id'] == 12 else x.get('event_time', 0)))
+        player['events'].sort(
+            key=lambda x: (float('inf') if x['event_type_id'] == 12 else x['event_time'] if x['event_time'] else 0)
+        )
     return players
 
 
