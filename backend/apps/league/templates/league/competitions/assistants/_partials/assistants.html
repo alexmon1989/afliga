@@ -18,26 +18,26 @@
                     </thead>
 
                     <tbody>
-                    {% for player in assistants %}
+                    {% for item in assistants %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>
                                 <a class="g-color-blue-dark-v1"
-                                   href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
+                                   href="{% url 'player_detail' pk=item.player_assigned__pk %}">{{ item.player_assigned__name }}</a>
                             </td>
                             <td>
-                                {% if player.team__logo %}
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img
-                                            src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
-                                            alt="{{ player.team__title }}"></a>
+                                {% if item.team__logo %}
+                                    <a href="{% url 'team_detail' pk=item.team__pk %}"><img
+                                            src="{{ item.team__logo|thumbnail_url:'team_extra_small' }}"
+                                            alt="{{ item.team__title }}"></a>
                                 {% else %}
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
+                                    <a href="{% url 'team_detail' pk=item.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
                                                      alt=""></a>
                                 {% endif %}
-                                <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }} <span class="g-color-gray-dark-v3 g-font-size-13">{{ player.team__city|default_if_none:"" }}</span></a>
+                                <a href="{% url 'team_detail' pk=item.team__pk %}">{{ item.team__title }} <span class="g-color-gray-dark-v3 g-font-size-13">{{ item.team__city|default_if_none:"" }}</span></a>
                             </td>
                             <td class="g-font-weight-600 text-center">
-                                {{ player.num_assistants }}
+                                {{ item.num_assistants }}
                             </td>
                         </tr>
                     {% endfor %}

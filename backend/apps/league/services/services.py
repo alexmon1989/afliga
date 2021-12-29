@@ -1,4 +1,5 @@
-from apps.league.models import Match, PERIODS_CHOICES
+from django.db.models import Count, F
+from apps.league.models import Match, Event, PERIODS_CHOICES
 from typing import List
 
 
@@ -117,3 +118,31 @@ def match_get_best_players(events: List, team_id: int) -> List:
         if len(events_filtered) > 0:
             return events_filtered
     return []
+
+
+def competition_get_assistants(competition_id) -> List:
+    """Возвращает список ассистентов турнира."""
+    players = Event.objects.filter(
+        match__competition_id=competition_id,
+        event_type=1
+    ).values(
+        'player_assigned'
+    ).annotate(
+        num_assistants=Count('player_assigned')
+    ).filter(
+        num_assistants__gt=0
+    ).order_by(
+        '-num_assistants',
+        'player_assigned__name'
+    ).values(
+        'player_assigned__pk',
+        'player_assigned__name',
+        'player_assigned__photo',
+        'team__pk',
+        'team__title',
+        'team__city',
+        'team__logo',
+        'num_assistants'
+    )
+
+    return players
