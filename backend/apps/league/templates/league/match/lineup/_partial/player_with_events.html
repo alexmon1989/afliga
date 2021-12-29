@@ -10,14 +10,18 @@
         <div class="g-px-5">
             {% if event.event_type__title == 'Жёлтая карточка' %}
                 <span class="u-label g-bg-yellow g-px-5 g-py-2"
-                      data-toggle="tooltip"
+                      {% if event.event_time or event.note %}
+                        data-toggle="tooltip"
+                      {% endif %}
                       title="{% if event.event_time %}{{ event.event_time }}'{% endif %}
                              {% if event.note %}({{ event.note }}){% endif %}"
                 >&nbsp;</span>
 
             {% elif event.event_type__title == 'Красная карточка' %}
                 <span class="u-label g-bg-red g-px-5 g-py-2"
-                      data-toggle="tooltip"
+                      {% if event.event_time or event.note %}
+                        data-toggle="tooltip"
+                      {% endif %}
                       title="{% if event.event_time %}{{ event.event_time }}'{% endif %}
                              {% if event.note %}({{ event.note }}){% endif %}"
                 >&nbsp;</span>
@@ -40,7 +44,9 @@
             {% elif event.event_type__title == 'Замена' %}
                 <div class="d-flex align-items-center {% if team == 'team_2' %}flex-row-reverse{% endif %}">
                     <i class="fa {% if player.start %}fa-arrow-down g-color-red{% else %}fa-arrow-up g-color-green{% endif %}"
-                       data-toggle="tooltip"
+                       {% if event.event_time or event.note %}
+                        data-toggle="tooltip"
+                       {% endif %}
                        title="{% if event.event_time %}{{ event.event_time }}'{% endif %}
                               {% if event.note %}({{ event.note }}){% endif %}"></i>
                     {% if player.start and event.player__name %}
