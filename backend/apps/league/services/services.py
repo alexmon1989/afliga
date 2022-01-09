@@ -1,4 +1,4 @@
-from django.db.models import Count, F
+from django.db.models import Count, Q
 from apps.league.models import Match, Event, PERIODS_CHOICES
 from typing import List
 
@@ -118,6 +118,57 @@ def match_get_best_players(events: List, team_id: int) -> List:
         if len(events_filtered) > 0:
             return events_filtered
     return []
+
+
+def match_get_personal_matches_stat(team_1_id: int, team_2_id: int) -> dict:
+    """Возвращает историю личных встреч команд."""
+    res = {
+        'count': 0,
+        'team_1': {
+            'wins': 0,
+            'losses': 0,
+            'draws': 0,
+        },
+        'team_2': {
+            'wins': 0,
+            'losses': 0,
+            'draws': 0,
+        },
+    }
+
+    # Матчи команд
+    matches = Match.objects.filter(
+        Q(is_finished=True),
+        Q(team_1_id=team_1_id, team_2_id=team_2_id) | Q(team_1_id=team_2_id, team_2_id=team_1_id)
+    ).values(
+        'team_1_id',
+        'team_2_id',
+        'goals_team_1',
+        'goals_team_2',
+    )
+
+    res['count'] = matches.count()
+
+    for match in matches:
+        if match['goals_team_1'] == match['goals_team_2']:
+            res['team_1']['draws'] += 1
+            res['team_2']['draws'] += res['team_1']['draws']
+        elif match['goals_team_1'] > match['goals_team_2']:  # Выиграла команда 1
+            if match['team_1_id'] == team_1_id:
+                res['team_1']['wins'] += 1
+                res['team_2']['losses'] += 1
+            else:
+                res['team_2']['wins'] += 1
+                res['team_1']['losses'] += 1
+        else:  # Выиграла команда 2
+            if match['team_1_id'] == team_1_id:
+                res['team_2']['wins'] += 1
+                res['team_1']['losses'] += 1
+            else:
+                res['team_1']['wins'] += 1
+                res['team_2']['losses'] += 1
+
+    return res
 
 
 def competition_get_assistants(competition_id) -> List:

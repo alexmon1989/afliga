@@ -1,5 +1,6 @@
 from django import template
 from apps.league.models import Team, Match
+import apps.league.services as league_services
 
 register = template.Library()
 
@@ -56,3 +57,7 @@ def shorten_name(name):
         return f"{name_list[0]} {name_list[1][0]}."
     return name_list[0]
 
+
+@register.inclusion_tag('league/match/templatetags/personal_matches.html')
+def personal_matches(team_1_id: int, team_2_id: int):
+    return {'statistics': league_services.match_get_personal_matches_stat(team_1_id, team_2_id)}

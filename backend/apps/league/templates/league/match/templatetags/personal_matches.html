@@ -1,0 +1,39 @@
+{% load project_tags %}
+
+<div class="col-12 g-my-20">
+    <h5 class="text-center text-uppercase">Личные встречи</h5>
+
+    <div class="row g-bg-gray-light-v4 no-gutters">
+        <div class="col-5 d-flex justify-content-end">
+            <div class="d-flex align-items-center">
+                <span class="d-block g-bg-green g-color-white g-width-20 g-height-20 text-center g-font-size-18 g-line-height-1_1 g-font-weight-600">В</span>
+                <span class="g-font-weight-600 g-ml-5 g-ml-10--lg g-mr-5 g-mr-30--lg g-font-size-14">{{ statistics.team_1.wins }} <span class="d-none d-lg-inline">{{ statistics.team_1.wins|pluralize:"победа,победы,побед" }}</span></span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="d-block g-bg-red g-color-white g-width-20 g-height-20 text-center g-font-size-18 g-line-height-1_1 g-font-weight-600">П</span>
+                <span class="g-font-weight-600 g-ml-5 g-ml-10--lg g-mr-5 g-mr-30--lg g-font-size-14">{{ statistics.team_1.losses }} <span class="d-none d-lg-inline">{{ statistics.team_1.losses|pluralize:"поражение,поражения,поражений" }}</span></span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="d-block g-bg-orange g-color-white g-width-20 g-height-20 text-center g-font-size-18 g-line-height-1_1 g-font-weight-600">Н</span>
+                <span class="g-font-weight-600 g-ml-5 g-ml-10--lg g-mr-10 g-font-size-14">{{ statistics.team_1.draws }} <span class="d-none d-lg-inline">{{ statistics.team_1.draws|pluralize:"ничья,ничьих,ничьих" }}</span></span>
+            </div>
+        </div>
+
+        <div class="col-2 g-font-size-14 g-font-size-18--md d-flex align-items-center justify-content-center">{{ statistics.count }} {{ statistics.count|pluralize:"матч,матча,матчей" }}</div>
+
+        <div class="col-5 d-flex">
+            <div class="d-flex align-items-center">
+                <span class="g-font-weight-600 g-ml-10 g-mr-5 g-mr-10--lg g-font-size-14">{{ statistics.team_2.wins }} <span class="d-none d-lg-inline">{{ statistics.team_2.wins|pluralize:"победа,победы,побед" }}</span></span>
+                <span class="d-block g-bg-green g-color-white g-width-20 g-height-20 text-center g-font-size-18 g-line-height-1_1 g-font-weight-600 g-mr-5 g-mr-30--lg">В</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="g-font-weight-600 g-mr-5 g-mr-10--lg g-font-size-14">{{ statistics.team_2.losses }} <span class="d-none d-lg-inline">{{ statistics.team_2.losses|pluralize:"поражение,поражения,поражений" }}</span></span>
+                <span class="d-block g-bg-red g-color-white g-width-20 g-height-20 text-center g-font-size-18 g-line-height-1_1 g-font-weight-600 g-mr-5 g-mr-30--lg">П</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="g-font-weight-600 g-mr-5 g-mr-10--lg g-font-size-14">{{ statistics.team_2.draws }} <span class="d-none d-lg-inline">{{ statistics.team_2.draws|pluralize:"ничья,ничьих,ничьих" }}</span></span>
+                <span class="d-block g-bg-orange g-color-white g-width-20 g-height-20 text-center g-font-size-18 g-line-height-1_1 g-font-weight-600">Н</span>
+            </div>
+        </div>
+    </div>
+</div>
