@@ -38,30 +38,6 @@
             </div>
             <div class="g-font-size-12 g-mt-3">{{ match.match_date }}</div>
         </div>
-
-        {% if match.stadium %}
-            <div class="col-12 g-line-height-1_4 g-font-size-12">
-                Стадион {{ match.stadium.title }}
-            </div>
-        {% endif %}
-
-        {% if match.main_referee %}
-            <div class="col-12 g-line-height-1_4 g-font-size-12">
-                Главный судья: {{ match.main_referee.name }}
-            </div>
-        {% endif %}
-
-        {% if match.other_referees.all|length > 0 %}
-            <div class="col-12 g-line-height-1_4 g-font-size-12">
-                Помощники судьи: {% for ref in match.other_referees.all %}{{ ref.name }}{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}
-            </div>
-        {% endif %}
-
-        {% if match.youtube_id %}
-            <div class="col-12 g-line-height-1_4 g-font-size-13 g-mt-15 g-font-weight-600">
-                <a href="//youtu.be/{{ match.youtube_id }}" target="_blank">Трансляция матча</a>
-            </div>
-        {% endif %}
     </div>
 </div>
 
@@ -85,6 +61,33 @@
             {% endif %}
         </div>
     </div>
+</div>
+
+<div class="col-12 d-flex flex-column align-items-md-center g-mt-15 g-mt-0--md">
+    {% if match.stadium %}
+        <div class="g-line-height-1_4 g-font-size-12">
+            Стадион {{ match.stadium.title }}
+        </div>
+    {% endif %}
+
+    {% if match.main_referee %}
+        <div class="g-line-height-1_4 g-font-size-12">
+            Главный судья: {{ match.main_referee.name }}
+        </div>
+    {% endif %}
+
+    {% if match.other_referees.all|length > 0 %}
+        <div class="g-line-height-1_4 g-font-size-12">
+            Помощники судьи: {% for ref in match.other_referees.all %}{{ ref.name }}{% if not forloop.last %},&nbsp;
+        {% endif %}{% endfor %}
+        </div>
+    {% endif %}
+
+    {% if match.youtube_id %}
+        <div class="g-line-height-1_4 g-font-size-13 g-mt-15 g-font-weight-600">
+            <a href="//youtu.be/{{ match.youtube_id }}" target="_blank">Трансляция матча</a>
+        </div>
+    {% endif %}
 </div>
 
 {% personal_matches match.team_1_id match.team_2_id %}
