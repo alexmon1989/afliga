@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 import json
 from apps.league.models import (Team, Player, Position, Competition, Group, Match, Event, EventType, Round,
-                                CompetitionTeamApplication, MatchLineup, Stadium, Referee, Coach)
+                                CompetitionTeamApplication, MatchLineup, Stadium, Referee, Coach, Season)
 from json import JSONDecodeError
 from django.contrib.admin.options import BaseModelAdmin
 from django.db.models.constants import LOOKUP_SEP
@@ -172,9 +172,12 @@ class GroupInline(AdminInlineWithSelectRelated):
 @admin.register(Competition)
 class CompetitionsAdmin(admin.ModelAdmin):
     """Класс для описания интерфейса администрирования соревнований."""
-    list_display = ('title', 'created_at', 'updated_at')
+    list_display = ('title', 'season', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('title',)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('season')
 
     def get_inline_instances(self, request, obj=None):
         # Показывать GroupInline только если соревнование уже создано
@@ -485,3 +488,12 @@ class CoachAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at', 'updated_at')
     ordering = ('-created_at',)
     search_fields = ('name',)
+
+
+@admin.register(Season)
+class SeasonAdmin(admin.ModelAdmin):
+    """Класс для описания интерфейса администрирования сезонов."""
+    list_display = ('title', 'sponsor', 'is_current_season', 'created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ('title',)
+    list_editable = ('is_current_season', )

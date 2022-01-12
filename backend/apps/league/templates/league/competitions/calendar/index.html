@@ -2,8 +2,8 @@
 
 {% load project_tags %}
 
-{% block title %}{{ competition }}. Календарь / {{ block.super }}{% endblock %}
-{% block description %}Календарь турнира {{ tournament }}.{% endblock %}
+{% block title %}{{ competition_full_title }}. Календарь / {{ block.super }}{% endblock %}
+{% block description %}Календарь турнира {{ competition_full_title }}.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/competitions/calendar/_partials/breadcrumbs.html' %}

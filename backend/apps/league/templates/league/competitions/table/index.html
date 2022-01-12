@@ -2,8 +2,8 @@
 
 {% load project_tags %}
 
-{% block title %}{{ competition }}. Таблица / {{ block.super }}{% endblock %}
-{% block description %}Таблица соревнования {{ tournament }}.{% endblock %}
+{% block title %}{{ competition_full_title }}. Таблица / {{ block.super }}{% endblock %}
+{% block description %}Таблица соревнования {{ competition_full_title }}.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/competitions/table/_partials/breadcrumbs.html' %}

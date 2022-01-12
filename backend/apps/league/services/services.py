@@ -1,5 +1,5 @@
 from django.db.models import Count, Q
-from apps.league.models import Match, Event, PERIODS_CHOICES
+from apps.league.models import Match, Event, PERIODS_CHOICES, Competition
 from typing import List
 
 
@@ -197,3 +197,11 @@ def competition_get_assistants(competition_id) -> List:
     )
 
     return players
+
+
+def competition_get_full_title(competition: Competition) -> str:
+    """Возвращает полное название сезона (со спонсором)."""
+    res = f"{competition.title}: {competition.season.title}"
+    if competition.season.sponsor:
+        res = f"{res}-{competition.season.sponsor}"
+    return res

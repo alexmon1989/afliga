@@ -12,9 +12,19 @@ class CompetitionListView(ListView):
     queryset = Competition.objects.order_by('-created_at')
 
 
-class CompetitionMainView(DetailView):
-    """Отображает главную страницу турнира."""
+class CompetitionBaseView(DetailView):
     model = Competition
+
+    def get_queryset(self):
+        return super().get_queryset().select_related('season')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['competition_full_title'] = services.competition_get_full_title(self.object)
+        return context
+
+class CompetitionMainView(CompetitionBaseView):
+    """Отображает главную страницу турнира."""
     template_name = 'league/competitions/main/index.html'
 
     def get_context_data(self, **kwargs):
@@ -26,9 +36,8 @@ class CompetitionMainView(DetailView):
         return context
 
 
-class CompetitionTableView(DetailView):
+class CompetitionTableView(CompetitionBaseView):
     """Отображает страницу таблицы турнира."""
-    model = Competition
     template_name = 'league/competitions/table/index.html'
 
     def get_context_data(self, **kwargs):
@@ -37,9 +46,8 @@ class CompetitionTableView(DetailView):
         return context
 
 
-class CompetitionCalendarView(DetailView):
+class CompetitionCalendarView(CompetitionBaseView):
     """Отображает страницу календаря турнира."""
-    model = Competition
     template_name = 'league/competitions/calendar/index.html'
 
     def get_context_data(self, **kwargs):
@@ -48,9 +56,8 @@ class CompetitionCalendarView(DetailView):
         return context
 
 
-class CompetitionBombardiersView(DetailView):
+class CompetitionBombardiersView(CompetitionBaseView):
     """Отображает страницу бомбардиров турнира."""
-    model = Competition
     template_name = 'league/competitions/bombardiers/index.html'
 
     def get_context_data(self, **kwargs):
@@ -59,9 +66,8 @@ class CompetitionBombardiersView(DetailView):
         return context
 
 
-class CompetitionAssistantsView(DetailView):
+class CompetitionAssistantsView(CompetitionBaseView):
     """Отображает страницу ассистентов турнира."""
-    model = Competition
     template_name = 'league/competitions/assistants/index.html'
 
     def get_context_data(self, **kwargs):
@@ -70,9 +76,8 @@ class CompetitionAssistantsView(DetailView):
         return context
 
 
-class CompetitionCardsView(DetailView):
+class CompetitionCardsView(CompetitionBaseView):
     """Отображает страницу карточек турнира."""
-    model = Competition
     template_name = 'league/competitions/cards/index.html'
 
     def get_context_data(self, **kwargs):

@@ -2,8 +2,8 @@
 
 {% load project_tags %}
 
-{% block title %}{{ competition }}. Ассистенты / {{ block.super }}{% endblock %}
-{% block description %}Ассистенты соревнования {{ tournament }}.{% endblock %}
+{% block title %}{{ competition_full_title }}. Ассистенты / {{ block.super }}{% endblock %}
+{% block description %}Ассистенты соревнования {{ competition_full_title }}.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/competitions/assistants/_partials/breadcrumbs.html' %}

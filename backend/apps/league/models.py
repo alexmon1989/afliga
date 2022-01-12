@@ -1,6 +1,5 @@
 from django.db import models
-from django.utils.functional import cached_property
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed
@@ -83,6 +82,7 @@ class Player(models.Model):
 class Competition(models.Model):
     """Модель соревнования."""
     title = models.CharField('Название соревнования', max_length=255)
+    season = models.ForeignKey('Season', blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Сезон')
     description = RichTextUploadingField('Описание', null=True, blank=True)
     created_at = models.DateTimeField('Создано', auto_now_add=True)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
@@ -336,31 +336,6 @@ class Group(models.Model):
     class Meta:
         verbose_name = 'Группа'
         verbose_name_plural = 'Группы'
-
-
-@receiver(m2m_changed, sender=Group.teams.through)
-def group_save_callback(sender, instance, action, reverse, model, pk_set, *args, **kwargs):
-    """Обработчик сигнала изменения поля teams модели Group. Меняет содержимое поля table."""
-    data = json.loads(instance.table or '[]')
-    if action == 'pre_remove':
-        new_data = [x for x in data if x['id'] not in pk_set]
-        instance.table = json.dumps(new_data)
-        instance.save()
-    if action == 'pre_add':
-        for pk in pk_set:
-            data.append({
-                'id': pk,
-                'title': Team.objects.filter(pk=pk).first().title,
-                'games': 0,
-                'wins': 0,
-                'draws': 0,
-                'defeats': 0,
-                'goals_scored': 0,
-                'goals_missed': 0,
-                'score': 0,
-            })
-        instance.table = json.dumps(data)
-        instance.save()
 
 
 class Round(models.Model):
@@ -686,3 +661,19 @@ class Coach(models.Model):
     class Meta:
         verbose_name = 'Тренер'
         verbose_name_plural = 'Тренеры'
+
+
+class Season(models.Model):
+    """Модель сезона"""
+    title = models.CharField('Название сезона', max_length=255, help_text='например, "Сезон 20/21"')
+    sponsor = models.CharField('Спонсор', max_length=255, null=True, blank=True)
+    is_current_season = models.BooleanField('Текущий сезон', default=False)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Сезон'
+        verbose_name_plural = 'Сезоны'

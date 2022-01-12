@@ -2,8 +2,8 @@
 
 {% load project_tags %}
 
-{% block title %}{{ competition }} / {{ block.super }}{% endblock %}
-{% block description %}{{ competition }}. Команды, таблица, календарь матчей, бомбардиры, штрафники.{% endblock %}
+{% block title %}{{ competition_full_title }} / {{ block.super }}{% endblock %}
+{% block description %}{{ competition_full_title }}. Команды, таблица, календарь матчей, бомбардиры, штрафники.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/competitions/main/_partials/breadcrumbs.html' %}
