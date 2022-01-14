@@ -1,6 +1,8 @@
+.idea
 database
 media
 static
 cache
 docker-compose.yml
 Dockerfile
+www.uipv.org.crt

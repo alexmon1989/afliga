@@ -1,0 +1,17 @@
+<!-- Nav tabs -->
+<ul class="nav u-nav-v1-1 u-nav-primary g-brd-bottom--md g-brd-primary g-my-20"
+    role="tablist"
+    data-target="nav-1-1-default-hor-left"
+    data-tabs-mobile-type="slide-up-down"
+    data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-primary g-mb-20">
+
+    {% for competition in competitions %}
+        <li class="nav-item">
+            <a class="nav-link {% if forloop.first %}active{% endif %}"
+               data-toggle="tab"
+               href="#nav-1-1-default-hor-left--{{ forloop.counter }}"
+               role="tab">{{ competition.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<!-- End Nav tabs -->

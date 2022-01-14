@@ -94,7 +94,10 @@ class TeamDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TeamDetailView, self).get_context_data(**kwargs)
-        context['players'] = self.get_object().player_set.order_by('position').all()
+
+        # Турниры текущего сезона, где есть команда
+        context['competitions'] = services.competition_get_current_season_items_with_team(self.object.pk)
+
         return context
 
 

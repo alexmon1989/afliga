@@ -1,6 +1,7 @@
 from django.db.models import Count, Q
-from apps.league.models import Match, Event, PERIODS_CHOICES, Competition
+from apps.league.models import Match, Event, PERIODS_CHOICES, Competition, CompetitionTeamApplication, MatchLineup
 from typing import List
+from afliga.utils import calculate_age
 
 
 def match_get_all_events(match: Match) -> List:
@@ -204,4 +205,69 @@ def competition_get_full_title(competition: Competition) -> str:
     res = f"{competition.title}: {competition.season.title}"
     if competition.season.sponsor:
         res = f"{res}-{competition.season.sponsor}"
+    return res
+
+
+def competition_get_current_season_items_with_team(team_id: int) -> list:
+    """Возвращает соревнования текущего сезона, в которых есть команда
+    (с базовой статистикой: игр сыграно, голы, желтые, красные карточки)."""
+    competitions = Competition.objects.filter(
+        season__is_current_season=True,
+        competitionteamapplication__team=team_id
+    )
+
+    res = []
+    for competition in competitions:
+        item = dict()
+        item['title'] = competition.title
+
+        # Заявка команды на турнир
+        application = CompetitionTeamApplication.objects.filter(
+            competition=competition,
+            team_id=team_id
+        ).first()
+
+        # События турнира с командой
+        matches_events = Event.objects.filter(
+            Q(match__competition=competition),
+            Q(match__team_1_id=team_id) | Q(match__team_2_id=team_id)
+        ).exclude(pk__in=(6, 8, 9, 10, 11, 21,)).values('event_type_id', 'player_id')
+
+        # Стартовые составы матчей команды в турнире
+        matches_start_line_ups = MatchLineup.objects.filter(
+            Q(start=True),
+            Q(match__competition=competition),
+            Q(match__team_1_id=team_id) | Q(match__team_2_id=team_id)
+        ).values('player_id',)
+
+        # Данные игроков заявки
+        players_data = []
+        for player in application.players.order_by('position').select_related('position'):
+            player_data = dict()
+            player_data['pk'] = player.pk
+            player_data['name'] = player.name
+            player_data['age'] = calculate_age(player.birth_date)
+            player_data['position'] = player.position.title
+            # Количество игр - это сумма игр в стартовом составе и замен
+            player_data['games'] = len(
+                [x for x in matches_start_line_ups if x['player_id'] == player.pk]
+            ) + len(
+                [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 8]
+            )
+            player_data['goals'] = len(
+                [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 1]
+            )
+            player_data['yellow_cards'] = len(
+                [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 2]
+            )
+            player_data['red_cards'] = len(
+                [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 3]
+            )
+
+            players_data.append(player_data)
+
+        item['application'] = players_data
+
+        res.append(item)
+
     return res
