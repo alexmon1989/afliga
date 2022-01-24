@@ -1,6 +1,7 @@
 from django.db.models import Count, Q
+from django.db.models import QuerySet
 from apps.league.models import Match, Event, PERIODS_CHOICES, Competition, CompetitionTeamApplication, MatchLineup
-from typing import List
+from typing import List, Union
 from afliga.utils import calculate_age
 
 
@@ -202,10 +203,12 @@ def competition_get_assistants(competition_id) -> List:
 
 def competition_get_full_title(competition: Competition) -> str:
     """Возвращает полное название сезона (со спонсором)."""
-    res = f"{competition.title}: {competition.season.title}"
-    if competition.season.sponsor:
-        res = f"{res}-{competition.season.sponsor}"
-    return res
+    if competition.season:
+        res = f"{competition.title}: {competition.season.title}"
+        if competition.season.sponsor:
+            res = f"{res}-{competition.season.sponsor}"
+        return res
+    return competition.title
 
 
 def competition_get_current_season_items_with_team(team_id: int) -> list:
@@ -246,7 +249,7 @@ def competition_get_current_season_items_with_team(team_id: int) -> list:
             player_data = dict()
             player_data['pk'] = player.pk
             player_data['name'] = player.name
-            player_data['age'] = calculate_age(player.birth_date)
+            player_data['age'] = calculate_age(player.birth_date) if player.birth_date else ''
             player_data['position'] = player.position.title
             # Количество игр - это сумма игр в стартовом составе и замен
             player_data['games'] = len(
@@ -271,3 +274,8 @@ def competition_get_current_season_items_with_team(team_id: int) -> list:
         res.append(item)
 
     return res
+
+
+def competition_get_competitions_list(object_list: Union[QuerySet, List[Competition]]):
+    """Возвращает список соревнований с полными названиями."""
+    return [{'pk': x.pk, 'title': competition_get_full_title(x)} for x in object_list]

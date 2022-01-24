@@ -9,7 +9,12 @@ class CompetitionListView(ListView):
     """Отображает страницу со списком турниров."""
     model = Competition
     template_name = 'league/competitions/list/list.html'
-    queryset = Competition.objects.order_by('-created_at')
+    queryset = Competition.objects.select_related('season').order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['competitions'] = services.competition_get_competitions_list(self.queryset)
+        return context
 
 
 class CompetitionBaseView(DetailView):
@@ -22,6 +27,7 @@ class CompetitionBaseView(DetailView):
         context = super().get_context_data(**kwargs)
         context['competition_full_title'] = services.competition_get_full_title(self.object)
         return context
+
 
 class CompetitionMainView(CompetitionBaseView):
     """Отображает главную страницу турнира."""

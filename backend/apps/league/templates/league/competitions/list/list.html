@@ -10,8 +10,8 @@
 {% block content %}
     <div class="col-lg-12">
         <ul class="list-unstyled g-mb-30 g-min-height-200">
-            {% for competition in competition_list %}
-                <li class="h3"><a href="{% url 'competition_main' pk=competition.pk %}">{{ competition }}</a></li>
+            {% for competition in competitions %}
+                <li class="h3"><a href="{% url 'competition_main' pk=competition.pk %}">{{ competition.title }}</a></li>
             {% endfor %}
         </ul>
     </div>
