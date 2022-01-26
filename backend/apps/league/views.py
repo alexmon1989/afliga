@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.http import HttpResponse
 from apps.league.models import Competition, Team, Player, Match, Group, Round
 import apps.league.services as services
+from afliga.utils import calculate_age
 import json
 
 
@@ -111,6 +112,20 @@ class PlayerDetailView(DetailView):
     """Отображает страницу с деталями игрока."""
     model = Player
     template_name = 'league/players/detail.html'
+    queryset = Player.objects.prefetch_related('teams')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Текущие команды игрока
+        context['player_teams'] = services.player_get_player_teams(self.object.id)
+        if self.object.birth_date:
+            context['player_age'] = calculate_age(self.object.birth_date)
+
+        # Карьера игрока
+        context['player_career'] = services.player_get_career(self.object.id)
+
+        return context
 
 
 class MatchSummaryView(DetailView):

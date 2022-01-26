@@ -4,8 +4,8 @@
 {% load static %}
 {% load project_tags %}
 
-{% block title %}{{ player }} / {% if player.team %}{{ player.team }} /{% endif %} {{ block.super }}{% endblock %}
-{% block description %}Страница игрока {{ player }}. Биография, фото и пр.{% endblock %}
+{% block title %}{{ player.name }} | {{ block.super }}{% endblock %}
+{% block description %}Страница игрока {{ player.name }}. Биография, фото и пр.{% endblock %}
 
 {% block breadcrumbs %}
     {% include 'league/players/_partial/breadcrumbs.html' %}
@@ -32,13 +32,24 @@
             <dd class="col-sm-9">{{ player.name }}</dd>
 
             <dt class="col-sm-3">Дата рождения</dt>
-            <dd class="col-sm-9">{{ player.birth_date|default_if_none:"Нет данных" }}</dd>
+            <dd class="col-sm-9">{{ player.birth_date|default_if_none:"Нет данных" }}{% if player_age %}&nbsp;(возраст, лет: {{ player_age }}){% endif %}</dd>
 
             <dt class="col-sm-3">Текущая команда</dt>
-            <dd class="col-sm-9">{% if player.team %}<a href="{% url 'team_detail' pk=player.team.pk %}">{{ player.team.title }} {{ player.team.city|default_if_none:"" }}</a>{% else %}-{% endif %}</dd>
+            <dd class="col-sm-9">
+                {% if player_teams %}
+                    {% for team in player_teams %}
+                        <a href="{% url 'team_detail' pk=team.pk %}">{{ team.title }}</a>{% if not forloop.last %},&nbsp;{% endif %}
+                    {% endfor %}
+                {% else %}
+                -
+                {% endif %}
+            </dd>
         </dl>
-
         {{ player.biography|safe }}
+    </div>
+
+    <div class="col-lg-12 g-mt-30">
+        {% include 'league/players/_partial/career.html' %}
     </div>
 
     <div class="col-lg-12">

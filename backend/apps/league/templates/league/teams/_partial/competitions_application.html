@@ -14,7 +14,7 @@
                         <th>ФИО</th>
                         <th>Возраст</th>
                         <th>Позиция</th>
-                        <th>Игр сыграно</th>
+                        <th class="g-width-3 g-nowrap">Игр сыграно</th>
                         <th class="text-center"><i class="fa fa-futbol-o" title="" data-toggle="tooltip" data-original-title="Голов"></i></th>
                         <th class="text-center"><span class="u-label g-bg-yellow g-px-5 g-py-2"
                                   data-toggle="tooltip"
@@ -31,7 +31,7 @@
                             <td class="g-font-weight-600"><a href="{% url 'player_detail' pk=player.pk %}">{{ player.name }}</a></td>
                             <td>{{ player.age }}</td>
                             <td>{{ player.position|default_if_none:"" }}</td>
-                            <td>{{ player.games }}</td>
+                            <td class="text-center">{{ player.games }}</td>
                             <td class="text-center">{{ player.goals }}</td>
                             <td class="text-center">{{ player.yellow_cards }}</td>
                             <td class="text-center">{{ player.red_cards }}</td>

@@ -1,6 +1,7 @@
 from django.db.models import Count, Q
 from django.db.models import QuerySet
-from apps.league.models import Match, Event, PERIODS_CHOICES, Competition, CompetitionTeamApplication, MatchLineup
+from apps.league.models import (Match, Event, PERIODS_CHOICES, Competition, CompetitionTeamApplication, MatchLineup,
+                                Player, Team)
 from typing import List, Union
 from afliga.utils import calculate_age
 
@@ -276,6 +277,111 @@ def competition_get_current_season_items_with_team(team_id: int) -> list:
     return res
 
 
-def competition_get_competitions_list(object_list: Union[QuerySet, List[Competition]]):
+def competition_get_competitions_list(object_list: Union[QuerySet, List[Competition]]) -> list:
     """Возвращает список соревнований с полными названиями."""
     return [{'pk': x.pk, 'title': competition_get_full_title(x)} for x in object_list]
+
+
+def player_get_career(player_id: int) -> list:
+    """Возвращает карьеру игрока."""
+    # Матчи игрока, в которых он играл
+    matches = Match.objects.filter(
+        Q(matchlineup__player_id=player_id, matchlineup__start=True)  # в старте
+        | Q(event__player=player_id, event__event_type_id=12)  # или вышел на замену
+    ).distinct().order_by('-competition__season_id').values(
+        'pk',
+        'matchlineup__team_id',
+        'matchlineup__team__title',
+        'matchlineup__team__city',
+        'competition__season_id',
+        'competition__season__title',
+        'competition_id',
+        'competition__title',
+    )
+
+    res = []
+    for match in matches:
+        # Поиск элемента в res
+        try:
+            res_item = next(item for item in res if (item["season_id"] == match['competition__season_id'])
+                                                       and item["competition_id"] == match['competition_id']
+                                                       and item["team_id"] == match['matchlineup__team_id'])
+        except StopIteration:
+            # Элемент не найден - добавляем новый
+            res.append(
+                {
+                    'season_id': match['competition__season_id'],
+                    'season_title': match['competition__season__title'],
+                    'competition_id': match['competition_id'],
+                    'competition_title': match['competition__title'],
+                    'team_id': match['matchlineup__team_id'],
+                    'team_title': match['matchlineup__team__title'] if not match['matchlineup__team__city']
+                                  else f"{match['matchlineup__team__title']} {match['matchlineup__team__city']}",
+                    'matches': 1,  # Как минимум 1 матч игроком сыгран
+                    'goals': 0,
+                    'assists': 0,
+                    'yellow_cards': 0,
+                    'red_cards': 0,
+                }
+            )
+        else:
+            res_item['matches'] += 1
+
+    # События игрока - голы, ассисты, жёлтые и красные карточки
+    events = Event.objects.filter(
+        Q(event_type_id__in=(1, 2, 3), player_id=player_id)  # голы, жёлтые и красные карточки
+        |
+        Q(event_type_id=1, player_assigned_id=player_id)  # ассисты
+    ).values(
+        'event_type_id',
+        'player_id',
+        'player_assigned_id',
+        'team_id',
+        'team__title',
+        'match__competition__season_id',
+        'match__competition__season__title',
+        'match__competition_id',
+        'match__competition__title',
+    )
+
+    for event in events:
+        # Поиск элемента в res
+        try:
+            res_item = next(item for item in res if (item["season_id"] == event['match__competition__season_id'])
+                                                       and item["competition_id"] == event['match__competition_id']
+                                                       and item["team_id"] == event['team_id'])
+        except StopIteration:
+            pass
+        else:
+            if event['event_type_id'] == 1:  # Гол или ассист
+                if event['player_id'] == player_id:
+                    res_item['goals'] += 1
+                elif event['player_assigned_id'] == player_id:
+                    res_item['assists'] += 1
+            elif event['event_type_id'] == 2:  # Жёлтая карточка
+                res_item['yellow_cards'] += 1
+            elif event['event_type_id'] == 3:  # Красная карточка
+                res_item['red_cards'] += 1
+
+    return res
+
+
+def player_get_player_teams(player_id: int) -> list:
+    """Возвращает текущие команды игрока."""
+    apps = CompetitionTeamApplication.objects.filter(
+        competition__season__is_current_season=True,
+        players__id=player_id
+    ).select_related('team')
+
+    teams = list()
+
+    for app in apps:
+        team = {
+            'pk': app.team.pk,
+            'title': app.team.title
+        }
+        if app.team.city:
+            team['title'] = f"{team['title']} {app.team.city}"
+        teams.append(team)
+
+    return teams

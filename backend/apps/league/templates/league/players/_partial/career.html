@@ -1,0 +1,43 @@
+<h3>Карьера игрока</h3>
+
+{% if player_career %}
+<div class="table-responsive">
+    <table class="table table-sm table-striped table-bordered g-mb-30">
+        <thead>
+        <tr>
+            <th>Сезон</th>
+            <th>Команда</th>
+            <th>Турнир</th>
+            <th class="g-width-3 g-nowrap">Игр сыграно</th>
+            <th class="text-center"><i class="fa fa-futbol-o" title="" data-toggle="tooltip"
+                                       data-original-title="Голов"></i></th>
+            <th class="text-center"><span class="u-label g-bg-yellow g-px-5 g-py-2"
+                                          data-toggle="tooltip"
+                                          data-original-title="Желтые карточки">&nbsp;</span></th>
+            <th class="text-center"><span class="u-label g-bg-red g-px-5 g-py-2"
+                                          data-toggle="tooltip"
+                                          data-original-title="Красные карточки">&nbsp;</span></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for item in player_career %}
+                <tr>
+                    <td>{{ item.season_title }}</td>
+                    <td>
+                        <a href="{% url 'team_detail' pk=item.team_id %}">{{ item.team_title }}</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'competition_main' pk=item.competition_id %}">{{ item.competition_title }}</a>
+                    </td>
+                    <td class="text-center">{{ item.matches }}</td>
+                    <td class="text-center">{{ item.goals }}</td>
+                    <td class="text-center">{{ item.yellow_cards }}</td>
+                    <td class="text-center">{{ item.red_cards }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <p>Пока что данные отсутствуют.</p>
+{% endif %}
