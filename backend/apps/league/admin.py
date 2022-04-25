@@ -396,6 +396,7 @@ class MatchesAdmin(AdminWithSelectRelated):
                         'youtube_id',
                         'is_technical_defeat',
                         'protocol',
+                        'recount_results',
                     )
                 }),
             )
