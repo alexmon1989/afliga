@@ -1,5 +1,4 @@
-from django.db.models import Count, Q
-from django.db.models import QuerySet
+from django.db.models import Count, Q, F, QuerySet
 from apps.league.models import (Match, Event, PERIODS_CHOICES, Competition, CompetitionTeamApplication, MatchLineup,
                                 Player, Team)
 from typing import List, Union
@@ -285,19 +284,34 @@ def competition_get_competitions_list(object_list: Union[QuerySet, List[Competit
 def player_get_career(player_id: int) -> list:
     """Возвращает карьеру игрока."""
     # Матчи игрока, в которых он играл
-    matches = Match.objects.filter(
+    matches_start = Match.objects.filter(
         Q(matchlineup__player_id=player_id, matchlineup__start=True)  # в старте
-        | Q(event__player=player_id, event__event_type_id=12)  # или вышел на замену
     ).distinct().order_by('-competition__season_id').values(
         'pk',
-        'matchlineup__team_id',
-        'matchlineup__team__title',
-        'matchlineup__team__city',
-        'competition__season_id',
-        'competition__season__title',
         'competition_id',
         'competition__title',
+        'competition__season_id',
+        'competition__season__title',
+        team_id=F('matchlineup__team_id'),
+        team__title=F('matchlineup__team__title'),
+        team__city=F('matchlineup__team__city'),
     )
+
+    matches_subst = Match.objects.filter(
+        Q(event__player=player_id, event__event_type_id=12)  # вышел на замену
+    ).distinct().order_by('-competition__season_id').values(
+        'pk',
+        'competition_id',
+        'competition__title',
+        'competition__season_id',
+        'competition__season__title',
+        team_id=F('event__team_id'),
+        team__title=F('event__team__title'),
+        team__city=F('event__team__city'),
+    )
+
+    matches = list(matches_start)
+    matches.extend(list(matches_subst))
 
     res = []
     for match in matches:
@@ -305,7 +319,7 @@ def player_get_career(player_id: int) -> list:
         try:
             res_item = next(item for item in res if (item["season_id"] == match['competition__season_id'])
                                                        and item["competition_id"] == match['competition_id']
-                                                       and item["team_id"] == match['matchlineup__team_id'])
+                                                       and item["team_id"] == match['team_id'])
         except StopIteration:
             # Элемент не найден - добавляем новый
             res.append(
@@ -314,9 +328,9 @@ def player_get_career(player_id: int) -> list:
                     'season_title': match['competition__season__title'],
                     'competition_id': match['competition_id'],
                     'competition_title': match['competition__title'],
-                    'team_id': match['matchlineup__team_id'],
-                    'team_title': match['matchlineup__team__title'] if not match['matchlineup__team__city']
-                                  else f"{match['matchlineup__team__title']} {match['matchlineup__team__city']}",
+                    'team_id': match['team_id'],
+                    'team_title': match['team__title'] if not match['team__city']
+                                    else f"{match['team__title']} {match['team__city']}",
                     'matches': 1,  # Как минимум 1 матч игроком сыгран
                     'goals': 0,
                     'assists': 0,
@@ -362,6 +376,9 @@ def player_get_career(player_id: int) -> list:
                 res_item['yellow_cards'] += 1
             elif event['event_type_id'] == 3:  # Красная карточка
                 res_item['red_cards'] += 1
+
+    res = sorted(res, key=lambda k: k['season_title'], reverse=True)
+    res = sorted(res, key=lambda k: k['team_title'])
 
     return res
 
