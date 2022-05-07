@@ -251,7 +251,7 @@ def competition_get_current_season_items_with_team(team_id: int) -> list:
             player_data['pk'] = player.pk
             player_data['name'] = player.name
             player_data['age'] = calculate_age(player.birth_date) if player.birth_date else ''
-            player_data['position'] = player.position.title
+            player_data['position'] = player.position.title if player.position else ''
             # Количество игр - это сумма игр в стартовом составе и замен
             player_data['games'] = len(
                 [x for x in matches_start_line_ups if x['player_id'] == player.pk]
