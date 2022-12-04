@@ -26,7 +26,7 @@
                              {% if event.note %}({{ event.note }}){% endif %}"
                 >&nbsp;</span>
 
-            {% elif event.event_type__title == 'Гол' %}
+            {% elif event.event_type__title == 'Гол' and event.player_assigned__name != player.player__name %}
                 <i class="fa fa-futbol-o"
                    data-toggle="tooltip"
                    title="{{ event.event_type__title }}
