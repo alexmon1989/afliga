@@ -14,7 +14,7 @@ class CompetitionListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['competitions'] = services.competition_get_competitions_list(self.queryset)
+        context['competitions'] = services.competition_get_competitions_list(self.get_queryset())
         return context
 
 

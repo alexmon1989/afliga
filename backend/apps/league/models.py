@@ -57,7 +57,7 @@ class Player(models.Model):
         null=True, blank=True,
         help_text='Рекомендуемый размер фото: 350px*400px.'
     )
-    teams = models.ManyToManyField(Team, verbose_name='Текущие команды')
+    teams = models.ManyToManyField(Team, verbose_name='Текущие команды', blank=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE, verbose_name='Амплуа', null=True, blank=True)
     birth_date = models.DateField('Дата рождения', blank=True, null=True)
     biography = RichTextUploadingField('Биография', blank=True)
