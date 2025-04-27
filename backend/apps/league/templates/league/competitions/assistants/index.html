@@ -14,13 +14,9 @@
         {% include 'league/competitions/_partials/tabs.html' %}
 
         <!-- Tab panes -->
-        <div class="g-pt-20 g-min-height-200">
+        <div class="g-py-20 g-min-height-200">
             {% include 'league/competitions/assistants/_partials/assistants.html' %}
         </div>
         <!-- End Tab panes -->
-    </div>
-
-    <div class="col-lg-12">
-        {% comments_widget identifier='competition_assistants' identifier_id=competition.pk %}
     </div>
 {% endblock %}

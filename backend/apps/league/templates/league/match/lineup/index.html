@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-lg-12 g-min-height-200">
+    <div class="col-lg-12 g-min-height-200 g-mt-20">
         <div class="row">
             {% include 'league/match/_partial/match_header.html' %}
 
@@ -20,9 +20,5 @@
 
             {% include 'league/match/lineup/_partial/coaches.html' %}
         </div>
-    </div>
-
-    <div class="col-lg-12">
-        {% comments_widget identifier='matches' identifier_id=match.pk %}
     </div>
 {% endblock %}
