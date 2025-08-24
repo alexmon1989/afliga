@@ -27,15 +27,18 @@
                                    href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
                             </td>
                             <td>
-                                {% if player.team__logo %}
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img
-                                            src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
-                                            alt="{{ player.team__title }}"></a>
-                                {% else %}
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
-                                                     alt=""></a>
+                                {% if player.player__competitionteamapplication__team_id %}
+                                    {% if player.player__competitionteamapplication__team__logo %}
+                                        <a href="{% url 'team_detail' pk=player.player__competitionteamapplication__team_id %}"><img
+                                                src="{{ player.player__competitionteamapplication__team__logo|thumbnail_url:'team_extra_small' }}"
+                                                alt="{{ player.player__competitionteamapplication__team__title }}"></a>
+                                    {% else %}
+                                        <a href="{% url 'team_detail' pk=player.player__competitionteamapplication__team_id %}"><img src="//via.placeholder.com/18?text=No+image"
+                                                         alt=""></a>
+                                    {% endif %}
+                                    <a href="{% url 'team_detail' pk=player.player__competitionteamapplication__team_id %}">{{ player.player__competitionteamapplication__team__title }}</a>
                                 {% endif %}
-                                <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
+                            </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_yellow_cards }}
                             </td>
@@ -75,15 +78,17 @@
                                    href="{% url 'player_detail' pk=player.player__pk %}">{{ player.player__name }}</a>
                             </td>
                             <td>
-                                {% if player.team__logo %}
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img
-                                            src="{{ player.team__logo|thumbnail_url:'team_extra_small' }}"
-                                            alt="{{ player.team__title }}"></a>
-                                {% else %}
-                                    <a href="{% url 'team_detail' pk=player.team__pk %}"><img src="//via.placeholder.com/18?text=No+image"
-                                                     alt=""></a>
+                                {% if player.player__competitionteamapplication__team_id %}
+                                    {% if player.player__competitionteamapplication__team__logo %}
+                                        <a href="{% url 'team_detail' pk=player.player__competitionteamapplication__team_id %}"><img
+                                                src="{{ player.player__competitionteamapplication__team__logo|thumbnail_url:'team_extra_small' }}"
+                                                alt="{{ player.player__competitionteamapplication__team__title }}"></a>
+                                    {% else %}
+                                        <a href="{% url 'team_detail' pk=player.player__competitionteamapplication__team_id %}"><img src="//via.placeholder.com/18?text=No+image"
+                                                         alt=""></a>
+                                    {% endif %}
+                                    <a href="{% url 'team_detail' pk=player.player__competitionteamapplication__team_id %}">{{ player.player__competitionteamapplication__team__title }}</a>
                                 {% endif %}
-                                <a href="{% url 'team_detail' pk=player.team__pk %}">{{ player.team__title }}</a>
                             </td>
                             <td class="g-font-weight-600 text-center">
                                 {{ player.num_red_cards }}

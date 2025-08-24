@@ -233,14 +233,14 @@ def competition_get_current_season_items_with_team(team_id: int) -> list:
         # События турнира с командой
         matches_events = Event.objects.filter(
             Q(match__competition=competition),
-            Q(match__team_1_id=team_id) | Q(match__team_2_id=team_id)
+            Q(match__team_1_id=team_id) | Q(match__team_2_id=team_id),
         ).exclude(pk__in=(6, 8, 9, 10, 11, 21,)).values('event_type_id', 'player_id')
 
         # Стартовые составы матчей команды в турнире
         matches_start_line_ups = MatchLineup.objects.filter(
             Q(start=True),
             Q(match__competition=competition),
-            Q(match__team_1_id=team_id) | Q(match__team_2_id=team_id)
+            Q(team_id=team_id)
         ).values('player_id',)
 
         # Данные игроков заявки
@@ -255,7 +255,7 @@ def competition_get_current_season_items_with_team(team_id: int) -> list:
             player_data['games'] = len(
                 [x for x in matches_start_line_ups if x['player_id'] == player.pk]
             ) + len(
-                [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 8]
+                [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 12]
             )
             player_data['goals'] = len(
                 [x for x in matches_events if x['player_id'] == player.pk and x['event_type_id'] == 1]
