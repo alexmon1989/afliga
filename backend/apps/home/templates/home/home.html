@@ -5,7 +5,7 @@
 {% load project_tags %}
 
 {% block title %}Главная / {{ block.super }}{% endblock %}
-{% block description %}Аланская футбольная лига. АФЛ: результаты матчей, расписание игр, турнирная таблица Аланской футбольной лиги.{% endblock %}
+{% block description %}Зона Юг, футбол юг, футбол юга, футбол юфо, футбол скфо, третья лига, кфк, федерация футбола, любительский футбол, детский футбол, футбол кавказа, чемпионат кавказа{% endblock %}
 
 {% block content %}
     <!-- News -->
@@ -42,13 +42,4 @@
         {% include 'home/_partial/video_gallery.html' %}
     </div>
     <!-- End Video gallery -->
-{% endblock %}
-
-{% block extra_scripts %}
-    <script id="dsq-count-scr" src="{% settings_value "DISQUS_COUNT_SCRIPT" %}" async></script>
-    <script>
-        $(document).on('ready', function () {
-            DISQUSWIDGETS.getCount({reset: true});
-        });
-    </script>
 {% endblock %}
