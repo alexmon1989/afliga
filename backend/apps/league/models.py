@@ -546,13 +546,13 @@ class Match(models.Model):
 
     def get_goals_team_1(self):
         """Возвращает количество голов, которые забила команда хозяев."""
-        if self.goals_team_1:
+        if self.goals_team_1 is not None:
             return self.goals_team_1
         return '-'
 
     def get_goals_team_2(self):
         """Возвращает количество голов, которые забила команда гостей."""
-        if self.goals_team_2:
+        if self.goals_team_2 is not None:
             return self.goals_team_2
         return '-'
 
