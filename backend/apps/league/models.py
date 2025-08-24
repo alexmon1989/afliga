@@ -216,7 +216,7 @@ class Competition(models.Model):
 
     def get_yellow_cards(self):
         """Возвращает список штрафников турнира (жёлтые карточки)."""
-        return Event.objects.filter(
+        q = Event.objects.filter(
             match__match_round__competition=self,
             event_type=2
         ).values(
@@ -227,8 +227,16 @@ class Competition(models.Model):
             '-num_yellow_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'player__photo', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_yellow_cards'
+            'player__pk',
+            'player__name',
+            'player__photo',
+            'player__competitionteamapplication__team_id',
+            'player__competitionteamapplication__team__title',
+            'player__competitionteamapplication__team__city',
+            'player__competitionteamapplication__team__logo',
+            'num_yellow_cards'
         )
+        return q
 
     def get_red_cards(self):
         """Возвращает список штрафников турнира (красные карточки)."""
@@ -243,7 +251,14 @@ class Competition(models.Model):
             '-num_red_cards',
             'player__name'
         ).values(
-            'player__pk', 'player__name', 'team__pk', 'team__title', 'team__city', 'team__logo', 'num_red_cards'
+            'player__pk',
+            'player__name',
+            'player__photo',
+            'player__competitionteamapplication__team_id',
+            'player__competitionteamapplication__team__title',
+            'player__competitionteamapplication__team__city',
+            'player__competitionteamapplication__team__logo',
+            'num_red_cards'
         )
 
     def get_teams_id_list(self):
@@ -365,7 +380,7 @@ class Round(models.Model):
             'team_2__logo',
             'is_technical_defeat',
             'youtube_id',
-        ).all()
+        ).order_by('match_date').all()
 
     def get_matches_in_group(self, group):
         """Возвращает матчи тура в конкретной группе."""
@@ -386,7 +401,7 @@ class Round(models.Model):
             'team_2__logo',
             'is_technical_defeat',
             'youtube_id',
-        ).all()
+        ).order_by('match_date').all()
 
     def get_last_matches_in_group(self, group):
         """Возвращает сыгранные матчи тура в конкретной группе."""
@@ -408,7 +423,7 @@ class Round(models.Model):
             'team_2__logo',
             'is_technical_defeat',
             'youtube_id',
-        ).all()
+        ).order_by('match_date').all()
 
     def get_future_matches_in_group(self, group):
         """Возвращает несыгранные матчи тура в конкретной группе."""
@@ -430,7 +445,7 @@ class Round(models.Model):
             'team_2__logo',
             'is_technical_defeat',
             'youtube_id',
-        ).all()
+        ).order_by('match_date').all()
 
     def get_last_matches(self):
         """Возвращает сыгранные матчи тура."""
@@ -451,7 +466,7 @@ class Round(models.Model):
             'team_2__logo',
             'is_technical_defeat',
             'youtube_id',
-        ).all()
+        ).order_by('match_date').all()
 
     def get_future_matches(self):
         """Возвращает несыгранные матчи тура."""
@@ -472,7 +487,7 @@ class Round(models.Model):
             'team_2__logo',
             'is_technical_defeat',
             'youtube_id',
-        ).all()
+        ).order_by('match_date').all()
 
     class Meta:
         verbose_name = 'Тур'
