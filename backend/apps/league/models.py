@@ -1,8 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils import timezone
-from django.dispatch import receiver
-from django.db.models.signals import m2m_changed
 from django.db.models import Count
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -548,19 +546,15 @@ class Match(models.Model):
 
     def get_goals_team_1(self):
         """Возвращает количество голов, которые забила команда хозяев."""
-        if self.match_date and self.match_date > timezone.now():
-            return '-'
         if self.goals_team_1:
             return self.goals_team_1
-        return 0
+        return '-'
 
     def get_goals_team_2(self):
         """Возвращает количество голов, которые забила команда гостей."""
-        if self.match_date and self.match_date > timezone.now():
-            return '-'
         if self.goals_team_2:
             return self.goals_team_2
-        return 0
+        return '-'
 
     def get_absolute_url(self):
         return reverse('match_summary', args=[self.pk])
