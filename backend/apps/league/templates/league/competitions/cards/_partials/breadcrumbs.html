@@ -12,7 +12,11 @@
                         <i class="g-color-gray-light-v2 g-ml-5">/</i>
                     </li>
                     <li class="list-inline-item g-color-primary">
-                        <a class="u-link-v5 g-color-main" href="{% url 'competitions_list' %}">Список соревнований</a>
+                        <a class="u-link-v5 g-color-main" href="{% url 'seasons_list' %}">Список соревнований</a>
+                        <i class="g-color-gray-light-v2 g-ml-5">/</i>
+                    </li>
+                    <li class="list-inline-item g-color-primary">
+                        <a class="u-link-v5 g-color-main" href="{% url 'competitions_list' pk=competition.season.pk %}">{{ competition.season.title }}</a>
                         <i class="g-color-gray-light-v2 g-ml-5">/</i>
                     </li>
                     <li class="list-inline-item g-color-primary">

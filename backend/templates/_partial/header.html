@@ -71,7 +71,7 @@
                         </li>
 
                         <li class="nav-item {% if '/league/' in request.path %}active{% endif %}">
-                            <a href="{% url 'competitions_list' %}" class="nav-link px-4 py-3">Соревнования</a>
+                            <a href="{% url 'seasons_list' %}" class="nav-link px-4 py-3">Соревнования</a>
                         </li>
 
                         <li class="nav-item {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">

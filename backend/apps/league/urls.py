@@ -3,10 +3,13 @@ from django.urls import path
 from apps.league.views import (CompetitionListView, TeamDetailView, PlayerDetailView,  MatchSummaryView,
                                MatchLineupView, get_players, get_players_competition, get_rounds, get_groups, get_teams,
                                CompetitionMainView, CompetitionTableView, CompetitionCalendarView,
-                               CompetitionBombardiersView, CompetitionAssistantsView, CompetitionCardsView)
+                               CompetitionBombardiersView, CompetitionAssistantsView, CompetitionCardsView,
+                               SeasonListView)
 
 urlpatterns = [
-    url(r'^$', CompetitionListView.as_view(), name='competitions_list'),
+    path('', SeasonListView.as_view(), name='seasons_list'),
+
+    path('season/<int:pk>/', CompetitionListView.as_view(), name='competitions_list'),
 
     path('competition/<int:pk>/', CompetitionMainView.as_view(), name='competition_main'),
     path('competition/<int:pk>/table/', CompetitionTableView.as_view(), name='competition_table'),

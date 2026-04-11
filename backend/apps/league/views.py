@@ -1,20 +1,25 @@
 from django.views.generic import ListView, DetailView
 from django.http import HttpResponse
-from apps.league.models import Competition, Team, Player, Match, Group, Round
+from apps.league.models import Competition, Team, Player, Match, Group, Round, Season
 import apps.league.services as services
 from afliga.utils import calculate_age
 import json
+
+
+class SeasonListView(ListView):
+    model = Season
+    template_name = 'league/seasons/list/list.html'
+    queryset = Season.objects.order_by('-updated_at')
 
 
 class CompetitionListView(ListView):
     """Отображает страницу со списком турниров."""
     model = Competition
     template_name = 'league/competitions/list/list.html'
-    queryset = Competition.objects.select_related('season').order_by('-created_at')
+    queryset = Competition.objects.order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['competitions'] = services.competition_get_competitions_list(self.get_queryset())
         return context
 
 
