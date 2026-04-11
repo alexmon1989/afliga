@@ -216,7 +216,8 @@ class Competition(models.Model):
         """Возвращает список штрафников турнира (жёлтые карточки)."""
         q = Event.objects.filter(
             match__match_round__competition=self,
-            event_type=2
+            event_type=2,
+            player__competitionteamapplication__competition=self
         ).values(
             'player'
         ).annotate(
@@ -240,7 +241,8 @@ class Competition(models.Model):
         """Возвращает список штрафников турнира (красные карточки)."""
         return Event.objects.filter(
             match__match_round__competition=self,
-            event_type=3
+            event_type=3,
+            player__competitionteamapplication__competition=self
         ).values(
             'player'
         ).annotate(
