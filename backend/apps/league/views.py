@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from apps.league.models import Competition, Team, Player, Match, Group, Round, Season
 import apps.league.services as services
 from afliga.utils import calculate_age
@@ -20,6 +20,10 @@ class CompetitionListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['season'] = Season.objects.filter(pk=self.kwargs['pk']).first()
+        if not context['season']:
+            raise Http404
+        context['competitions'] = self.get_queryset().filter(season_id=self.kwargs['pk'])
         return context
 
 
