@@ -9,7 +9,7 @@ import json
 class SeasonListView(ListView):
     model = Season
     template_name = 'league/seasons/list/list.html'
-    queryset = Season.objects.order_by('-updated_at')
+    queryset = Season.objects.order_by('-created_at')
 
 
 class CompetitionListView(ListView):
